@@ -28,7 +28,7 @@ exports.registerPost = catchAsync(async (req, res, next) => {
 ```
 Super easy and gets the work done.
 
-## Server js
+## Server js and App js
 That how i do most of my node backend apps and such separation really works for me:
 ```js
 const mongoose = require('mongoose');
@@ -47,6 +47,23 @@ const server = app.listen(port, () => {
   console.log(`App running on port http://localhost:${port}...`);
 });
 ```
+
+Ok, now app.js, from another project, its just a skeleton:
+```js
+const express = require('express');
+
+const UserRouter = require("./routes/userRoutes");
+const UserController = require('./controllers/userController');
+
+const app = express();
+app.use(express.json());
+app.use("/v1", UserRouter);
+app.use(UserController.errorHandler);
+app.get('*', UserController.notFound);
+
+module.exports = app;
+```
+Thats how it looks like, routes in router, methods in controller, app exported, server.js handles db connection and starting the app.
 
 ## Param Middleware
 I seem to foget from time to time how its done so heres param middleware.  
