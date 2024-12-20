@@ -180,3 +180,17 @@ mutation {
   }
 }
 ```
+
+## Graphql in postman
+Ok, so heres the thing:
+- url "/graphql"
+- method POST (default)
+- Content-Type application/json
+- And now the query:
+```js
+{
+    "query": "query { books {title, id, author } }"
+}
+```
+query needs to be sent as string, not some object. also in one line. thats the trick, it needs to be string. in graphql playground you write those queries as object, but in postman you use strings.
+same goes for using ajax. thats the payload you need to send to get something from graphql
