@@ -1,4 +1,11 @@
-# Node
+
+# Node - subdirectories
+
+Subdirectories:
+- **bodyValidator** - long time ago i wrote such thing, i didnt know express-validator package back then. I dont use that code anymore, but maybe itll be useful to somebody.
+
+
+# Node - files
 
 ## catchAsync
 It is so that you can catch errors in async/await syntax without stupid try/catch that is not so great in JS async/await.
