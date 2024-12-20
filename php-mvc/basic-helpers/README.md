@@ -1,4 +1,4 @@
-# php-mvc
+# php-mvc basic helpers
 Notes from some php mvc projects ive done.
 
 ## basePath func
