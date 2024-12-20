@@ -22,3 +22,8 @@ And of course you run thins command to start react:
 ```sh
 npm start
 ```
+And of course skeleton typescript-react app you create like this:
+```sh
+npx create-react-app my-app --template typescript
+```
+But seriously, switch to vite. Create-react-app for demo projects only.
