@@ -87,3 +87,11 @@ And how to use:
 app.use(MainController.errorHandler);
 app.get('*', MainController.notFound);
 ```
+
+# Node Libraries
+
+## express-ejs-layouts
+Layouts for ejs. 
+```sh
+npm i express-ejs-layouts
+```
