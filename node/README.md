@@ -95,3 +95,14 @@ Layouts for ejs.
 ```sh
 npm i express-ejs-layouts
 ```
+How to use:
+```js
+//(...)
+const expressLayouts = require('express-ejs-layouts');
+//(...)
+const app = express();
+//(...)
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+app.set("layout extractScripts", true)
+```
