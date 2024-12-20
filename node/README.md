@@ -69,3 +69,20 @@ And dont forget about:
 ```js
 app.param('id', checkID);
 ```
+
+## Err handler
+Err handler
+```js
+exports.errorHandler = (err, req, res, next) => {
+    res.status(500).json({"Error": "Some kind of error occurred."});
+};
+
+exports.notFound = function(req, res){
+    res.status(404).render("404");
+  }
+```
+And how to use:
+```js
+app.use(MainController.errorHandler);
+app.get('*', MainController.notFound);
+```
