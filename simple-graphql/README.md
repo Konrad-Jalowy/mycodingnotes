@@ -163,3 +163,19 @@ Heres query for specific book:
   }
 }
 ```
+And here is mutation query, watch out, you also need to specify return type here!~
+```js
+mutation {
+  addNewBook(title: "Some title", author: "Some author") {
+    id, title, author
+  }
+}
+```
+And here is mutation using input type:
+```js
+mutation {
+  addNewBookIpt(input: {title: "some other title", author: "unknown"}) {
+    id, title, author
+  }
+}
+```
