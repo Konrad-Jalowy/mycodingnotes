@@ -1,3 +1,5 @@
+//its just a skeleton to copy-paste along with server.js to setup some project with some structure...
+
 const express = require('express');
 
 const UserRouter = require("./routes/userRoutes");
