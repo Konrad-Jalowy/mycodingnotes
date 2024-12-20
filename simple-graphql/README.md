@@ -56,3 +56,84 @@ module.exports = typeDefs;
 Btw its tagged template literal function. They are not very often found, but they exist. Ok, so we have scalar types that are used to compose user-defined types.
 
 We also have queries, input types (you dont need those), and mutation types. 
+
+Ok our resolvers look like that:
+```js
+const Books = require("./books");
+
+const resolvers = {
+    Query: {
+      books: () => {
+        return Books.getAllBooks();
+      },
+      book: (_, args) => {
+        return Books.getBookById(args.id)
+      }
+    },
+    Mutation: {
+        addNewBook: (_, args) => {
+            return Books.addNewBook(args.title, args.author);
+          },
+        addNewBookIpt: (_, args) => {
+            return Books.addNewBookInput(args.input);
+        }
+    }
+  };
+
+module.exports = resolvers;
+```
+You see the pattern? And the business logic is in books.js:
+```js
+const books = [
+    {
+      id: "1",
+      title: 'The Awakening',
+      author: 'Kate Chopin',
+    },
+    {
+      id: "2",
+      title: 'City of Glass',
+      author: 'Paul Auster',
+    },
+  ];
+  let _id = books.length;
+
+function getNextId(){
+    return ++_id;
+};
+
+exports.getAllBooks = function(){
+    return books;
+};
+
+exports.getBookById = function(id){
+    return books.find((book) => {
+        return book.id === id;
+      });
+};
+
+exports.addNewBook = function(title, author) {
+    let _newId = getNextId();
+    const _newBook = {
+      id: `${_newId}`,
+      title,
+      author
+    };
+  
+    books.push(_newBook);
+    return _newBook;
+  }
+
+exports.addNewBookInput = function(input){
+    let _newId = getNextId();
+    const _newBook = {
+      id: `${_newId}`,
+      title: input.title,
+      author: input.author
+    };
+  
+    books.push(_newBook);
+    return _newBook;
+}
+```
+Books js could be something that reads from/saves into database.
