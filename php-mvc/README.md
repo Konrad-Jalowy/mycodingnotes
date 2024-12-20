@@ -20,6 +20,17 @@ function redirect($url)
 }
 ```
 
+## Inspect
+Another function i found somewhere and liked
+```php
+function inspect($value)
+{
+  echo '<pre>';
+  var_dump($value);
+  echo '</pre>';
+}
+```
+
 ## super simple autoload
 Sooner or later youll need composer package, but starting off in some dummy-project, trying things out, you can use such autoloading trick:
 ```php
