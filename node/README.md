@@ -1,7 +1,16 @@
 # Node
 
 ## catchAsync
-Usage
+It is so that you can catch errors in async/await syntax without stupid try/catch that is not so great in JS async/await.
+Heres code:
+```js
+module.exports = fn => {
+    return (req, res, next) => {
+      fn(req, res, next).catch(next);
+    };
+  };
+```
+Usage:
 ```js
 exports.registerPost = catchAsync(async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -17,3 +26,4 @@ exports.registerPost = catchAsync(async (req, res, next) => {
   }
 );
 ```
+Super easy and gets the work done.
