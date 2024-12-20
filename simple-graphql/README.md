@@ -137,3 +137,21 @@ exports.addNewBookInput = function(input){
 }
 ```
 Books js could be something that reads from/saves into database.
+
+## Simple queries
+You always need to specify what you want to get
+```js
+query {
+  books {
+    id, title, author
+  }
+}
+```
+But you can skip query, query is default type:
+```js
+{
+  books {
+    id, title, author
+  }
+}
+```
