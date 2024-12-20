@@ -47,3 +47,21 @@ const server = app.listen(port, () => {
   console.log(`App running on port http://localhost:${port}...`);
 });
 ```
+
+## Param Middleware
+I seem to foget from time to time how its done so heres param middleware.  
+Always remember to check for correct ObjectId (if were doing mongodb):
+```js
+const checkID = async (req, res, next, val) => {
+
+    if(!ObjectId.isValid(val))
+        return res.status(404).json({"err": "invalid id"});
+    
+    let _user = await User.findOne({_id: val});
+
+    if (_user === null) 
+      return res.status(404).json({"err": "invalid id"});
+    
+    next();
+  };
+```
