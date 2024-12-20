@@ -215,4 +215,7 @@ npm i method-override
 ```
 Super simple to use:
 ```js
+const methodOverride = require('method-override');
+//(...)
+app.use(methodOverride('_method'));
 ```
