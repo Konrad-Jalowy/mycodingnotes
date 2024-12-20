@@ -70,7 +70,8 @@ And dont forget about:
 app.param('id', checkID);
 ```
 
-## Err handler
+## Err handler (err middleware)
+Basically if function has err, req, res and next, its error middleware. 
 Err handler
 ```js
 exports.errorHandler = (err, req, res, next) => {
