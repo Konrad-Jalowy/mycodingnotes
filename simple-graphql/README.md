@@ -155,3 +155,11 @@ But you can skip query, query is default type:
   }
 }
 ```
+Heres query for specific book:
+```js
+{
+  book(id:1) {
+    id, title, author
+  }
+}
+```
