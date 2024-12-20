@@ -142,3 +142,9 @@ And thats how inheriting from this layout looks like, body and scripts:
 ```
 And for rendering it you use simple render with filename. It will render it together with layout.ejs.
 And thats mostly basic setup, this library has some other features, all in the docs.
+
+## express-validator
+Simple example how to use it. Import:
+```js
+const { body, validationResult } = require('express-validator');
+```
