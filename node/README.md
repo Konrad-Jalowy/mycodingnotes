@@ -124,3 +124,19 @@ Now layout.ejs:
 </body>
 </html>
 ```
+And thats how inheriting from this layout looks like, body and scripts:
+```html
+<%if (error.length > 0) { %>
+    <p>Some kind of error happened. Check your login credentials</p>
+<% } %>
+
+<%if (locals.message.length > 0) { %>
+    <div class="error-message ani-fadein"><p><%= locals.message %></p></div>
+<% } %>
+
+<%- include('partials/loginForm.ejs') %>
+
+<script src="/error-message.js"></script>
+```
+And for rendering it you use simple render with filename. It will render it together with layout.ejs.
+And thats mostly basic setup, this library has some other features, all in the docs.
