@@ -135,3 +135,58 @@ And **DISCLAIMER**, one more time:
 Theres one thing you should watch out for - **error means error, like something went wrong**. Situations in which data is null, or data.books is null are not treated as error.  
 
 **In graphql you can ask for item, with non-existing id and you will get data.item equal to null**. It will not be an error (like in REST APIs). And data itself can be undefined. So you need to be extra careful with these.
+
+## useMutation
+Its simple. First, define mutation to make:
+```js
+import { useState } from "react";
+import {gql, useMutation} from "@apollo/client"
+
+const CREATE_BOOK_MUTATION = gql`
+  mutation CreateBook($input: createBookInput!) {
+    addNewBookIpt(input: $input) {
+      id
+    }
+  }
+`;
+```
+**Always remember about return type - mutations also have one. And you must specify what the mutation returns**.
+
+Ok, heres component:
+```js
+function AddBook(){
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [createBook] = useMutation(CREATE_BOOK_MUTATION);
+    return (
+        <>
+        <input 
+        type="text"
+        placeholder="title"
+        onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+        />
+        <input 
+        type="text"
+        placeholder="author"
+        onChange={(event) => {
+            setAuthor(event.target.value);
+          }}
+         />
+         <button  onClick={() => {
+            console.log(title, author)
+            createBook({
+              variables: {
+                input: { title: title, author: author},
+              },
+            });
+        }}>Add</button>
+        <p>Add book not implemented yet!</p>
+        </>
+    );
+};
+
+export {AddBook};
+```
+Simple.
