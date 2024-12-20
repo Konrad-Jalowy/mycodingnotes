@@ -106,3 +106,4 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set("layout extractScripts", true)
 ```
+Lates one is so that we could use scripts.
