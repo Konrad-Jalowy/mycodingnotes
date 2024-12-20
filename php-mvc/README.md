@@ -10,6 +10,16 @@ function basePath($path = '')
 }
 ```
 
+## Redirect
+Must know
+```php
+function redirect($url)
+{
+  header("Location: {$url}");
+  exit;
+}
+```
+
 ## super simple autoload
 Sooner or later youll need composer package, but starting off in some dummy-project, trying things out, you can use such autoloading trick:
 ```php
