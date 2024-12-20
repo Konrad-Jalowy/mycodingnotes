@@ -89,7 +89,8 @@ app.get('*', MainController.notFound);
 ```
 
 # Node Libraries
-
+Libraries worth installing:
+- express-ejs-layouts
 ## express-ejs-layouts
 Layouts for ejs. 
 ```sh
