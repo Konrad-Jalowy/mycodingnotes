@@ -207,3 +207,12 @@ router.post("/login", forwardAuthenticated, UserController.loginValidator, UserC
 router.post('/login', UserController.loginPost);
 ```
 First is middleware that checks if user is not logged in and lets guests only. Then our middlewares.
+
+## Method override
+It performs method spoofing. 
+```sh
+npm i method-override
+```
+Super simple to use:
+```js
+```
