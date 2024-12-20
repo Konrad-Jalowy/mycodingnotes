@@ -3,6 +3,7 @@
 
 Subdirectories:
 - **bodyValidator** - long time ago i wrote such thing, i didnt know express-validator package back then. I dont use that code anymore, but maybe itll be useful to somebody.
+- **fluentAPI** - that was some great code. I didnt know how to do that (that is, filtering, sorting, limiting, paginating in node express rest api, via url, that would be really fluent, have advanced filters and the code wouldnt be messy). When i figured that out, i wrote a project, now parts of that project are in fluentAPI directory.
 
 
 # Node - files
