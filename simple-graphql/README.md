@@ -1,3 +1,3 @@
 # Simple graphql
-How to setup graphql simple tutorial/reminder
+How to setup and make basic tasks using graphql simple tutorial/reminder
 
