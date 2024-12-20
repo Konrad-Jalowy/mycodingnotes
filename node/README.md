@@ -65,3 +65,7 @@ const checkID = async (req, res, next, val) => {
     next();
   };
 ```
+And dont forget about:
+```js
+app.param('id', checkID);
+```
