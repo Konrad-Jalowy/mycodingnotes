@@ -69,3 +69,69 @@ export {AllBooks};
 Theres one thing you should watch out for - **error means error, like something went wrong**. Situations in which data is null, or data.books is null are not treated as error.  
 
 **In graphql you can ask for item, with non-existing id and you will get data.item equal to null**. It will not be an error (like in REST APIs). And data itself can be undefined. So you need to be extra careful with these.
+
+## useLazyQuery
+First prepare our graphql query:
+```js
+import { useState, useEffect } from "react";
+import { useLazyQuery, gql } from "@apollo/client";
+const GET_BOOK_BY_ID = gql`
+  query Book($id: ID!) {
+    book(id: $id) {
+      id,
+      title,
+      author
+    }
+  }
+`;
+```
+Ok done now the rest:
+```js
+function OneBook(){
+    const [bookSearched, setBookSearched] = useState(1);
+   
+    const [
+        fetchBook,
+        { data, error, loading },
+      ] = useLazyQuery(GET_BOOK_BY_ID);
+
+      useEffect(() => {
+        fetchBook({variables: {id: `${bookSearched}`}});
+      }, [bookSearched, fetchBook]);
+```
+Ok self descriptive, now ifs:
+```js
+if(loading){
+        return <h1>Loading</h1>
+      }
+      if(error){
+        return <h1>Error</h1>
+      }
+      if(data?.book === null){
+        return (<>
+        <input type="number" value={bookSearched} onChange={(e) => {
+            setBookSearched(e.target.value);
+        }} />
+        <h1>Such book doesnt exist</h1>
+        </>
+        );
+      }
+```
+Main return:
+```js
+return (
+        <>
+        <input type="number" value={bookSearched} onChange={(e) => {
+            setBookSearched(e.target.value);
+        }} />
+        <p>Book title: {data && data.book && data.book.title}</p>
+        <p>Book author: {data && data.book && data.book.author}</p>
+        </>
+    );
+};
+```
+And **DISCLAIMER**, one more time:  
+
+Theres one thing you should watch out for - **error means error, like something went wrong**. Situations in which data is null, or data.books is null are not treated as error.  
+
+**In graphql you can ask for item, with non-existing id and you will get data.item equal to null**. It will not be an error (like in REST APIs). And data itself can be undefined. So you need to be extra careful with these.
