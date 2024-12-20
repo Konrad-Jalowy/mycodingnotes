@@ -1,3 +1,6 @@
+//long time ago when i didnt know about express-validator package i guess
+
+
 //helper function for clearer code
 function requiredEnabled(fieldObj){
     if(!Object.hasOwn(fieldObj, "required"))
