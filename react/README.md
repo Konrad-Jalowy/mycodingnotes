@@ -13,3 +13,12 @@ npx create-react-app .
 Its good to create local projects, like one has backend in node, another has frontned in react. You create client directory and then use above command there.  
   
 Now main app (having client and server directories) should have gitignore for node and react client app will have react gitignore created automatically.
+
+Important thing: now you need to install this:
+```sh
+npm install --save-dev web-vitals
+```
+And of course you run thins command to start react:
+```sh
+npm start
+```
