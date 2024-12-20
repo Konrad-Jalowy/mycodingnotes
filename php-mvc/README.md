@@ -54,3 +54,35 @@ spl_autoload_register(function($class){
         require_once $path;
 });
 ```
+## loadView and loadPartial
+When you start off project like mvc framework these func might be useful at the beginning. Later youll replace them with templating engine.
+Still:
+```php
+function loadPartial($name, $data = [])
+{
+  $partialPath = basePath("App/views/partials/{$name}.php");
+
+  if (file_exists($partialPath)) {
+    extract($data);
+    require $partialPath;
+  } else {
+    echo "Partial '{$name} not found!'";
+  }
+}
+```
+Extract is so that you have access to context variables inside partial/template. 
+Now template:
+```php
+function loadView($name, $data = [])
+{
+  $viewPath = basePath("App/views/{$name}.view.php");
+
+  if (file_exists($viewPath)) {
+    extract($data);
+    require $viewPath;
+  } else {
+    echo "View '{$name} not found!'";
+  }
+}
+```
+Same story here. But youll have to use standard php tags so sooner or later these funcs must be raplaced with templating engine (check out my project)
