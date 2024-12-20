@@ -31,6 +31,17 @@ function inspect($value)
 }
 ```
 
+## hasParams
+I needed that in one of early stages of my project, maybe useful to sb:
+```php
+function hasParams($route){
+    if(!preg_match('/\{(.+?)\}/', $route)){
+        return false;
+    }
+    return true;
+}
+```
+
 ## super simple autoload
 Sooner or later youll need composer package, but starting off in some dummy-project, trying things out, you can use such autoloading trick:
 ```php
