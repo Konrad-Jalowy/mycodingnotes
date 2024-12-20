@@ -107,3 +107,20 @@ app.set('view engine', 'ejs');
 app.set("layout extractScripts", true)
 ```
 Lates one is so that we could use scripts.
+Now layout.ejs:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout</title>
+    <link rel="stylesheet" href="http://localhost:3010/style.css">
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <%- body %>
+    <%- script %>
+</body>
+</html>
+```
