@@ -148,3 +148,16 @@ Simple example how to use it. Import:
 ```js
 const { body, validationResult } = require('express-validator');
 ```
+Ok, helper (exports not needed tbh):
+```js
+exports.loginValidator = [
+    body('email', 'Please enter an email').isEmail().trim(),
+    body('password', 'Please enter password').not().isEmpty(),
+    body('email').custom(async value => {
+        const user = await User.findOne({email: value});
+        if (user === null) {
+          throw new Error('User doesnt exist');
+        }
+      }),
+];
+```
