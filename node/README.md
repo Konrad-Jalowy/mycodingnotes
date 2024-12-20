@@ -178,5 +178,6 @@ exports.validateAndForwardLogin = (req, res, next) => {
 How we use it:
 ```js
 router.post("/login", forwardAuthenticated, UserController.loginValidator, UserController.validateAndForwardLogin);
+router.post('/login', UserController.loginPost);
 ```
 First is middleware that checks if user is not logged in and lets guests only. Then our middlewares.
