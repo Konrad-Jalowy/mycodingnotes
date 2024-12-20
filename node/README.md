@@ -148,7 +148,7 @@ Simple example how to use it. Import:
 ```js
 const { body, validationResult } = require('express-validator');
 ```
-Ok, helper (exports not needed tbh):
+Ok, helper, first middleware:
 ```js
 exports.loginValidator = [
     body('email', 'Please enter an email').isEmail().trim(),
@@ -161,3 +161,22 @@ exports.loginValidator = [
       }),
 ];
 ```
+Second middleware:
+```js
+exports.validateAndForwardLogin = (req, res, next) => {
+    const errors = validationResult(req)
+    if (errors.isEmpty()) {
+      
+      return next();
+    }
+    console.log(errors);
+    
+    req.flash('message', `Login Failed`);
+    return res.redirect('/users/login');
+}
+```
+How we use it:
+```js
+router.post("/login", forwardAuthenticated, UserController.loginValidator, UserController.validateAndForwardLogin);
+```
+First is middleware that checks if user is not logged in and lets guests only. Then our middlewares.
