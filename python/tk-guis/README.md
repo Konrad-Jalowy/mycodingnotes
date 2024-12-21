@@ -402,3 +402,29 @@ rect_2.pack(ipadx=10, ipady=10, fill="both", side="top", expand=True)
 root.mainloop()
 ```
 So they both take all width and they share heigth (they each occupy 50%). 
+
+## expand vs fill
+- **fill** - tells element if it should use allocated space that is left or not (and which one, x space, y space or both)
+- **expand** - take side top for example. it has all x allocated, but the question is whats with the opposite axis. if false/no expand, then it takes as much as it needs and is not allocated more. if true, it takes as much as it needs but is allocated more (and it can take more if you set fill to y or both)
+Example:
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rect_1.pack(ipadx=10, ipady=10, fill="both", side="top", expand=True)
+
+rect_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rect_2.pack(ipadx=10, ipady=10, side="top", expand=True)
+
+root.mainloop()
+```
+So here we have 2 elements side top. So they all take 100% width, like block elements in css they are put one below the other.  
+Then, they all expand, so they will share y space between them (they get 50-50).  
+First one have fill both, so it has size 100% width and 50% heigth.  
+Second doesnt have fill, so technically it has width 100% and height 50%, but the visible part doesnt have that and is centered.  
+Tbh not so complicated.
