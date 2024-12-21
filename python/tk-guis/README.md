@@ -380,3 +380,25 @@ Well:
 - fill x makes those elements use all x space theyve been allocated
 - expand true makes first element been allocated more y space than it needs, basically y space is divided now between those two elements
 - the element is not on the top anymore but it started there
+
+## fill both expand true
+fill both means element will use all x and y space it has been allocated.
+expand true means it will expand. like element with side top has all x space allocated, but it can expand in terms of y space.
+example
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rect_1.pack(ipadx=10, ipady=10, fill="both", side="top", expand=True)
+
+rect_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rect_2.pack(ipadx=10, ipady=10, fill="both", side="top", expand=True)
+
+root.mainloop()
+```
+So they both take all width and they share heigth (they each occupy 50%). 
