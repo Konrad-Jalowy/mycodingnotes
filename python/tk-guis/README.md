@@ -252,3 +252,24 @@ exit_btn.pack(anchor="ne", side=tk.LEFT, expand=False)
 root.mainloop()
 ```
 Advice: you can understand how it works, but still you need to mess around with it, get a feeling of it, trial and error just like in CSS.
+
+## ttk.Label, background, foreground
+**Its background and foreground for ttk widgets!**
+```python
+import tkinter as tk
+from tkinter import ttk
+
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = ttk.Label(root, text="Rectangle 1", background="green", foreground="white")
+rect_1.pack()
+
+rect_2 = ttk.Label(root, text="Rectangle 2", background="red", foreground="white")
+rect_2.pack()
+
+root.mainloop()
+```
