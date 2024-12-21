@@ -16,3 +16,13 @@ To deactivate, simply use
 ```sh
 deactivate
 ```
+
+## __name__ main
+Ok heres the code
+```python
+def hello():
+    print("Hello World")
+
+if __name__ == "__main__":
+    hello()
+```
