@@ -12,3 +12,6 @@ I hope to make it full of notes from my php mvc projects. In time it will be don
 
 ## React directory
 Some React notes will be there.
+
+## Python directory
+Some python notes there.
