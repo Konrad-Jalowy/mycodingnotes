@@ -253,7 +253,7 @@ root.mainloop()
 ```
 Advice: you can understand how it works, but still you need to mess around with it, get a feeling of it, trial and error just like in CSS.
 
-## ttk.Label, background, foreground
+## ttk.Label (ttk widgets), background, foreground
 **Its background and foreground for ttk widgets!**
 ```python
 import tkinter as tk
@@ -269,6 +269,25 @@ rect_1 = ttk.Label(root, text="Rectangle 1", background="green", foreground="whi
 rect_1.pack()
 
 rect_2 = ttk.Label(root, text="Rectangle 2", background="red", foreground="white")
+rect_2.pack()
+
+root.mainloop()
+```
+
+## tk.Label (tk widgets), bg and fg
+**Its bg and fg for tk widgets!**
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rect_1.pack()
+
+rect_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
 rect_2.pack()
 
 root.mainloop()
