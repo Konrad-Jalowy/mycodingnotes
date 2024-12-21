@@ -1,6 +1,18 @@
 # Python 101
 Python basics
 
+## Not implemented function
+Tbh i didnt know there are so many ways, i usually return "not implemented", but hey:
+```python
+def myway():
+    return "not implemented yet"
+
+def pythonway():
+    pass
+
+def anotherway():
+    ...
+```
 ## Division
 There are two types of division
 ```python
