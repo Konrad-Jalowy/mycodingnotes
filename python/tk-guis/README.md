@@ -93,3 +93,16 @@ exit_btn.pack()
 
 root.mainloop()
 ```
+
+
+## window geometry
+```python
+import tkinter as tk
+from tkinter import ttk
+
+root = tk.Tk()
+root.title("My tkinter App")
+root.geometry("800x600")
+
+root.mainloop()
+```
