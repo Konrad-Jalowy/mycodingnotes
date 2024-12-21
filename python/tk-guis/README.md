@@ -8,3 +8,12 @@ import tkinter
 
 tkinter._test()
 ```
+
+## mainloop
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.mainloop()
+```
