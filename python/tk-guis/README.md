@@ -428,3 +428,33 @@ Then, they all expand, so they will share y space between them (they get 50-50).
 First one have fill both, so it has size 100% width and 50% heigth.  
 Second doesnt have fill, so technically it has width 100% and height 50%, but the visible part doesnt have that and is centered.  
 Tbh not so complicated.
+
+## side left vs side top
+As you know, side top gets all x space allocated and can expand in terms of y space.  
+With side left its the opposite.
+Here we have 2 rectangles, both have height 100% and width 50%:
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rect_1.pack(ipadx=10, ipady=10, fill="both", side="left", expand=True)
+
+rect_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rect_2.pack(ipadx=10, ipady=10, fill="both", side="left", expand=True)
+
+root.mainloop()
+```
+Ok so basically in pack we have 2 types of sides:
+- main axis is x (side top)
+- main axis is y (side left)
+
+On main axis element is allocated 100% space (but if the visible part uses it depends on fill attribute).  
+On cross axis (speaking flexbox) element is allocated the same space as its content, but it with expand true it can expand, sharing space with other elements with expand true and same side.  
+I know it sounds complicated but tbh tkinter pack is easier than many CSS layout techniques. Its simple and with windows, frames and so on you can really create layouts you need once you figure out how it works, you dont have to use grid or place (but you can).  
+
+So yeah, fill both, side left, takes 100% height and expand true, expands in terms of width, since 2 elements are side left expand true they share width 50-50 since 100% height 50% width each. Fill both means visible part is stretched in x and y, if not, they would be centered withing allocated space and have "fit-content" kind of size, if you know what i mean (if not, try it out...)
