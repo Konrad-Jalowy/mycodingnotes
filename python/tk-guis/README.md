@@ -17,3 +17,14 @@ root = tk.Tk()
 
 root.mainloop()
 ```
+
+## window title
+its a **function**
+```python
+import tkinter as tk
+
+root = tk.Tk()
+root.title("My tkinter App")
+
+root.mainloop()
+```
