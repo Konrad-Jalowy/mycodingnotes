@@ -356,3 +356,27 @@ In this example you:
 - since side top, it has as much y as it needs and is sticked to top
 - since side top, it has all y space allocated
 - since fill x, it uses all that x space
+
+## side top expand
+what do we have here:
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rect_1.pack(ipadx=10, ipady=10, fill="x", side="top", expand=True)
+
+rect_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rect_2.pack(ipadx=10, ipady=10, fill="x", side="top")
+
+root.mainloop()
+```
+Well:
+- elements have side top so they use only as much y as they need and have allocated all x space
+- fill x makes those elements use all x space theyve been allocated
+- expand true makes first element been allocated more y space than it needs, basically y space is divided now between those two elements
+- the element is not on the top anymore but it started there
