@@ -331,3 +331,28 @@ rect_2.pack(ipadx=10, ipady=10, pady=10)
 
 root.mainloop()
 ```
+
+## pack default side is top, fill x
+**default side for pack (you dont have to write it) is top. elements with side top get all x space allocated and only as much of y as they need and are sticked to the top**
+Fill x makes element use all x space it has been allocated
+```python
+import tkinter as tk
+
+root = tk.Tk()
+
+root.title("My tkinter App")
+root.geometry("800x600")
+
+rect_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rect_1.pack(ipadx=10, ipady=10, side="top", fill="x")
+
+rect_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rect_2.pack(ipadx=10, ipady=10, side="top", fill="x")
+
+root.mainloop()
+```
+In this example you:
+- dont need to specify side top, its default
+- since side top, it has as much y as it needs and is sticked to top
+- since side top, it has all y space allocated
+- since fill x, it uses all that x space
