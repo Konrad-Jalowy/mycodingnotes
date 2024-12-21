@@ -10,9 +10,9 @@ root.geometry("800x600")
 
 
 greet_btn = ttk.Button(root, text="Greet", command=greet)
-greet_btn.pack(side=tk.LEFT, anchor="nw")
+greet_btn.pack(side=tk.LEFT, anchor="n")
 
 exit_btn = ttk.Button(root, text="Exit", command=root.destroy)
-exit_btn.pack(side=tk.RIGHT, anchor="se")
+exit_btn.pack(side=tk.RIGHT, anchor="s")
 
 root.mainloop()
