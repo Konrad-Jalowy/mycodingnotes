@@ -12,3 +12,6 @@ simple celsius to fahrenheit converter
 
 ## cel to fahr better
 you cant input non-digits into converter
+
+## cel to fahr better 2
+also added tracing variable (on input change)
