@@ -458,3 +458,24 @@ On cross axis (speaking flexbox) element is allocated the same space as its cont
 I know it sounds complicated but tbh tkinter pack is easier than many CSS layout techniques. Its simple and with windows, frames and so on you can really create layouts you need once you figure out how it works, you dont have to use grid or place (but you can).  
 
 So yeah, fill both, side left, takes 100% height and expand true, expands in terms of width, since 2 elements are side left expand true they share width 50-50 since 100% height 50% width each. Fill both means visible part is stretched in x and y, if not, they would be centered withing allocated space and have "fit-content" kind of size, if you know what i mean (if not, try it out...)
+
+## Frames
+Take a look what weve got here:
+```python
+import tkinter as tk
+from tkinter import ttk
+
+root = tk.Tk()
+
+main = ttk.Frame(root)
+main.pack(side="left", fill="both", expand=True)
+
+tk.Label(main, text="Label top left", bg="red").pack(side="top", expand=True, fill="both")
+tk.Label(main, text="Label bottom left", bg="red").pack(side="top", expand=True, fill="both")
+tk.Label(root, text="Label right", bg="green").pack(
+    side="left", expand=True, fill="both"
+)
+
+root.mainloop()
+```
+So its divided 50-50. La
