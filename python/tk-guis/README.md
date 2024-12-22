@@ -482,3 +482,42 @@ So its divided 50-50 (the width). Label right has 50% width (if you maximize) an
 Frame is side left so it is allocated 100% heigth and it expands there. Frame children are side top so they are allocated all width (of its parent) and they expand.  
 Label added to root is the same side that frame (left) and has 100% heigth and they share width 50-50.  Its actually very easy to get while coding and seems like fun, you can layout the GUI using pack any way you like.  
 Most people hate pack because they think gird or place are proper ways and pack is for demo purposes, but honestly, you can do much with pack. And if you care that much about how your app looks like, why use tkiner in the first place? Its great for creating GUIs with Python but its not used for great UI/UX...
+
+## Stacking content in tkiner
+Heres example of how to stack content in tkinter using pack (also note ttk.Entry focus method, nice to know)
+```python
+import tkinter as tk
+from tkinter import ttk
+
+
+def greet():
+    print(f"Hello, {user_name.get() or 'World'}!")
+
+
+root = tk.Tk()
+root.title("Greeter")
+
+user_name = tk.StringVar()
+
+
+input_frame = ttk.Frame(root, padding=(20, 10, 20, 0))
+input_frame.pack(fill="both")
+
+name_label = ttk.Label(input_frame, text="Name: ")
+name_label.pack(side="left", padx=(0, 10))
+
+name_entry = ttk.Entry(input_frame, textvariable=user_name)
+name_entry.pack(side="left", expand=True, fill="both")
+name_entry.focus()
+
+buttons_frame = ttk.Frame(root, padding=(20, 10))
+buttons_frame.pack(fill="both")
+
+greet_button = ttk.Button(buttons_frame, text="Greet", command=greet)
+greet_button.pack(side="left", fill="x", expand=True)
+quit_button = ttk.Button(buttons_frame, text="Quit", command=root.destroy)
+quit_button.pack(side="right", fill="x", expand=True)
+
+root.mainloop()
+```
+For simple apps theres no need to use grid or place. I feel kinda dumb, because i always used grid thinking pack is good only for "demo apps" (i used to write GUIs in tkinter, now im re-visiting the topic)
