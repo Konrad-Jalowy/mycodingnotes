@@ -936,3 +936,31 @@ age_entry.grid(row=2, column=1, padx=(0, 10), ipady=5, sticky="we")
 
 root.mainloop()
 ```
+
+## input (entry) with numbers only
+heres the code
+```python
+import tkinter as tk
+from tkinter import ttk
+
+def callback(P):
+    if str.isdigit(P) or P == "":
+        return True
+    else:
+        return False
+
+
+root = tk.Tk()
+root.title("Validate ipt")
+root.geometry("800x600")
+root.resizable(False, False)
+
+vcmd = root.register(callback)
+
+some_entry = ttk.Entry(root, validate='all', validatecommand=(vcmd, '%P'))
+some_entry.pack(side="left", expand=True, fill="x")
+
+root.mainloop()
+```
+most examples show this in oop. in oop self is root (or self.root) and there we register, usually object method (that takes self as first argument and its self.callback).  
+If you do such validations its a sign its time to switch to OOP, it gets complicated. But the bottom line is we register to the root element callback function.
