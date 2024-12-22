@@ -6,3 +6,6 @@ Simple binding click event, textvariable and command on click
 
 ## mini-counter-better
 stringvar and intvar, binding label text to a textvariable,
+
+## cel to fahr converter
+simple celsius to fahrenheit converter
