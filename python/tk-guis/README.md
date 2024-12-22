@@ -460,7 +460,7 @@ I know it sounds complicated but tbh tkinter pack is easier than many CSS layout
 So yeah, fill both, side left, takes 100% height and expand true, expands in terms of width, since 2 elements are side left expand true they share width 50-50 since 100% height 50% width each. Fill both means visible part is stretched in x and y, if not, they would be centered withing allocated space and have "fit-content" kind of size, if you know what i mean (if not, try it out...)
 
 ## Frames
-Take a look what weve got here:
+Take a look what weve got here (it wasnt my example by the way):
 ```python
 import tkinter as tk
 from tkinter import ttk
@@ -478,4 +478,7 @@ tk.Label(root, text="Label right", bg="green").pack(
 
 root.mainloop()
 ```
-So its divided 50-50. La
+So its divided 50-50 (the width). Label right has 50% width (if you maximize) and 100% height. Labels inside frame have height 50% each and the frame has width 50%.  
+Frame is side left so it is allocated 100% heigth and it expands there. Frame children are side top so they are allocated all width (of its parent) and they expand.  
+Label added to root is the same side that frame (left) and has 100% heigth and they share width 50-50.  Its actually very easy to get while coding and seems like fun, you can layout the GUI using pack any way you like.  
+Most people hate pack because they think gird or place are proper ways and pack is for demo purposes, but honestly, you can do much with pack. And if you care that much about how your app looks like, why use tkiner in the first place? Its great for creating GUIs with Python but its not used for great UI/UX...
