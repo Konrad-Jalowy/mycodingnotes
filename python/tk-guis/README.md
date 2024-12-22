@@ -701,3 +701,12 @@ age_entry = ttk.Entry(main, width=15, textvariable=user_age).grid(row=2, column=
 root.mainloop()
 ```
 Basically you need to get used to tkinter, its intuitive when you just use it. Either this or you can always use C# or Java and click your way throuh interface creation.
+
+## Fixed size, no resizing
+Its very simple
+```python
+root = tk.Tk()
+root.title("My App")
+root.geometry("800x600")
+root.resizable(False, False)
+```
