@@ -805,3 +805,31 @@ ttk.Separator(root, orient="horizontal").grid(row=3, column=0, sticky="we")
 root.mainloop()
 ```
 Annoying, but if you know whats going on and where to find help, then not that annoying.
+
+## Spinbox
+Heres spinbox
+```python
+import tkinter as tk
+from tkinter import ttk
+
+root = tk.Tk()
+
+#(...)
+
+main = ttk.Frame(root, padding=(20, 10, 20, 0))
+main.grid(row=0, column=0, sticky="nwe")
+
+main.columnconfigure(1, weight=2)
+
+#(...)
+
+user_age = tk.StringVar(value=18)
+
+#(...)
+age_label = ttk.Label(main, text="Age:").grid(row=2, column=0, padx=(0, 10))
+age_entry = tk.Spinbox(main, from_=18, to=100, textvariable=user_age, wrap=False)
+age_entry.grid(row=2, column=1, padx=(0, 10), sticky="we")
+
+root.mainloop()
+```
+So from_ is minimum, to is maximum, textvariable points to variable (we have default value set to that varialbe), wrap false is normal behavior, wrap true would mean, that if your on minimum and click arrow down you get maximum (and the other way around).
