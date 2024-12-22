@@ -755,3 +755,28 @@ root.mainloop()
 ```
 
 We split it like that not only to make our code more readable... For some reason first_entry is a variable that has None (grid method doesnt implement fluent interface, why idk, but we need to watch out)
+
+## Separator (pack)
+Fill x is crucial plus you must set orient (why not orientation if colspan is columnspan? such things are annoying)
+Code
+```python
+import tkinter as tk
+from tkinter import ttk
+
+root = tk.Tk()
+root.title("Separator")
+
+label1 = ttk.Label(root, text="Hello, World!", padding=20)
+
+label1.pack()
+
+ttk.Separator(root, orient="horizontal").pack(fill="x")
+
+label2 = ttk.Label(root, text="Hello, World!", padding=20)
+
+label2.pack()
+
+ttk.Separator(root, orient="horizontal").pack(fill="x")
+
+root.mainloop()
+```
