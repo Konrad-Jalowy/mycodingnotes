@@ -9,3 +9,6 @@ stringvar and intvar, binding label text to a textvariable,
 
 ## cel to fahr converter
 simple celsius to fahrenheit converter
+
+## cel to fahr better
+you cant input non-digits into converter
