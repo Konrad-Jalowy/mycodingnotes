@@ -981,3 +981,19 @@ e.pack()
 root.mainloop()  
 ```
 _ is idx, ignore if the variable is scalar. all we basically care is variable.
+
+## trace variable again
+Idk i find this example more clear
+```python
+from tkinter import *
+
+def callback(_var, _idx, _mode, variable):
+    print(variable.get())
+
+root = Tk()
+sv = StringVar()
+sv.trace_add("write", lambda name, index, mode, variable=sv : callback(name, index, mode, variable))
+e = Entry(root, textvariable=sv)
+e.pack()
+root.mainloop()  
+```
