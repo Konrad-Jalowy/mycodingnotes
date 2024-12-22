@@ -964,3 +964,20 @@ root.mainloop()
 ```
 most examples show this in oop. in oop self is root (or self.root) and there we register, usually object method (that takes self as first argument and its self.callback).  
 If you do such validations its a sign its time to switch to OOP, it gets complicated. But the bottom line is we register to the root element callback function.
+
+## trace variable
+Super simple variable tracing
+```python
+from tkinter import *
+
+def callback(name, mode, sv):
+    print(name, mode, sv.get())
+
+root = Tk()
+sv = StringVar()
+sv.trace("w", lambda name, _, mode, sv=sv: callback(name, mode, sv))
+e = Entry(root, textvariable=sv)
+e.pack()
+root.mainloop()  
+```
+_ is idx, ignore if the variable is scalar. all we basically care is variable.
