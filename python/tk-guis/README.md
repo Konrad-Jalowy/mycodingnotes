@@ -1132,3 +1132,11 @@ calc_button.grid(column=0, row=2, columnspan=2, sticky="EW", padx=5, pady=5)
 
 root.mainloop()
 ```
+
+## widget children
+dynamic work with all children of a widget (here - a frame called main)
+```python
+# winfo_children stands for "widget info children", and gets all the children of a widget.
+for child in main.winfo_children():
+    child.grid_configure(padx=15, pady=15)
+```
