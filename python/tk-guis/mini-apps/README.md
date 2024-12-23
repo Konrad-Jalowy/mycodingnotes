@@ -15,3 +15,6 @@ you cant input non-digits into converter
 
 ## cel to fahr better 2
 also added tracing variable (on input change)
+
+## very simple countdown
+very simple countdown app in OOP way
