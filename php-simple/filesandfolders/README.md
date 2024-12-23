@@ -52,3 +52,9 @@ echo filetype('/etc/passwd'); //file
 echo "\n";
 echo filetype('/etc/'); //dir
 ```
+
+## getting file contents
+```php
+$text = file_get_contents('./test.txt');
+echo nl2br($text);
+```
