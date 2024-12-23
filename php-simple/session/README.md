@@ -67,3 +67,28 @@ class OOPSessionCleaner {
   }
 }
 ```
+
+## counting sessfiles
+Note:
+- files are stored in a path that session_save_path() returns
+- sessfiles start with SESS
+- other files can be stored there too
+- file is destroyed when session_destroy is called (it doesnt delete cookie or unset sess vars)
+- there can be sess files with sessions that are long gone and unactive
+```php
+public static function sessionsCount(){
+    $session_path = session_save_path();
+
+    $handle = opendir($session_path);
+    $sessions = 0;
+        while (($file = readdir($handle)) != FALSE) {
+           
+            if(in_array($file, ['.', '..']))
+                continue;
+            if(!preg_match("/^sess/", $file))
+                continue;
+            $sessions++;
+        }
+        return $sessions;
+  }
+```
