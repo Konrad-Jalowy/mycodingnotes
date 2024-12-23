@@ -117,3 +117,20 @@ print(__file__) #file path
 print(dir_path) #file directory path
 print(cwd) # path from which we run the python command 
 ```
+
+## files in correct place
+always make sure they are created in correct place regardless of place that runs the command
+```python
+import os
+path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test.txt")
+print(path)
+
+fh = open(path, "w")
+fh.write("hello world 1")
+fh.write("hello world 2")
+fh.close()
+
+fh = open(path, "a")
+fh.write("hello world 3")
+fh.close()
+```
