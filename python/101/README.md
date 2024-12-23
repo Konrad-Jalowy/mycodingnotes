@@ -97,3 +97,11 @@ fh = open("test.txt", "w")
 fh.write("hello world")
 fh.close()
 ```
+
+## append to file
+Very simple:
+```python
+fh = open("test.txt", "a")
+fh.write("hello world 2")
+fh.close()
+```
