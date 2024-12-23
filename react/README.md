@@ -3,6 +3,7 @@ React notes here
 
 ## React - direcotires
 - **react-graphql** - how to setup simple graphql-react connection and fetch all data, fetch single items and make some mutations.
+- **react-custom-hooks** - my own and other custom hooks for react.
 
 ## How to start react project
 You should probably use vite but for demo projects you can get away with
