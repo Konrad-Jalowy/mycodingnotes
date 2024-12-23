@@ -1,7 +1,19 @@
 # PHP session
 notes about session management in php
 
-## starting session
+
+## starting session (OOP)
+```php
+class OOPSessionStarter {
+  public static function start()
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+  }
+}
+```
+## starting session (no OOP)
 ```php
 // page1.php
 
