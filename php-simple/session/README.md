@@ -53,3 +53,16 @@ echo '<br /><a href="page2.php">page 2</a>';
 // Or maybe pass along the session id, if needed
 echo '<br /><a href="page2.php?' . SID . '">page 2</a>';
 ```
+
+## clearAll (OOP)
+- session_unset - destroys variables
+- session_destroy - destroys session data
+```php
+class OOPSessionCleaner {
+  public static function clearAll()
+  {
+    session_unset();
+    session_destroy();
+  }
+}
+```
