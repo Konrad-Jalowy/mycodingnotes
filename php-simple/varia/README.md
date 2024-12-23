@@ -8,3 +8,8 @@ echo get_include_path();
 // Or using ini_get()
 echo ini_get('include_path');
 ```
+### Setting include path
+```php
+$path = '/usr/lib/pear';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+```
