@@ -88,3 +88,12 @@ if __name__ == "__main__":
     hello()
 ```
 You do that so that nothing in that guard will run if the script is imported
+
+
+## write to file (overwrites)
+Very simple write to file (if not exists then creates, if exists, overwrites)
+```python
+fh = open("test.txt", "w")
+fh.write("hello world")
+fh.close()
+```
