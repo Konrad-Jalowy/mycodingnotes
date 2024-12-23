@@ -1140,3 +1140,10 @@ dynamic work with all children of a widget (here - a frame called main)
 for child in main.winfo_children():
     child.grid_configure(padx=15, pady=15)
 ```
+
+## binding enter key to action
+bidning enter key to some callback
+```python
+root.bind("<Return>", calculate_feet)
+root.bind("<KP_Enter>", calculate_feet)
+```
