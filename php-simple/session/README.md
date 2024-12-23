@@ -57,6 +57,7 @@ echo '<br /><a href="page2.php?' . SID . '">page 2</a>';
 ## clearAll (OOP)
 - session_unset - destroys variables
 - session_destroy - destroys session data
+**session_destroy just deletes session file. it does not unset session variables or session cookie! remember**
 ```php
 class OOPSessionCleaner {
   public static function clearAll()
