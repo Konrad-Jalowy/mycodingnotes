@@ -13,3 +13,9 @@ echo ini_get('include_path');
 $path = '/usr/lib/pear';
 set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 ```
+
+### Restoring include path
+Only via ini_restore
+```php
+ini_restore('include_path');
+```
