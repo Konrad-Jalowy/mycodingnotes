@@ -163,3 +163,15 @@ for _file in files_and_folders:
     if os.path.isfile(_path):
         print(_file)
 ```
+
+## Writing to file with proper encoding
+encoding UTF-8 default is ascii i guess, anyways default is not enough for all characters
+```python
+import os
+path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test2.txt")
+print(path)
+
+fh = open(path, "w", encoding="utf-8")
+fh.write("hello world ąęśćżczź")
+fh.close()
+```
