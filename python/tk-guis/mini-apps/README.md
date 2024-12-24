@@ -1,4 +1,4 @@
-## python tkinter gui mini-apps
+# python tkinter gui mini-apps
 Mini apps. Reference to get back if i forget something.
 
 ## mini-counter
@@ -18,3 +18,6 @@ also added tracing variable (on input change)
 
 ## very simple countdown
 very simple countdown app in OOP way
+
+## cel to fahr OOP converter
+converter in OOP way.
