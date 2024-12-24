@@ -33,3 +33,6 @@ Same as cel to fahr OOP 3 but the other way around.
 
 ## temperature converter OOP
 works both ways 2 frames stacked raised and hidden
+
+## temperature converter OOP 2 
+helper class addded, much duplication reduced, but some coupling introduced. will think how to improve it and present in next iteration.
