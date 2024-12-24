@@ -27,3 +27,6 @@ added dynamic setting of a font to main frame children
 
 ## cel to fahr OOP 3
 validating input (no non-digits allowed) and reacting to input change (if deleted, output deleted) added.
+
+## fahr to cel OOP converter
+Same as cel to fahr OOP 3 but the other way around.
