@@ -73,3 +73,18 @@ var buff = Buffer.from("Hello World ąźśćę", "utf8");
 
 console.log(buff.toString()); 
 ```
+
+## readstream
+### readstream - data, end
+```js
+const fs = require('fs');
+var stream = fs.createReadStream("./text.txt")
+
+stream.on("data", function(chunk) {
+    console.log(chunk.toString());
+});
+
+stream.on("end", function() {
+    console.log("Reading finished");
+});
+```
