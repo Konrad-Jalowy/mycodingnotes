@@ -52,3 +52,16 @@ buff.write("lorem ipsum") //write overwrites!
 
 console.log(buff.toString()) //lorem ipsum
 ```
+
+### concat buffers
+just use concat
+```js
+var buff1 = Buffer.from("Hello World\n");
+var buff2 = Buffer.from("Lorem ipsum");
+
+var newBuffer = Buffer.concat([buff1, buff2]);
+
+console.log(newBuffer.toString());
+// Hello World
+// Lorem ipsum
+```
