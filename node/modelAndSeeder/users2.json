@@ -1,0 +1,33 @@
+[
+    {
+      "firstName": "Tom",
+      "lastName": "Seeded",
+      "age": 19,
+      "cash": 1099
+    },
+    {
+        "firstName": "John",
+        "lastName": "Imported",
+        "age": 33,
+        "cash": 5780
+      },
+      {
+        "firstName": "Jim",
+        "lastName": "Jsonman",
+        "age": 44,
+        "cash": 6000
+      },
+      {
+        "firstName": "Tim",
+        "lastName": "Jsonified II",
+        "age": 22,
+        "cash": 9980
+      },
+      {
+        "firstName": "Janet",
+        "lastName": "Jsonlike Jr.",
+        "age": 16,
+        "cash": 9500
+      }
+    
+  ]
