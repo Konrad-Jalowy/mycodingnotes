@@ -16,3 +16,11 @@ emitter.on("message", function(msg) {
 
 emitter.emit("message", "Hello World!");
 ```
+
+### Set max listeners
+By default you can add 10 listeners. You can disable the limit
+```js
+var emitter = new EventEmitter();
+
+emitter.setMaxListeners(0);
+```
