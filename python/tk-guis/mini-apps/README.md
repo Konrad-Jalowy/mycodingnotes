@@ -21,3 +21,6 @@ very simple countdown app in OOP way
 
 ## cel to fahr OOP converter
 converter in OOP way.
+
+## cel to fahr OOP 2 
+added dynamic setting of a font to main frame children
