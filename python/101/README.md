@@ -282,3 +282,11 @@ msg_numbers = [ord(letter) for letter in msg]
 print(msg_numbers)
 #[104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
 ```
+
+## another walrus example
+idk if a good one, but you can do that:
+```python
+msg = "hello world! hi!"
+results = [value for char in msg if (value := ord(char)) >= 97 and value <= 122]
+print(results)
+```
