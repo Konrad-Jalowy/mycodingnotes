@@ -24,3 +24,10 @@ var emitter = new EventEmitter();
 
 emitter.setMaxListeners(0);
 ```
+
+### Default number of listeners
+They advise to use that approach
+```js
+require('events').EventEmitter.defaultMaxListeners = 15;
+```
+there are different opinios though...
