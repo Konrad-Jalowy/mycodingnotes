@@ -65,3 +65,11 @@ console.log(newBuffer.toString());
 // Hello World
 // Lorem ipsum
 ```
+
+### buffer encoding
+looks like we dont have to do that but still we can
+```js
+var buff = Buffer.from("Hello World ąźśćę", "utf8");
+
+console.log(buff.toString()); 
+```
