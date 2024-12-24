@@ -31,3 +31,12 @@ They advise to use that approach
 require('events').EventEmitter.defaultMaxListeners = 15;
 ```
 there are different opinios though...
+
+## buffer
+### Basics
+```js
+var buff = Buffer.from("Hello World");
+
+console.log(buff); //<Buffer 48 65 6c 6c 6f 20 57 6f 72 6c 64>
+console.log(buff.toString()); //Hello World
+```
