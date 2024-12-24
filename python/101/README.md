@@ -175,3 +175,18 @@ fh = open(path, "w", encoding="utf-8")
 fh.write("hello world ąęśćżczź")
 fh.close()
 ```
+
+## While reading file encoding is also important
+using default works only for ASCII i guess, i checked and utf-8 is not default (idk why).
+```python
+import os
+path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test2.txt")
+print(path)
+
+fh = open(path, "r", encoding="utf-8")
+lines = fh.readlines()
+fh.close()
+
+for line in lines:
+    print(line.rstrip("\n"))
+```
