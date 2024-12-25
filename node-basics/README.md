@@ -240,3 +240,17 @@ rl.question('What do you think of Node.js? ', (answer) => {
   rl.close();
 });
 ```
+### on line
+writes hello world then repeats every line
+```js
+const readline = require('node:readline');
+const { stdin: input, stdout: output } = require('node:process');
+
+const rl = readline.createInterface({ input, output });
+
+rl.write("Hello world\n");
+
+rl.on('line', (input) => {
+    console.log(`Received: ${input}`);
+  }); 
+```
