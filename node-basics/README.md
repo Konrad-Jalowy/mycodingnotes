@@ -215,6 +215,17 @@ server.listen(1337);
 ```
 
 ## Readline
+### rl.write and rl.close
+Always close, if not, code is blocked...
+```js
+const readline = require('node:readline');
+const { stdin: input, stdout: output } = require('node:process');
+
+const rl = readline.createInterface({ input, output });
+
+rl.write("Hello world");
+rl.close();
+```
 ### Readline question
 ```js
 const readline = require('node:readline');
