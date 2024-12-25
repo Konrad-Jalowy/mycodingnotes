@@ -7,6 +7,9 @@ Each directory has its own readmemd so feel free to go there.
 ## Node directory
 In node directory ill post some codes, that are useful for nodejs backend development.
 
+## Node bascis
+Basics of node, its built in modules
+
 ## PHP MVC directory
 I hope to make it full of notes from my php mvc projects. In time it will be done
 
