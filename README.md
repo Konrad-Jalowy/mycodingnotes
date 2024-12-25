@@ -19,5 +19,8 @@ Some python notes there.
 ## PHP Simple directory
 Simple PHP stuff there
 
+## PHP OOP directory
+Things that are neither from PHP basics nor PHP MVC, but are OOP PHP and worth noting
+
 ## Typescript Basic
 Basics of typescript
