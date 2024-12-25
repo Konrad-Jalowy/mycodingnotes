@@ -10,3 +10,8 @@ npx tsc --init
 ```sh
 npx ts-node src/foo.ts
 ```
+## compile files
+remember to specify outDir or it will compile them in cwd
+```sh
+npx tsc
+```
