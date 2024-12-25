@@ -15,3 +15,7 @@ remember to specify outDir or it will compile them in cwd
 ```sh
 npx tsc
 ```
+## compile watch flag
+```sh
+npx tsc -w
+```
