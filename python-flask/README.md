@@ -214,3 +214,10 @@ def the_form():
     session["name"] = name
     return redirect(url_for('home'))
 ```
+## flask session unset variable
+```python
+@app.route("/forgetname")
+def forgetname():
+    session.pop('name', None)
+    return redirect(url_for('home'))
+```
