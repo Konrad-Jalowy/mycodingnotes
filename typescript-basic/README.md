@@ -6,3 +6,7 @@ basics of typescrip
 ```sh
 npx tsc --init
 ```
+## run ts file in command line
+```sh
+npx ts-node src/foo.ts
+```
