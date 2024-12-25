@@ -221,3 +221,33 @@ def forgetname():
     session.pop('name', None)
     return redirect(url_for('home'))
 ```
+
+## rendering templates
+templates in templates folder, you need to pass filename (with .html extension), templating engine is jinja
+```python
+from flask import Flask, request, redirect, url_for,session, render_template
+app = Flask(__name__)
+
+app.config['SECRET_KEY'] = "blablabla"
+
+@app.route("/")
+def home():
+    name = "stranger"
+    if 'name' in session:
+        name = session["name"]
+    return render_template('home.html', name=name)
+
+@app.route("/forgetname")
+def forgetname():
+    session.pop('name', None)
+    return redirect(url_for('home'))
+
+@app.route("/form", methods=['GET', 'POST'])
+def the_form():
+    if request.method == 'GET':
+        return render_template('form.html')
+    name = request.form["firstName"]
+    session["name"] = name
+    return redirect(url_for('home'))
+```
+Its actually easier than all of express/node templating engines, which are annoying in a weird way...
