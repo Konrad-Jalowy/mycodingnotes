@@ -67,3 +67,15 @@ app = Flask(__name__)
 def json():
     return jsonify({"key": "val", "key2": [1,2,3]})
 ```
+## url var type
+you can specify type
+```python
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+
+@app.route("/<int:id>")
+def index(id):
+    return jsonify({"id": id, "name": "Jane Doe"})
+```
