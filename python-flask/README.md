@@ -251,3 +251,21 @@ def the_form():
     return redirect(url_for('home'))
 ```
 Its actually easier than all of express/node templating engines, which are annoying in a weird way...
+
+## passing context to template
+Its super annoying keys must be strings in Python (i got used to symbols...). Anyways, heres elegant way to pass complex context to render_template
+```python
+@app.route("/context")
+def context():
+    name = "Jane Doe"
+    age = 30
+    gender = "female"
+
+    ctx = {
+        "name": name,
+        "age": age,
+        "gender": gender
+    }
+    return render_template('context.html', **ctx)
+```
+Just have ctx object and then unpack it. Remember, keys must be strings...
