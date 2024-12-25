@@ -18,3 +18,6 @@ Some python notes there.
 
 ## PHP Simple directory
 Simple PHP stuff there
+
+## Typescript Basic
+Basics of typescript
