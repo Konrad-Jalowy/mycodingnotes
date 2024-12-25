@@ -418,3 +418,15 @@ async function example() {
   }
 example();
 ```
+### appending to file (fs module)
+```js
+const fs = require('node:fs');
+const content = 'Some content!';
+fs.appendFile('logs.txt', content, err => {
+  if (err) {
+    console.error(err);
+  } else {
+    // done!
+  }
+});
+```
