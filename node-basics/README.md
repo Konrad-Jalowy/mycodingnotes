@@ -384,7 +384,7 @@ try {
     console.error(err);
 }
 ```
-### writing files async
+### writing files async (callback err first)
 ```js
 const fs = require('node:fs');
 const path = require("path");
@@ -399,4 +399,22 @@ fs.writeFile(_path, content, err => {
     console.log("written successfully")
   }
 });
+```
+### writing async/await using fs promises
+```js
+const fs = require('node:fs/promises');
+const path = require("path");
+
+const _path = path.join(__dirname, "textasyncawait.txt");
+
+async function example() {
+    try {
+      const content = 'written using async await function';
+      await fs.writeFile(_path, content);
+      console.log("written successfully")
+    } catch (err) {
+      console.log(err);
+    }
+  }
+example();
 ```
