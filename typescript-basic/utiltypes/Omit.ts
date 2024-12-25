@@ -12,3 +12,11 @@ interface Todo {
     completed: false,
     createdAt: 1615544252770,
   };
+
+type TodoInfo = Omit<Todo, "completed" | "createdAt">;
+ 
+const todoInfo: TodoInfo = {
+  title: "Pick up kids",
+  description: "Kindergarten closes at 5pm",
+};
+ 
