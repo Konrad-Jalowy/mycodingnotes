@@ -55,3 +55,15 @@ app = Flask(__name__)
 def index(name):
     return f"<h1>Hello {name}</h1>"
 ```
+
+## flask jsonify
+```python
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def json():
+    return jsonify({"key": "val", "key2": [1,2,3]})
+```
