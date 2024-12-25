@@ -19,6 +19,9 @@ Some React notes will be there.
 ## Python directory
 Some python notes there.
 
+## Python flask directory
+Python and flask framework notes
+
 ## PHP Simple directory
 Simple PHP stuff there
 
