@@ -322,3 +322,16 @@ flag = validators.url("www.google.com")
 print(flag) #ValidationError(func=url, args={'value': 'www.google.com'})
 print(validators.email('someone@example.com')) #True
 ```
+
+## simple argparse use
+```python
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-u", "--url", action="store")
+
+args = parser.parse_args()
+
+print(args.url)
+```
