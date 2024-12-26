@@ -491,3 +491,13 @@ fs.unlink('./deleteme.txt', (err) => {
   console.log('file deleted');
 }); 
 ```
+
+### delete empty dir
+```js
+const fs = require('node:fs');
+
+fs.rmdir('./emptydir', (err) => {
+  if (err) throw err;
+  console.log('directory removed');
+}); 
+```
