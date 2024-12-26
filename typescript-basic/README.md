@@ -91,3 +91,13 @@ function stringOrNumber(arg: string|number){
 console.log(stringOrNumber("hello world")) //HELLO WORLD
 console.log(stringOrNumber(10)) //52
 ```
+
+## rest params in ts
+```ts
+function introduce(salutation: string, ...names: string[]): string {
+    return `${salutation} ${names.join(", ")}.`;
+  }
+
+console.log(introduce("Hello", "John", "Jane", "Jim"));
+//Hello John, Jane, Jim.
+```
