@@ -300,6 +300,7 @@ print("Arguments list: ", sys.argv)
 ```
 ## download website and save
 ```python
+#pip install requests
 import requests
 
 url = "https://www.google.com"
@@ -313,6 +314,7 @@ if response.ok:
 
 ## validators in python
 ```python
+# pip install validators
 import validators
 
 print(validators.url("http://www.google.com")) #True
