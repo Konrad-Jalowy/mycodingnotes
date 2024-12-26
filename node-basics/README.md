@@ -512,3 +512,32 @@ fs.rmdir('./somedir', {recursive: true}, (err) => {
   console.log('directory removed');
 }); 
 ```
+
+### fs rm
+New way. If path is directory (even empty one) you must specify recursive to true
+```js
+let fs = require('fs'); 
+
+  
+fs.rm('./somefile.txt',  (err) => { 
+    if(err){ 
+        console.error(err.message); 
+        return; 
+    } 
+    console.log("File deleted successfully"); 
+}) 
+fs.rm('./emptydir', {recursive: true},  (err) => { 
+    if(err){ 
+        console.error(err.message); 
+        return; 
+    } 
+    console.log("Empty dir deleted successfully"); 
+});
+fs.rm('./fulldir',{recursive: true},  (err) => { 
+    if(err){ 
+        console.error(err.message); 
+        return; 
+    } 
+    console.log("Full dir deleted successfully"); 
+});
+```
