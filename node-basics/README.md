@@ -501,3 +501,14 @@ fs.rmdir('./emptydir', (err) => {
   console.log('directory removed');
 }); 
 ```
+
+### delete non-empty dir
+still they say we should use fs.rm, dont use fs.rmdir anymore
+```js
+const fs = require('node:fs');
+
+fs.rmdir('./somedir', {recursive: true}, (err) => {
+  if (err) throw err;
+  console.log('directory removed');
+}); 
+```
