@@ -310,3 +310,13 @@ if response.ok:
     fh.write(response.content)
     fh.close()
 ```
+
+## validators in python
+```python
+import validators
+
+print(validators.url("http://www.google.com")) #True
+flag = validators.url("www.google.com")
+print(flag) #ValidationError(func=url, args={'value': 'www.google.com'})
+print(validators.email('someone@example.com')) #True
+```
