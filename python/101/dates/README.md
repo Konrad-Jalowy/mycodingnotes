@@ -26,3 +26,14 @@ print(f"Day: {today.day}")
 
 print(f"Time: {today.hour}:{today.minute}:{today.second}")
 ```
+
+## date and time formats
+similar to other languages
+```python
+from datetime import datetime
+
+today = datetime.today()
+
+print(today.strftime('%Y-%m-%d')) #2024-12-27
+print(today.strftime('%H:%M:%S')) #11:31:03
+```
