@@ -371,3 +371,10 @@ print(is_url(url))
 with open("context.txt", mode="a") as file:
     file.write("Hello, World!\n")
 ```
+### read lines line by line
+walrus used
+```python
+with open("context.txt", mode="r") as file:
+    while line := file.readline():
+        print(line.rstrip())
+```
