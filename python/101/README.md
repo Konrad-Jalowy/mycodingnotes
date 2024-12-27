@@ -364,3 +364,10 @@ url = add_protocol(url)
 print(url)
 print(is_url(url))
 ```
+
+## context manager
+### append
+```python
+with open("context.txt", mode="a") as file:
+    file.write("Hello, World!\n")
+```
