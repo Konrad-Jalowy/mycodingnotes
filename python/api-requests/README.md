@@ -52,3 +52,17 @@ if __name__ == "__main__":
      else:
         print("response not ok", response.status_code)
 ```
+
+## Using request and bs4
+```python
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://assets.digitalocean.com/articles/eng_python/beautiful-soup/mockturtle.html'
+
+page = requests.get(url)
+
+if page.ok:
+    soup = BeautifulSoup(page.text, 'html.parser')
+    print(soup.prettify())
+```
