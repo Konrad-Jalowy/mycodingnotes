@@ -378,3 +378,10 @@ with open("context.txt", mode="r") as file:
     while line := file.readline():
         print(line.rstrip())
 ```
+
+### read from one file write to the other
+```python
+with open("context.txt") as in_file, open("output.txt", "a") as out_file:
+    while line := in_file.readline():
+        out_file.write(line)
+```
