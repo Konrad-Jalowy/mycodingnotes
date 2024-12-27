@@ -52,3 +52,17 @@ print(week_ago.strftime('%Y-%m-%d')) #2024-12-20
 print(today.strftime('%Y-%m-%d')) #2024-12-27
 print(week_later.strftime('%Y-%m-%d')) #2025-01-03
 ```
+
+## strftime formats
+```python
+import datetime as dt
+
+day = dt.date(2024, 12, 24)
+
+print(day.strftime("%Y")) #2024
+print(day.strftime("%m")) #12
+print(day.strftime("%B")) #December
+print(day.strftime("%d")) #24
+print(day.strftime("%A")) #Tuesday
+print(day.strftime("%H:%M:%S")) #00:00:00
+```
