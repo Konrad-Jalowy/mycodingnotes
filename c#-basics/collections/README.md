@@ -2,7 +2,7 @@
 Notes on csharp collections.
 
 ## List
-### Creating a list
+### Creating a list (and count property)
 ```cs
 using System;
 using System.Collections.Generic;
