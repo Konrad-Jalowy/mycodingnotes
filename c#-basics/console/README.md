@@ -85,3 +85,22 @@ namespace ConsoleApp11
     }
 }
 ```
+
+### Console.Read
+You can enter more than one key, but they will get ignored
+```cs
+using System;
+namespace ConsoleApp11
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hit any key");
+            int key = Console.Read();
+            Console.WriteLine(key);
+            Console.WriteLine(Convert.ToChar(key));
+        }
+    }
+}
+```
