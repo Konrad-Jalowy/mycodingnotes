@@ -68,3 +68,15 @@ function Counter3(){
 
 export {Counter3}
 ```
+## Props
+Example of component using props
+```js
+function IdxRFC({idx, maxDate}){
+  
+    return (
+        <p className="idx-rfc">Data {idx + 1} / {maxDate} </p>
+    );
+};
+
+export default IdxRFC;
+```
