@@ -109,3 +109,10 @@ function isConcatenable(obj){
     return Object.getPrototypeOf(obj).hasOwnProperty("concat");
 }
 ```
+
+## isArrowFunc
+```js
+function isArrowFunc(func){
+    return func.toString().includes("=>");
+}
+```
