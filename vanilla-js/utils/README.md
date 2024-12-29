@@ -31,3 +31,10 @@ function isNewTabAnchor(el){
     return el.matches('a[target="_blank"]') || el.matches('a[target="blank"]');
 }
 ```
+
+## isScrollableAnchor
+```js
+function isScrollableAnchor(el){
+    return el.matches('a[href^="#"]') && (document.querySelector(el.getAttribute("href")) !== null);
+}
+```
