@@ -36,3 +36,6 @@ works both ways 2 frames stacked raised and hidden
 
 ## temperature converter OOP 2 
 helper class addded, much duplication reduced, but some coupling introduced. will think how to improve it and present in next iteration.
+
+## read file line by line
+super simple mini-app that does that
