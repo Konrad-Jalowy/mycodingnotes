@@ -61,3 +61,10 @@ function isValidTagname(tagname) {
     return document.createElement(tagname).toString() != "[object HTMLUnknownElement]";
   }
 ```
+
+## isImageMapLink
+```js
+function isImageMapLink(el){
+    return el.matches("map > area[href]");
+}
+```
