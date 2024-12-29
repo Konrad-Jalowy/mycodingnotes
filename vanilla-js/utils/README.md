@@ -78,3 +78,10 @@ function isHTMLTag(value) {
     );
 }
 ```
+
+## isGenerator
+```js
+function isGenerator(fn) {
+    return fn.constructor.name === 'GeneratorFunction';
+}
+```
