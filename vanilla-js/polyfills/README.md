@@ -105,3 +105,18 @@ String.prototype.myTrim = function(trimmedChar = " "){
     return this.substring(left, right);
 }
 ```
+
+## My call
+```js
+Function.prototype.myCall = function(obj, ...args){
+    let fn=this;
+    if(typeof fn !== "function"){
+        throw new Error('Invalid function provided for binding.');
+      }
+    let myFn = Symbol('myFn');
+    obj[myFn] = this;
+    let result = obj[myFn](...args);
+    return result;
+    
+}
+```
