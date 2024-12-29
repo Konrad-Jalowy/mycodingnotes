@@ -24,3 +24,10 @@ function isAnchor(el){
     return el instanceof HTMLAnchorElement;
 }
 ```
+
+## isNewTabAnchor
+```js
+function isNewTabAnchor(el){
+    return el.matches('a[target="_blank"]') || el.matches('a[target="blank"]');
+}
+```
