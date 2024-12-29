@@ -53,3 +53,11 @@ function isTextNodeParent(el){
     return childNodes.some((el) => el.nodeType == Node.TEXT_NODE);
 }
 ```
+
+## isValidTagname
+theres more than one way to do that
+```js
+function isValidTagname(tagname) {
+    return document.createElement(tagname).toString() != "[object HTMLUnknownElement]";
+  }
+```
