@@ -44,3 +44,18 @@ Array.prototype.myMap = function(callbackFn, thisArg) {
     return arr;
   }
 ```
+
+## My Reduce
+```js
+Array.prototype.myReduce= function(callbackFn, initialValue) {
+    var accumulator = initialValue;
+  for (var i = 0; i < this.length; i++) {
+      if (accumulator !== undefined) {
+        accumulator = callbackFn.call(undefined, accumulator, this[i],   i, this);
+      } else {
+        accumulator = this[i];
+      }
+    }
+    return accumulator;
+  }
+```
