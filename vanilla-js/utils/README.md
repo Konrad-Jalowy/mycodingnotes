@@ -92,3 +92,13 @@ function isEmptyElement(el){
     return Array.from(el.childNodes).length === 0;
 }
 ```
+
+## isDOMNode
+```js
+function isDOMNode(value) {
+    return (
+        typeof value === "object" &&
+        value instanceof Element
+    );
+}
+```
