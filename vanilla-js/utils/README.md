@@ -45,3 +45,11 @@ function isTelAnchor(el){
     return el.matches('a[href^="tel:"]');
 }
 ```
+
+## isTextNodeParent
+```js
+function isTextNodeParent(el){
+    let childNodes = Array.from(el.childNodes);
+    return childNodes.some((el) => el.nodeType == Node.TEXT_NODE);
+}
+```
