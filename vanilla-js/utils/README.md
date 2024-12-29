@@ -102,3 +102,10 @@ function isDOMNode(value) {
     );
 }
 ```
+
+## isConcatenable
+```js
+function isConcatenable(obj){
+    return Object.getPrototypeOf(obj).hasOwnProperty("concat");
+}
+```
