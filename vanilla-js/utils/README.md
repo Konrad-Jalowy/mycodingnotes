@@ -17,3 +17,10 @@ function isMatch(node, selector) {
     }
   }
 ```
+
+## isAnchor
+```js
+function isAnchor(el){
+    return el instanceof HTMLAnchorElement;
+}
+```
