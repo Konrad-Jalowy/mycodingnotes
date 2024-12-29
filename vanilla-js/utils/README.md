@@ -38,3 +38,10 @@ function isScrollableAnchor(el){
     return el.matches('a[href^="#"]') && (document.querySelector(el.getAttribute("href")) !== null);
 }
 ```
+
+## isTelAnchor
+```js
+function isTelAnchor(el){
+    return el.matches('a[href^="tel:"]');
+}
+```
