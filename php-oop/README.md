@@ -11,3 +11,4 @@ Codes that are OOP and are not connected to php-mvc or php-simple directories
 - **Response** - old class from early projects, represents API Response
 - **User** - another class from some early projects
 - **AbstractDB(directory)** - some old but nice example of abstract and concrete classes in PHP, decided to save it
+- **dbquery(directory)** some long forgotten project i found this code now looks ok, left for reference
