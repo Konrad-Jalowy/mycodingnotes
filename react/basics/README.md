@@ -419,3 +419,31 @@ function ClickableSummary({answers}){
 
 export {ClickableSummary};
 ```
+
+## Correct answer
+from quiz app project
+```js
+import LIST from "../../../utils/list2";
+
+function CorrectAnswer({idx}){
+    let answersRaw = LIST[idx].answers;
+    let answers = [...Object.entries(answersRaw)];
+    let correctOne = LIST[idx].correct;
+    return (
+        <>
+        <div className="summaryHeading">
+        <h3><span className="index-correct">Question {idx+1}: </span> <em>{LIST[idx].question}</em></h3>
+        <h5 className="good">❎Good answer!</h5>
+        </div>
+        
+        <ul className="answersListSummary">
+            {answers.map(([key, val]) => {
+                return <li key={key} className={key === correctOne ? "correct-one chosen-one" : ""}>{val}</li>
+            })}
+        </ul>
+        </>
+    );
+};
+
+export {CorrectAnswer};
+```
