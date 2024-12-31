@@ -347,3 +347,45 @@ namespace ConsoleApp13
     }
 }
 ```
+
+## XElement more basics
+```cs
+namespace ConsoleApp13
+{
+    class Program
+    {
+        
+        static void Main(string[] args)
+        {
+            string studentsXML =
+                        @"<Students>
+                            <Student>
+                                <Name>John Doe</Name>
+                                <Age>21</Age>                              
+                            </Student>
+                            <Student>
+                                <Name>Jane Doe</Name>
+                                <Age>17</Age>                               
+                            </Student>
+                            <Student>
+                                <Name>Jim Doe</Name>
+                                <Age>19</Age>
+                            </Student>
+                            <Student>
+                                <Name>Janet Doe</Name>
+                                <Age>25</Age>
+                            </Student>
+                        </Students>";
+
+            XDocument studentsXdoc = new XDocument();
+            studentsXdoc = XDocument.Parse(studentsXML);
+
+            XElement studentsRoot = studentsXdoc.Root;
+            
+            Console.WriteLine(studentsRoot.Name); //Students
+            Console.WriteLine(studentsRoot.Value); //John Doe21Jane Doe17Jim Doe19Janet Doe25 (text)
+
+        }
+    }
+}
+```
