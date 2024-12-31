@@ -2,6 +2,7 @@
 Notes on OOP in Vanilla JS
 
 ## Classes
+- **EachLetterEffect** - very old class i wrote to have each letter effect
 - **RippleEffect** - from some old project done while learning JS, shows how JS OOP is used in vanilla js
 - **AnchorConfirm** - example of super-simple web component
 - **AnchorScroll** - another simple web component
