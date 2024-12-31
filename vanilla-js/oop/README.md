@@ -1,6 +1,9 @@
 # OOP Vanilla JS
 Notes on OOP in Vanilla JS
 
+## Classes
+- **RippleEffect** - from some old project done while learning JS, shows how JS OOP is used in vanilla js
+
 ## Constructor function
 ```js
 class Person {
