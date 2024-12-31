@@ -1,6 +1,32 @@
 # Vanilla JS utils
 Vanilla js utils
 
+## getTextNodes
+Recursive helper function to get all text nodes
+```js
+function getTextNodes(el){
+
+    var textNodes = []
+    
+    function handler(node){
+        if(node === null)
+            return;
+        
+        if(node.nodeType === Node.TEXT_NODE)
+            textNodes.push(node);
+
+        if(node.nodeType !== Node.TEXT_NODE){
+            node.childNodes.forEach((childNode) => {
+                handler(childNode);
+            });
+        }
+    }
+
+    handler(el);
+
+    return textNodes;
+}
+```
 ## isMatch func
 Pass node and selector, get back if its match
 ```js
