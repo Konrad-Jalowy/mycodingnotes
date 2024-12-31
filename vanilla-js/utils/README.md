@@ -27,6 +27,12 @@ function getTextNodes(el){
     return textNodes;
 }
 ```
+
+## defer
+timeout could be 0, it does not matter
+```js
+const defer = (fn, ...args) => setTimeout(fn, 1, ...args);
+```
 ## isMatch func
 Pass node and selector, get back if its match
 ```js
