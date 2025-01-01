@@ -218,3 +218,17 @@ namespace ConsoleApp15
     }
 }
 ```
+
+## Value types only
+It also excludes strings
+```cs
+class GenericObj<T> where T: struct
+    {
+        public T Data { get; set; }
+
+        public GenericObj(T data)
+        {
+            Data = data;
+        }
+    }
+```
