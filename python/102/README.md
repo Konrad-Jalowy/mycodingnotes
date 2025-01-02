@@ -231,3 +231,19 @@ t2.join()
 print("All threads ended")
 print(data) #['John Doe', 'Jane Doe', 'Jim Doe', 'Janet Doe']
 ```
+
+## Decorator example 1
+```python
+def starDecorator(func):
+    def wrap_func():
+        print("************")
+        func()
+        print("************")
+    return wrap_func
+
+@starDecorator
+def say_hello():
+    print("hello")
+
+say_hello()
+```
