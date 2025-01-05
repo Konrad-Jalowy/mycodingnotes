@@ -198,6 +198,31 @@ class Component {
 }
 ```
 
+## Extending component
+Just need to make sure removing listener works as expected and it can be used in this pattern to create some vanilla js oop projects...
+```js
+class Tooltip extends Component {
+    constructor(closeNotifierFunction) {
+      super();
+      this.closeNotifier = closeNotifierFunction;
+      this.create();
+    }
+  
+    closeTooltip = () => {
+      this.detach();
+      this.closeNotifier();
+    };
+  
+    create() {
+      const tooltipElement = document.createElement('div');
+      tooltipElement.className = 'classlist';
+      tooltipElement.textContent = 'txt content';
+      tooltipElement.addEventListener('click', this.closeTooltip);
+      this.element = tooltipElement;
+    }
+  }
+```
+
 ## DOMHelper class
 ```js
 class DOMHelper {
