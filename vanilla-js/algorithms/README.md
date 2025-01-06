@@ -248,3 +248,12 @@ Again, it works like this:
 ### Time complexity
 - Time complexity O n^2 (nested loops)
 - Why better than bubble sort: less swaps. Say you bubble sort arr that has 9 at the start, then some numbers (less that 9). To push 9 to the end you swap, swap, swap... In selection sort you put the lowest at the first... you swap once. One swap per one run of the outer loop... thats the only difference...
+
+## Insertion sort
+### Explanation
+- Outer loop (i): from second element to right (arr.length)
+- Outer loop sets current val to arr[i]
+- Inner loop (j) from i - 1 to left (0) as long as arr[j] > current val
+- Inner loop sets arr[j+1] to arr[j]
+- Outer loops sets arr[j+1] to current val
+- Overly complex for something that is O n^2...
