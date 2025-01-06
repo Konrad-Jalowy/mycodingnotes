@@ -279,3 +279,6 @@ function insertionSort(arr){
 - if j hit 0 or arr[j] is not > current val anymore we found out perfect place to insert curr val
 - arr[j + 1] becomes [j]
 - arr[j+1] (outer loop) becomes current
+### Why and when to use
+Idk that too. We use nested loops, O n^2 algorithms, when we want clarity at the expense of performance. Learning algoritms, that is neither performant nor simple seems like a waste of time to me. You use nested loops when 1) there is no alternative 2)idc about performance, i want clarity, i want the easy way. Here there is alternative and using nested loops doesnt make this algoritm easy, tbh more advanced and performant algorithms seems more clear and easy to grasp than this spaghetti code... dont recommend!!!
+
