@@ -270,7 +270,7 @@ const insertionSort = (array) => {
 
 console.log(insertionSort([2,1,9,76,4]))
 ```
-### on our prev example
+### on our prev example (best explanation)
 - take 1
 - make 1 temp
 - 2 > 1, its 2,2 now and 1 temp
@@ -289,7 +289,7 @@ console.log(insertionSort([2,1,9,76,4]))
 - 2 not > 4 enough
 - so we have 1,2,9,9,76 and index of 2 + 1 is the place we put temp (value 4)
 - it kind of makes sense...
-### another explanation (best one)
+### another explanation (second best one)
 - Ok array 5,9,3, bla bla bla
 - take 9
 - 5 not > 9, take 3
