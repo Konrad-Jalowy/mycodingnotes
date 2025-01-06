@@ -209,3 +209,10 @@ function bubbleSort(arr) {
 ### Time complexity
 Unoptimized - On^2 (nested loop)
 Optimized with nearly sorted array - more like linear
+
+## Selection sort
+### Explanation
+Go from left to right and store smallest on the left. </br>
+- Outer loop (i): from 0 to arr.length, set lowest variable to i
+- Inner loop (j): from i+1 to arr.length, check if arr[lowest] > arr[j], if so, set lowest to j
+- Once inner loop done, check if i !== lowest, if so, swap i with the lowest
