@@ -245,3 +245,6 @@ Again, it works like this:
 - if i is not lowest we swap i and j
 - purpose of inner loop is to check if i is lowest (in the right place) or not and find the lowest (its index)
 - purpose of main loop is to go from left to right and swap if its needed, put the lowest on the left
+### Time complexity
+- Time complexity O n^2 (nested loops)
+- Why better than bubble sort: less swaps. Say you bubble sort arr that has 9 at the start, then some numbers (less that 9). To push 9 to the end you swap, swap, swap... In selection sort you put the lowest at the first... you swap once. One swap per one run of the outer loop... thats the only difference...
