@@ -270,6 +270,25 @@ const insertionSort = (array) => {
 
 console.log(insertionSort([2,1,9,76,4]))
 ```
+### on our prev example
+- take 1
+- make 1 temp
+- 2 > 1, its 2,2 now and 1 temp
+- lastidx -1, end of loop
+- make lastidx + 1 temp (make a[0] 1)
+- its 1,2 (9,76,4) now
+- take 9 make it temp
+- 2 not > 9, enough!
+- we have 1,2,9,76,4
+- take 76 make it temp
+- 9 not > 76, enough
+- we have 1,2,9,76,4
+- take 4 make it temp
+- 76 > 4, make it 1,2,9,76,76
+- 9 > 4, make 1,2,9,9,76
+- 2 not > 4 enough
+- so we have 1,2,9,9,76 and index of 2 + 1 is the place we put temp (value 4)
+- it kind of makes sense...
 ### another explanation (best one)
 - Ok array 5,9,3, bla bla bla
 - take 9
