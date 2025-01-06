@@ -270,6 +270,14 @@ const insertionSort = (array) => {
 
 console.log(insertionSort([2,1,9,76,4]))
 ```
+### Better explanation
+- We split array to sorted and unsorted part
+- We start our main loop at index 1 (second element) and go in  right direction
+- inner loop goes from i - 1 to left direction
+- we basically check if our number before is bigger than our current number
+- we replace our current number with the number before
+- we go and keep replacing numbers that are bigger with current one
+- somehow it works that you put the last one (temp) and set lastidx + 1 at the end of outer loop to temp
 ### Explanation
 - We start loop from second element
 - And we go in right direction
