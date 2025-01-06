@@ -270,7 +270,7 @@ const insertionSort = (array) => {
 
 console.log(insertionSort([2,1,9,76,4]))
 ```
-### another explanation
+### another explanation (best one)
 - Ok array 5,9,3, bla bla bla
 - take 9
 - 5 not > 9, take 3
