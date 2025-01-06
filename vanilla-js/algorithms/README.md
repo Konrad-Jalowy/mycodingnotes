@@ -164,6 +164,11 @@ function decimalToBinRec(num){
 ```
 
 ## Bubble sort
+### Explanation
+- Outer loop (i): i from last idx of array to 1 
+- Inner loop (j): j from 0 idx of array to i - 1
+- if arr[j] > arr[j+1] then swap
+
 ### Unoptimized
 ```js
 function bubbleSort(arr) {
