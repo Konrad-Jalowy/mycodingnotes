@@ -201,3 +201,6 @@ function bubbleSort(arr) {
   return arr;
 }
 ```
+### Time complexity
+Unoptimized - On^2 (nested loop)
+Optimized with nearly sorted array - more like linear
