@@ -271,3 +271,11 @@ function insertionSort(arr){
 - Inner loop sets arr[j+1] to arr[j]
 - Outer loops sets arr[j+1] to current val
 - Overly complex for something that is O n^2...
+### Pseudocode logic
+- This algoritms is about finding correct place to put value we took
+- First loop goes from second element to right direction no other conditions
+- Second loop goes from 1 element left to our element to total left
+- Second loop goes on only as long as elements left to our element are bigger than it
+- if j hit 0 or arr[j] is not > current val anymore we found out perfect place to insert curr val
+- arr[j + 1] becomes [j]
+- arr[j+1] (outer loop) becomes current
