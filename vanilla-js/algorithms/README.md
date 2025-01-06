@@ -216,3 +216,13 @@ Go from left to right and store smallest on the left. </br>
 - Outer loop (i): from 0 to arr.length, set lowest variable to i
 - Inner loop (j): from i+1 to arr.length, check if arr[lowest] > arr[j], if so, set lowest to j
 - Once inner loop done, check if i !== lowest, if so, swap i with the lowest
+Again, it works like this:
+- Main loop (i) goes from left to right
+- Main loop creates variable lowest set to i
+- Main loop creates nested loop j
+- Nested loop (j) goes from i + 1 to right
+- If arr[i] > arr[j] we have update on lowest 
+- once nested is finished we check if i is lowest
+- if i is not lowest we swap i and j
+- purpose of inner loop is to check if i is lowest (in the right place) or not and find the lowest (its index)
+- purpose of main loop is to go from left to right and swap if its needed, put the lowest on the left
