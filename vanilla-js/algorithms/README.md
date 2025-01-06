@@ -289,6 +289,7 @@ console.log(insertionSort([2,1,9,76,4]))
 - 9 > 4, make 1,2,9,9,76
 - 2 not > 4 enough
 - so we have 1,2,9,9,76 and index of 2 + 1 is the place we put temp (value 4)
+- so we got 1,2,4,9,76
 - it kind of makes sense...
 ### another explanation (second best one)
 - Ok array 5,9,3, bla bla bla
