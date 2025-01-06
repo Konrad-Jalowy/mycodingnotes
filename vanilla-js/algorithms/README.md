@@ -250,6 +250,20 @@ Again, it works like this:
 - Why better than bubble sort: less swaps. Say you bubble sort arr that has 9 at the start, then some numbers (less that 9). To push 9 to the end you swap, swap, swap... In selection sort you put the lowest at the first... you swap once. One swap per one run of the outer loop... thats the only difference...
 
 ## Insertion sort
+### Code
+```js
+function insertionSort(arr){
+	var currentVal;
+    for(var i = 1; i < arr.length; i++){
+        currentVal = arr[i];
+        for(var j = i - 1; j >= 0 && arr[j] > currentVal; j--) {
+            arr[j+1] = arr[j]
+        }
+        arr[j+1] = currentVal;
+    }
+    return arr;
+}
+```
 ### Explanation
 - Outer loop (i): from second element to right (arr.length)
 - Outer loop sets current val to arr[i]
