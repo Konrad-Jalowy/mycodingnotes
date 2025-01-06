@@ -271,6 +271,7 @@ const insertionSort = (array) => {
 console.log(insertionSort([2,1,9,76,4]))
 ```
 ### on our prev example (best explanation)
+- array 2,1,9,76,4
 - take 1
 - make 1 temp
 - 2 > 1, its 2,2 now and 1 temp
