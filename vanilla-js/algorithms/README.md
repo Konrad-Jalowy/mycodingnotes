@@ -301,7 +301,7 @@ console.log(insertionSort([2,1,9,76,4]))
 - inner loop finished, last index = -1
 - lastindex + 1 = temp (somehow put 3 in idx 0 which gives 3,5,9, somehow it works)
 
-### Better explanation
+### Better explanation (old)
 - We split array to sorted and unsorted part
 - We start our main loop at index 1 (second element) and go in  right direction
 - inner loop goes from i - 1 to left direction
@@ -309,7 +309,7 @@ console.log(insertionSort([2,1,9,76,4]))
 - we replace our current number with the number before
 - we go and keep replacing numbers that are bigger with current one
 - somehow it works that you put the last one (temp) and set lastidx + 1 at the end of outer loop to temp
-### Explanation
+### Explanation (old)
 - We start loop from second element
 - And we go in right direction
 - Then nested while loop goes opposite direction (from 1 left to current outer in left direction)
