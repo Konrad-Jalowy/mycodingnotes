@@ -253,6 +253,7 @@ Again, it works like this:
 Edit: found better code old code in insertionsortspaghetti.js
 Edit 2: found nice example in java
 ### Nice example in java
+I like this approach...
 ```java
 public class InsertionSort {
 
