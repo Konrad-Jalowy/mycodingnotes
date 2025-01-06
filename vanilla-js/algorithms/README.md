@@ -250,35 +250,24 @@ Again, it works like this:
 - Why better than bubble sort: less swaps. Say you bubble sort arr that has 9 at the start, then some numbers (less that 9). To push 9 to the end you swap, swap, swap... In selection sort you put the lowest at the first... you swap once. One swap per one run of the outer loop... thats the only difference...
 
 ## Insertion sort
+Edit: found better code
 ### Code
 ```js
-function insertionSort(arr){
-	var currentVal;
-    for(var i = 1; i < arr.length; i++){
-        currentVal = arr[i];
-        for(var j = i - 1; j >= 0 && arr[j] > currentVal; j--) {
-            arr[j+1] = arr[j]
-        }
-        arr[j+1] = currentVal;
+const insertionSort = (array) => {
+  for (let i = 1; i < array.length; i++) {
+    let currentElement = array[i];
+    let lastIndex = i - 1;
+
+    while (lastIndex >= 0 && array[lastIndex] > currentElement) {
+      array[lastIndex + 1] = array[lastIndex];
+      lastIndex--;
     }
-    return arr;
-}
+    array[lastIndex + 1] = currentElement;
+  }
+
+  return array;
+};
+
+console.log(insertionSort([2,1,9,76,4]))
 ```
-### Explanation
-- Outer loop (i): from second element to right (arr.length)
-- Outer loop sets current val to arr[i]
-- Inner loop (j) from i - 1 to left (0) as long as arr[j] > current val
-- Inner loop sets arr[j+1] to arr[j]
-- Outer loops sets arr[j+1] to current val
-- Overly complex for something that is O n^2...
-### Pseudocode logic
-- This algoritms is about finding correct place to put value we took
-- First loop goes from second element to right direction no other conditions
-- Second loop goes from 1 element left to our element to total left
-- Second loop goes on only as long as elements left to our element are bigger than it
-- if j hit 0 or arr[j] is not > current val anymore we found out perfect place to insert curr val
-- arr[j + 1] becomes [j]
-- arr[j+1] (outer loop) becomes current
-### Why and when to use
-Idk that too. We use nested loops, O n^2 algorithms, when we want clarity at the expense of performance. Learning algoritms, that is neither performant nor simple seems like a waste of time to me. You use nested loops when 1) there is no alternative 2)idc about performance, i want clarity, i want the easy way. Here there is alternative and using nested loops doesnt make this algoritm easy, tbh more advanced and performant algorithms seems more clear and easy to grasp than this spaghetti code... dont recommend!!!
 
