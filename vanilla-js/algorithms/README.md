@@ -200,8 +200,8 @@ function bubbleSort(arr) {
         swap(arr, j, j + 1);
         noswaps = false;
       }
-      if(noswaps) break;
     }
+    if(noswaps) break;
   }
   return arr;
 }
