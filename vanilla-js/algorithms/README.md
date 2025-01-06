@@ -270,4 +270,8 @@ const insertionSort = (array) => {
 
 console.log(insertionSort([2,1,9,76,4]))
 ```
+### Explanation
+- We start loop from second element
+- And we go in right direction
+- Then nested while loop goes opposite direction (from 1 left to current outer in left direction)
 
