@@ -254,6 +254,13 @@ Edit: found better code old code in insertionsortspaghetti.js
 Edit 2: found nice example in java
 ### Nice example in java
 I like this approach...
+- We split array to sorted/unsorted part
+- We start with second element, everything to right unsorted, left should be sorted
+- Now look at first el, is it greater than temp? no? then no loop, arr[j] = temp (no change)
+- if there would be first > second then make second equal first, decrement j
+- j is 0, we exit
+- but we still need to make arr[j] = temp, so arr[0] = 1 
+- so we have 1,2, [unsorted part]... and we started with 2,1, [unsorted part]
 ```java
 public class InsertionSort {
 
