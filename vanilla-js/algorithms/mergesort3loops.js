@@ -2,6 +2,7 @@
 // its for odd elements that are left either in left or right 
 // and adding them to result will result in sorted output
 // heres example i found
+//btw 3 loops not nested is like one loop... its O(n). O(3*n) which is nothing and becomes O(n)
 function merge(arr1, arr2){
     let results = [];
     let i = 0;
