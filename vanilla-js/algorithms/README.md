@@ -429,6 +429,6 @@ Ok mergesort is:
 - mergesort is responsible for dividing arrays into sub-problems and calling merge
 - base case for merge sort is sigle element array (which is sorted array, it makes sense)
 - below basecase you have recursive case - split everything into left and right part which you call merge sort and pass to merge func
-- megre func does sorting of 2 halves (of whatever size) and merging it into one in sorted order
+- merge func does sorting of 2 halves (of whatever size) and merging it into one in sorted order
 - tbh this algorithm is SUPER SIMPLE. and performat. insertion sort is harder bc it seems unclear what why and how.
 - the only hard part is retur of merge func. so it works like this - either you use 3 while loop (not nested) or you check the odd element you might have left or you use concats like in that example (well after loop is finished you might have one odd element left, that is either in left or in right and putting that element on the end of result is the correct place for it, all other elements are smaller than this)
