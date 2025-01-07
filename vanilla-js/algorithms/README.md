@@ -408,3 +408,14 @@ function merge(left, right) {
 const answer = mergeSort(numbers);
 console.log(answer);
 ```
+### Some JS refresher
+- concat - concats array to an array. Btw you can concat multiple arrays in one go
+- slice(start) - you get shallow copy of array starting with the index given till the end
+- Math.floor - round down number
+- thats how we split an array:  
+```js
+const length = array.length;
+const middle = Math.floor(length / 2);
+const left = array.slice(0, middle);
+const right = array.slice(middle);
+```
