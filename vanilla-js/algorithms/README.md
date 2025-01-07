@@ -465,3 +465,42 @@ print(merge_sort([2,1,9,76,4]))
 print(merge_sort([99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0]))
 ```
 While loops has AND. You can just as well add two more while loops that check for odd elements. anyways it looks clear to me.
+### Example with 3 loops in a row
+I even found example of what i was thinking. Here
+```js
+function merge(arr1, arr2){
+    let results = [];
+    let i = 0;
+    let j = 0;
+    while(i < arr1.length && j < arr2.length){
+        if(arr2[j] > arr1[i]){
+            results.push(arr1[i]);
+            i++;
+        } else {
+            results.push(arr2[j])
+            j++;
+        }
+    }
+    while(i < arr1.length) {
+        results.push(arr1[i])
+        i++;
+    }
+    while(j < arr2.length) {
+        results.push(arr2[j])
+        j++;
+    }
+    return results;
+}
+
+
+function mergeSort(arr){
+    if(arr.length <= 1) return arr;
+    let mid = Math.floor(arr.length/2);
+    let left = mergeSort(arr.slice(0,mid));
+    let right = mergeSort(arr.slice(mid));
+    return merge(left, right);
+}
+
+console.log(mergeSort([10,24,76,73]))
+```
+In JS i would do it like that, in Python i like the idea of concating left and right from the indexes they have after the loop is finished till the end. Both work.
