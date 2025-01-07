@@ -431,4 +431,37 @@ Ok mergesort is:
 - below basecase you have recursive case - split everything into left and right part which you call merge sort and pass to merge func
 - merge func does sorting of 2 halves (of whatever size) and merging it into one in sorted order
 - tbh this algorithm is SUPER SIMPLE. and performat. insertion sort is harder bc it seems unclear what why and how.
-- the only hard part is return of merge func. so it works like this - either you use 3 while loop (not nested) or you check the odd element you might have left or you use concats like in that example (well after loop is finished you might have one odd element left, that is either in left or in right and putting that element on the end of result is the correct place for it, all other elements are smaller than this)
+- the only hard part is return of merge func. so it works like this - either you use 3 while loop (not nested) or you check the odd element you might have left or you use concats like in that example (well after loop is finished you might have one odd element left, that is either in left or in right and putting that element on the end of result is the correct place for it, all other elements are smaller than this one element that is left)
+### Merge sort in Python
+Its one of these algorithms that get more clear and not the opposite while translated to Python
+```python
+def merge_sort(arr):
+    if len(arr) == 1:
+        return arr
+
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+
+    return merge(merge_sort(left_half), merge_sort(right_half))
+
+
+def merge(left, right):
+    result = []
+    left_index = 0
+    right_index = 0
+    while left_index < len(left) and right_index < len(right):
+        if left[left_index] < right[right_index]:
+            result.append(left[left_index])
+            left_index += 1
+        else:
+            result.append(right[right_index])
+            right_index += 1
+    result += left[left_index:]
+    result += right[right_index:]
+    return result
+
+print(merge_sort([2,1,9,76,4]))
+print(merge_sort([99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0]))
+```
+While loops has AND. You can just as well add two more while loops that check for odd elements. anyways it looks clear to me.
