@@ -512,3 +512,6 @@ Im trying to figure it out how it works. Heres what i know:
 - partition breaks the rule of single responsibility btw... anyways it puts one element in the sorted place and returns index of that one sorted element
 - quickSort calls partition and gets the index of that one sorted element
 - then it calls quicksort on elements left to that element and right to that element
+- its good to have default values in quickSort function because basically it has start/left 0 and end/right as length -1 as default
+- in non-default cases (quick sort calling itself) we just call quicksort on elements left to idx of sorted element and right to idx of sorted element
+- somehow it works
