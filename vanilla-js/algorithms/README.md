@@ -515,3 +515,10 @@ Im trying to figure it out how it works. Heres what i know:
 - its good to have default values in quickSort function because basically it has start/left 0 and end/right as length -1 as default
 - in non-default cases (quick sort calling itself) we just call quicksort on elements left to idx of sorted element and right to idx of sorted element
 - somehow it works
+- its hard to wrap your head around it but helper func (partition/pivot whatever) must pick a pivot
+- pivot can be start od end start is easier tbh to understand
+- then you loop from start+1 till end
+- and you chceck if arr[pivot] is greater than arr[currentidx]
+- if it is you increment swapidx and swap arr[swapIdx] with arr[current]
+- once loop is done you swap arr[start] with arr[swapIdx] which is basically swap count
+- you return swapIdx that is index of sorted element to be used in main func to call quicksort on elements left to it and right to it
