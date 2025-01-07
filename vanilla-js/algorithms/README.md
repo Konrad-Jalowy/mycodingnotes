@@ -522,3 +522,5 @@ Im trying to figure it out how it works. Heres what i know:
 - if it is you increment swapidx and swap arr[swapIdx] with arr[current]
 - once loop is done you swap arr[start] with arr[swapIdx] which is basically swap count
 - you return swapIdx that is index of sorted element to be used in main func to call quicksort on elements left to it and right to it
+- main func goes as long as left < right. it starts with left 0 and right arr.length -1, but then it calls partition/pivot and calls quicksort twice (on element left to pivot ret value and right to it)
+- somehow it works... understanding fully this algorithm might take time...
