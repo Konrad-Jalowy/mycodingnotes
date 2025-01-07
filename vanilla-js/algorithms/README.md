@@ -509,4 +509,6 @@ In JS i would do it like that, in Python i like the idea of concating left and r
 Im trying to figure it out how it works. Heres what i know:
 - we do everything in place and also use recursion to divide problem to sub-problems like in merge sort
 - there are 2 funcs, quickSort and partition
-- quickSort breaks the rule of single responsibility btw... anyways it puts one element in the sorted place and returns index of that one sorted element
+- partition breaks the rule of single responsibility btw... anyways it puts one element in the sorted place and returns index of that one sorted element
+- quickSort calls partition and gets the index of that one sorted element
+- then it calls quicksort on elements left to that element and right to that element
