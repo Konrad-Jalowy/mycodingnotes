@@ -700,3 +700,5 @@ console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
 - its two pointers. array is the same, only pointers move 
 - left is 0, right is len-1 (initially)
 - middle is left+right / 2, floor division
+- each time we do that we check if arr[middle] is our target
+- say target is < arr[middle]. what does it mean?
