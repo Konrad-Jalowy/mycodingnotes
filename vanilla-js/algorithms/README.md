@@ -622,3 +622,10 @@ sorted_arr = quicksort(arr)
 print("Sorted Array in Ascending Order:")
 print(sorted_arr)
 ```
+### Python example explanation
+Ok so in our example 4,3,2,1:
+- pivot becomes 4
+- left are [3,2,1]
+- right are []
+- we call quicksort([3,2,1]) + [4] + quicksort([])
+- it works but be extra careful, its example from the internet... 
