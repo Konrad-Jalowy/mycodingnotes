@@ -705,3 +705,4 @@ console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
 - if target is < arr[middle] then our left is in correct place, but our right must be middle - 1
 - say target is > arr[middle]. what does it mean?
 - if target is > arr[middle] it meas our right is in correct place, but our left must be middle + 1
+- same logic applies to recursive version it is still two pointers on one, the same array, pointers move, you dont slice array into sub-arrays or something...
