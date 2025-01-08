@@ -587,3 +587,8 @@ Also start being < end is good condition for main func to exit. Heres java versi
     }
   }
 ```
+So its same story. First start is 0 and end is len - 1 (or at least should be), then cond start < end, partition called, some swaps made, index returned, quick sort on left and right of that pivot called. </br>
+So imagine we have array [a,b,c,d] (for simlicity of our example). First calling partition made some swaps and returned 3 as an index of that one element, that is put in correct place. </br>
+right now we have [unsortedX, unsortedY, unsortedZ, sortedElInCorrectPlace] and returned index ot that element. </br>
+So we call quicksort on range (left, pivot-1) which is from 0 to 2, and on range 4 till 3. In second case left not < right so nothing happens. and elements [x,y,z] (indexes from 0 to 2) are sorted by first quicksort call as those on the left to already sorted element with index 3 (4th element). </br>
+You can get used to it, but why it works, why can you be so sure it will work every time? Unlike merge sort the reasoning is harder to grasp.
