@@ -702,3 +702,4 @@ console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
 - middle is left+right / 2, floor division
 - each time we do that we check if arr[middle] is our target
 - say target is < arr[middle]. what does it mean?
+- if target is < arr[middle] then our left is in correct place, but our right must be middle - 1
