@@ -629,3 +629,4 @@ Ok so in our example 4,3,2,1:
 - right are []
 - we call quicksort([3,2,1]) + [4] + quicksort([])
 - it works but be extra careful, its example from the internet... 
+- edit: basicially it has all quicksort features besides being in-place. and being in-place is why quicksort is used instead of merge sort. 
