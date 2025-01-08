@@ -524,3 +524,39 @@ Im trying to figure it out how it works. Heres what i know:
 - you return swapIdx that is index of sorted element to be used in main func to call quicksort on elements left to it and right to it
 - main func goes as long as left < right. it starts with left 0 and right arr.length -1, but then it calls partition/pivot and calls quicksort twice (on element left to pivot ret value and right to it)
 - somehow it works... understanding fully this algorithm might take time...
+### code
+one of the versions
+```js
+function pivot(arr, start = 0, end = arr.length - 1) {
+    const swap = (arr, idx1, idx2) => {
+      [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
+    };
+  
+    // We are assuming the pivot is always the first element
+    let pivot = arr[start];
+    let swapIdx = start;
+  
+    for (let i = start + 1; i <= end; i++) {
+      if (pivot > arr[i]) {
+        swapIdx++;
+        swap(arr, swapIdx, i);
+      }
+    }
+  
+    // Swap the pivot from the start the swapPoint
+    swap(arr, start, swapIdx);
+    return swapIdx;
+  }
+  
+  
+  function quickSort(arr, left = 0, right = arr.length -1){
+      if(left < right){
+          let pivotIndex = pivot(arr, left, right) //3
+          //left
+          quickSort(arr,left,pivotIndex-1);
+          //right
+          quickSort(arr,pivotIndex+1,right);
+        }
+       return arr;
+  } 
+```
