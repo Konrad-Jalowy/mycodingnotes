@@ -666,3 +666,30 @@ array1 = [100,-3,2,4,6,9,1,2,5,3,23]
 quick_sort(array1)
 print(array1)
 ```
+
+## Binary search (iterative) again
+### Code 
+```js
+
+function binarySearch(arr, target){
+    let left = 0;
+    let right = arr.length - 1;
+   
+    while(left <= right){
+         let middle = Math.floor((left+right)/2);
+         let potentialMatch = arr[middle];
+         if(target === potentialMatch){
+             return middle;
+         }
+         else if (target < potentialMatch){
+             right = middle - 1;
+         }
+         else {
+             left = middle + 1;
+         }
+    }
+    return -1;
+}
+
+console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
+```
