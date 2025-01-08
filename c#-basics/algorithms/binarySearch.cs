@@ -10,20 +10,16 @@ namespace ConsoleApp18
             while (left <= right)
             {
                 int mid = left + (right - left) / 2;
-
                 
                 if (array[mid] == target)
                     return mid;
-
                 
                 if (array[mid] < target)
                     left = mid + 1;
-                else
-                    
+                else               
                     right = mid - 1;
             }
-
-            
+         
             return -1;
         }
         static void Main(string[] args)
@@ -34,10 +30,8 @@ namespace ConsoleApp18
             Console.WriteLine("Podaj liczbę do znalezienia: ");
             int target = int.Parse(Console.ReadLine());
 
-            
             int result = BinarySearch(numbers, target);
 
-            
             if (result != -1)
                 Console.WriteLine($"Liczba {target} znaleziona na indeksie {result}.");
             else
