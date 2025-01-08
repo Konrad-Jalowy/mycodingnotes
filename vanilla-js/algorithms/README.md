@@ -592,3 +592,15 @@ So imagine we have array [a,b,c,d] (for simlicity of our example). First calling
 right now we have [unsortedX, unsortedY, unsortedZ, sortedElInCorrectPlace] and returned index ot that element. </br>
 So we call quicksort on range (left, pivot-1) which is from 0 to 2, and on range 4 till 3. In second case left not < right so nothing happens. and elements [x,y,z] (indexes from 0 to 2) are sorted by first quicksort call as those on the left to already sorted element with index 3 (4th element). </br>
 You can get used to it, but why it works, why can you be so sure it will work every time? Unlike merge sort the reasoning is harder to grasp.
+### Simple example
+Or so lets do sorting array 4,3,2,1. 
+- array 4,3,2,1. Pivot 4, iteration from 3 to 1
+- none of these numbers are > 4. 
+- when iteration ends we have number 3 in our count
+- we replace start idx (0) with our count (3)
+- we get 3,2,1,4 as array and index 3 as return value, index of sorted element
+- pivot helper func finished
+- now we have 3,2,1,4 with 4 being sorted. as we can see there is nothing to sort on the right and everything to sort on the left
+- we have 2 quicksort calls, first on range 0 to pivot -1, so on 0 to 3-1 son on 0 to 2, which is all the numbers left to our 4
+- and we have second quicksort call, with start being 4 (pivot + 1) and end being 3 (array.length - 1). start not < end, so recursion stops
+- and thats how it goes... i will analyze it many times to get it, but i can mark this algorithms as done for now.
