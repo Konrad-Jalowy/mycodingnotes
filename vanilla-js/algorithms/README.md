@@ -576,4 +576,14 @@ static int partition(int[] array, int start, int end) {
     return i;
   }
 ```
-So basically arr[pivot] must be > arr[currentIteration] or arr[currentIteration] must be <= arr[pivot]. Pivot can be end or start (or probably any place well get to that). Thats partition function. 
+So basically arr[pivot] must be > arr[currentIteration] or arr[currentIteration] must be <= arr[pivot]. Pivot can be end or start (or probably any place well get to that). Thats partition function. </br>
+Also start being < end is good condition for main func to exit. Heres java version (writing same algorithm in different languages actually makes you understand that, not just think you get it):
+```java
+ public static void quickSort(int[] array, int start, int end) {
+    if (start < end) {
+      int pivot = partition(array, start, end);
+      quickSort(array, start, pivot -1);
+      quickSort(array, pivot + 1, end);
+    }
+  }
+```
