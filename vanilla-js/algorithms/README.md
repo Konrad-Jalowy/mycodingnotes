@@ -667,7 +667,7 @@ quick_sort(array1)
 print(array1)
 ```
 
-## Binary search (iterative) again
+## Binary search (iterative, pseudo true/false and recursive) again
 ### Code 
 ```js
 
