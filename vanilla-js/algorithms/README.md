@@ -604,3 +604,21 @@ Or so lets do sorting array 4,3,2,1.
 - we have 2 quicksort calls, first on range 0 to pivot -1, so on 0 to 3-1 son on 0 to 2, which is all the numbers left to our 4
 - and we have second quicksort call, with start being 4 (pivot + 1) and end being 3 (array.length - 1). start not < end, so recursion stops
 - and thats how it goes... i will analyze it many times to get it, but i can mark this algorithms as done for now.
+### interesting python example
+Ive found such example in Python using list comprehensions
+```python
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[0]
+        left = [x for x in arr[1:] if x < pivot]
+        right = [x for x in arr[1:] if x >= pivot]
+        return quicksort(left) + [pivot] + quicksort(right)
+
+# Example usage
+arr = [1, 7, 4, 1, 10, 9, -2]
+sorted_arr = quicksort(arr)
+print("Sorted Array in Ascending Order:")
+print(sorted_arr)
+```
