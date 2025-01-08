@@ -746,3 +746,14 @@ function _binarySearch(arr, target, left, right){
 }
 console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
 ```
+### Explanation
+its the same logic as iterative
+- start 0
+- end arr.length - 1
+- mid start + end floor divided by 2
+- start > end ends and makes return value -1
+- we check if middle is target
+- if target is < than middle, then our left is in correct place (smaller numbers), but our right must be middle - 1 (cross out middle and all right to middle)
+- if target is > than middle, then our right is in correct place (bigger numbers), but our left must be middle + 1 (cross out middle and all left to middle)
+- goes without saying it works with sorted arrays only no duplicates best (you will always get the index of searched target but with duplicates i guess theres no guarantee which one)
+- EDIT: actually i think youll always get first to left index. like array is sorted right? so those number are next to each other. take a look if numbers are not odd but even then middle always prefers smaller index. like 1,2,3,4,5, middle 3 (idx 2). but then 1,2,3,4, middle 2 (idx 1 <- 3+0//2)
