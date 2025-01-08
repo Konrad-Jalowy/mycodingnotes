@@ -693,3 +693,7 @@ function binarySearch(arr, target){
 
 console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
 ```
+### Explanation
+- arr must be sorted
+- we want index of the target or -1 if doesnt exist
+- if left > right then it doesnt exist
