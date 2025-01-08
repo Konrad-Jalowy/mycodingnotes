@@ -726,9 +726,8 @@ function recursiveBinarySearch(n, arr) {
 ```
 Here array is modified, so you cant give correct index if at any time target was > middle and left was placed in middle+1. Theres no way to return index here so such function can only give true/false if element exists. Purpose of such function is unclear to me...
 ### Real recursive bin search (code)
+Real means it uses recursion but it uses two pointers and returns index of element or -1, without modyfing/copying/slicing array.
 ```js
-
-
 function binarySearch(arr, target){
     return _binarySearch(arr, target, 0, arr.length - 1);
 }
