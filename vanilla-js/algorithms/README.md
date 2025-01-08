@@ -560,3 +560,20 @@ function pivot(arr, start = 0, end = arr.length - 1) {
        return arr;
   } 
 ```
+Thats the version with pivot being first element. Also its best to compare if arr[pivot] > arr[i], other way around seems counter intuitive, but to fully understand this algorithm you need to understand it too, heres example in java
+```java
+static int partition(int[] array, int start, int end) {
+    int pivot = end;
+    int i = start - 1;
+    for (int j= start; j<=end; j++) {
+      if (array[j] <= array[pivot]) {
+        i++;
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+    }
+    return i;
+  }
+```
+So basically arr[pivot] must be > arr[currentIteration] or arr[currentIteration] must be <= arr[pivot]. Pivot can be end or start (or probably any place well get to that). Thats partition function. 
