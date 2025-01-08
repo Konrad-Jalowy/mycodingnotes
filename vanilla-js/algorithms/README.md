@@ -759,6 +759,13 @@ its the same logic as iterative
 - EDIT: actually i think youll always get first to left index. like array is sorted right? so those number are next to each other. take a look if numbers are not odd but even then middle always prefers smaller index. like 1,2,3,4,5, middle 3 (idx 2). but then 1,2,3,4, middle 2 (idx 1 <- 3+0//2)
 
 ## Array flattening
+### Explanation
+All versions are basically the same:
+- we create flat array
+- we iterate over input array
+- if element is not an array we push it to flat array
+- if element is an array we recursively call flatten on that element and push that to array
+- elements are returned flat in correct order
 ### Version one
 ```js
 function flatten() {
