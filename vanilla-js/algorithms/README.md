@@ -706,3 +706,22 @@ console.log(binarySearch([2,5,6,9,13,15,28,30], 6))
 - say target is > arr[middle]. what does it mean?
 - if target is > arr[middle] it meas our right is in correct place, but our left must be middle + 1
 - same logic applies to recursive version it is still two pointers on one, the same array, pointers move, you dont slice array into sub-arrays or something...
+
+### True/false pseudo binary search
+In pseudo binary search in which you want to just have true/false if element exists, not index or -1 you can slice array
+```js
+function recursiveBinarySearch(n, arr) {
+    let mid = Math.floor(arr.length / 2);
+  if (arr.length === 1 && arr[0] != n) {
+      return false;
+    }
+    if (n === arr[mid]) {
+      return true;
+    } else if (n < arr[mid]) {
+      return recursiveBinarySearch(n, arr.slice(0, mid));
+    } else if (n > arr[mid]) {
+      return recursiveBinarySearch(n, arr.slice(mid));
+    }
+}
+```
+Here array is modified, so you cant give correct index if at any time target was > middle and left was placed in middle+1. Theres no way to return index here so such function can only give true/false if element exists. Purpose of such function is unclear to me...
