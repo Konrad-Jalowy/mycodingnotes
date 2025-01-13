@@ -826,7 +826,8 @@ const flatten = (nestedArr) => {
   }
 ```
 
-## Quick sort (another one)
+## Quick sort more stuff
+### Pseudo quick sort (logic only no in-place)
 Quick sort is so hard because we dont want to create unnecessary lists, we want pointers and in-place.
 But the logic is like here
 ```js
@@ -846,3 +847,4 @@ function quickSort(arr) {
   return quickSort(left).concat(pivot, quickSort(right));
 }
 ```
+### Random pivot
