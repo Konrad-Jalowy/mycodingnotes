@@ -848,3 +848,7 @@ function quickSort(arr) {
 }
 ```
 ### Random pivot
+Random pivot means you take your normal logic (with pivot being first or last) and then you add one extra swap before you start your loop:
+- pick up random index between 0 and arr.len - 1
+- swap element with index 0 with that random index
+- start loop as you always do with pivot being first element, but in fact its random element thanks to that extra swap. it wasnt hard to add that to algorithm.
