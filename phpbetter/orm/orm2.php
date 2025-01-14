@@ -74,26 +74,73 @@ class ORM
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
-}
-// require_once 'ORM.php';
 
-// $orm = new \Framework\ORM(
-//     'mysql:host=localhost;dbname=my_database',
-//     'username',
-//     'password'
-// );
-// $user = $orm->find('users', 1);
-// print_r($user);
-// $newUserId = $orm->insert('users', [
-//     'name' => 'John Doe',
-//     'email' => 'john@example.com'
-// ]);
-// echo "New user ID: $newUserId";
-// $updated = $orm->update('users', 1, [
-//     'name' => 'Jane Doe'
-// ]);
-// echo $updated ? 'User updated' : 'Failed to update user';
-// $deleted = $orm->delete('users', 1);
-// echo $deleted ? 'User deleted' : 'Failed to delete user';
+    public function createTable(string $table, array $columns): bool
+    {
+        $columnDefinitions = array_map(
+            fn($name, $type) => "$name $type",
+            array_keys($columns),
+            $columns
+        );
+        $query = "CREATE TABLE IF NOT EXISTS $table (" . implode(", ", $columnDefinitions) . ", id INT AUTO_INCREMENT PRIMARY KEY)";
+        return $this->connection->exec($query) !== false;
+    }
+
+    public function beginTransaction(): void
+    {
+        $this->connection->beginTransaction();
+    }
+
+    public function commit(): void
+    {
+        $this->connection->commit();
+    }
+
+    public function rollback(): void
+    {
+        $this->connection->rollBack();
+    }
+}
+
+abstract class Model
+{
+    protected ORM $orm;
+    protected string $table;
+
+    public function __construct(ORM $orm)
+    {
+        $this->orm = $orm;
+    }
+
+    public function find(int $id): ?array
+    {
+        return $this->orm->find($this->table, $id);
+    }
+
+    public function findAll(array $conditions = []): array
+    {
+        return $this->orm->findAll($this->table, $conditions);
+    }
+
+    public function save(array $data): int
+    {
+        if (isset($data['id'])) {
+            $this->orm->update($this->table, $data['id'], $data);
+            return $data['id'];
+        }
+        return $this->orm->insert($this->table, $data);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->orm->delete($this->table, $id);
+    }
+
+    public static function createTable(ORM $orm, array $columns): bool
+    {
+        $instance = new static($orm);
+        return $orm->createTable($instance->table, $columns);
+    }
+}
 
 ?>
