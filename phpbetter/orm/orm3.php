@@ -197,5 +197,11 @@ abstract class Model
         return $orm->createTable($instance->table, $columns);
     }
 }
+// Pobranie użytkowników w wieku powyżej 30 lat, posortowanych według nazwiska
+// $users = $orm->table('users')
+//     ->where('age', '>', 30)
+//     ->orderBy('last_name', 'ASC')
+//     ->limit(10)
+//     ->get();
 
 ?>
