@@ -70,3 +70,29 @@ class LocalStorageORM {
     }
   }
   
+  const users = new LocalStorageORM('users');
+
+(async () => {
+  // Tworzenie nowego użytkownika
+  const userId = await users.create({ name: 'Alice', age: 25 });
+  console.log(`User created with ID: ${userId}`);
+
+  // Odczyt użytkownika
+  const user = await users.read(userId);
+  console.log('User:', user);
+
+  // Aktualizacja użytkownika
+  await users.update(userId, { age: 26 });
+  console.log('Updated User:', await users.read(userId));
+
+  // Odczyt wszystkich użytkowników
+  const allUsers = await users.readAll();
+  console.log('All Users:', allUsers);
+
+  // Usuwanie użytkownika
+  await users.delete(userId);
+  console.log('User deleted');
+
+  // Sprawdzenie wszystkich użytkowników po usunięciu
+  console.log('All Users After Deletion:', await users.readAll());
+})();
