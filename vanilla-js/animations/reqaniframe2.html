@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anulowanie Animacji</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #animated-box {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            position: relative;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="animated-box"></div>
+    <button id="cancel-button">Anuluj Animację</button>
+
+    <script>
+        const element = document.getElementById('animated-box');
+        const cancelButton = document.getElementById('cancel-button');
+        let startTime = null;
+        let animationId; // Zmienna do przechowywania ID animacji
+
+        function animate(time) {
+            if (!startTime) startTime = time;
+            const elapsed = time - startTime;
+
+            const newPosition = Math.min(elapsed / 10, 200);
+            element.style.transform = `translateX(${newPosition}px)`;
+
+            if (newPosition < 200) {
+                animationId = requestAnimationFrame(animate); // Zapisujemy ID animacji
+            }
+        }
+
+        // Rozpocznij animację
+        animationId = requestAnimationFrame(animate);
+
+        // Obsługa przycisku anulowania animacji
+        cancelButton.addEventListener('click', () => {
+            cancelAnimationFrame(animationId); // Anuluj animację
+            console.log("Animacja anulowana");
+        });
+    </script>
+</body>
+</html>
