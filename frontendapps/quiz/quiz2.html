@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .quiz-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .quiz-header {
+            margin-bottom: 20px;
+        }
+
+        .quiz-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-options button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .quiz-options button.selected {
+            background: #2ecc71;
+        }
+
+        .quiz-options button:hover {
+            background: #2980b9;
+        }
+
+        #next-btn, #back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #next-btn {
+            background: #2ecc71;
+            color: white;
+        }
+
+        #back-btn {
+            background: #e74c3c;
+            color: white;
+            margin-right: 10px;
+        }
+
+        #next-btn:hover {
+            background: #27ae60;
+        }
+
+        #back-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="quiz">
+            <div class="quiz-header">
+                <h2 id="question">Question text</h2>
+            </div>
+            <div class="quiz-options">
+                <button class="option" data-answer="a">Option A</button>
+                <button class="option" data-answer="b">Option B</button>
+                <button class="option" data-answer="c">Option C</button>
+                <button class="option" data-answer="d">Option D</button>
+            </div>
+            <div>
+                <button id="back-btn" style="display: none;">Back</button>
+                <button id="next-btn">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "What is the capital of France?",
+                a: "Berlin",
+                b: "Madrid",
+                c: "Paris",
+                d: "Rome",
+                correct: "c"
+            },
+            {
+                question: "Which programming language is known as the backbone of the web?",
+                a: "Python",
+                b: "JavaScript",
+                c: "C++",
+                d: "Java",
+                correct: "b"
+            },
+            {
+                question: "What is 2 + 2?",
+                a: "3",
+                b: "4",
+                c: "5",
+                d: "6",
+                correct: "b"
+            }
+        ];
+
+        let currentQuiz = 0;
+        let score = 0;
+        const questionEl = document.getElementById("question");
+        const options = document.querySelectorAll(".option");
+        const nextBtn = document.getElementById("next-btn");
+        const backBtn = document.getElementById("back-btn");
+
+        function loadQuiz() {
+            deselectOptions();
+            const currentQuizData = quizData[currentQuiz];
+            questionEl.textContent = currentQuizData.question;
+            options[0].textContent = currentQuizData.a;
+            options[1].textContent = currentQuizData.b;
+            options[2].textContent = currentQuizData.c;
+            options[3].textContent = currentQuizData.d;
+
+            backBtn.style.display = currentQuiz > 0 ? "inline-block" : "none";
+        }
+
+        function deselectOptions() {
+            options.forEach(option => {
+                option.classList.remove("selected");
+            });
+        }
+
+        options.forEach(option => {
+            option.addEventListener("click", () => {
+                deselectOptions();
+                option.classList.add("selected");
+            });
+        });
+
+        nextBtn.addEventListener("click", () => {
+            const selectedOption = document.querySelector(".option.selected");
+            if (!selectedOption) {
+                alert("Please select an answer!");
+                return;
+            }
+
+            const answer = selectedOption.dataset.answer;
+            if (answer === quizData[currentQuiz].correct) {
+                score++;
+            }
+
+            currentQuiz++;
+
+            if (currentQuiz < quizData.length) {
+                loadQuiz();
+            } else {
+                document.querySelector(".quiz-container").innerHTML = `
+                    <h2>You answered ${score}/${quizData.length} questions correctly!</h2>
+                    <button onclick="location.reload()">Restart</button>
+                `;
+            }
+        });
+
+        backBtn.addEventListener("click", () => {
+            if (currentQuiz > 0) {
+                currentQuiz--;
+                loadQuiz();
+            }
+        });
+
+        loadQuiz();
+    </script>
+</body>
+</html>
