@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>requestAnimationFrame Demo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #animated-box {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="animated-box"></div>
+
+    <script>
+        // Znajdź element do animacji
+        const element = document.getElementById('animated-box');
+        let startTime = null; // Przechowuje czas rozpoczęcia animacji
+
+        // Funkcja animacyjna
+        function animate(time) {
+            if (!startTime) startTime = time; // Ustaw czas startu przy pierwszym wywołaniu
+            const elapsed = time - startTime; // Oblicz czas, który minął
+
+            const newPosition = Math.min(elapsed / 10, 200); // Oblicz nową pozycję
+            element.style.transform = `translateX(${newPosition}px)`; // Przesuń element
+
+            if (newPosition < 200) {
+                // Kontynuuj animację, dopóki element nie osiągnie 200px
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Rozpocznij animację
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>
