@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Tabs</title>
+    <script>
+        class DynamicTabs extends HTMLElement {
+            constructor() {
+                super();
+                // Attach Shadow DOM for encapsulation
+                this.attachShadow({ mode: 'open' });
+
+                // Create container for tabs and content
+                const style = document.createElement('style');
+                style.textContent = `
+                    :host {
+                        display: block;
+                        font-family: Arial, sans-serif;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        width: 100%;
+                        max-width: 600px;
+                    }
+
+                    .tabs-header {
+                        display: flex;
+                        background-color: #f7f7f7;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .tab {
+                        flex: 1;
+                        padding: 10px;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: background 0.3s, color 0.3s;
+                        border-right: 1px solid #ddd;
+                    }
+
+                    .tab:last-child {
+                        border-right: none;
+                    }
+
+                    .tab.active {
+                        background-color: #3498db;
+                        color: white;
+                        font-weight: bold;
+                    }
+
+                    .tab-content {
+                        padding: 20px;
+                        display: none;
+                    }
+
+                    .tab-content.active {
+                        display: block;
+                    }
+                `;
+
+                const container = document.createElement('div');
+
+                const tabsHeader = document.createElement('div');
+                tabsHeader.className = 'tabs-header';
+
+                const tabsContent = document.createElement('div');
+                tabsContent.className = 'tabs-content';
+
+                container.append(tabsHeader, tabsContent);
+
+                this.shadowRoot.append(style, container);
+
+                this.tabsHeader = tabsHeader;
+                this.tabsContent = tabsContent;
+            }
+
+            connectedCallback() {
+                // Delay rendering to ensure children are fully defined
+                requestAnimationFrame(() => this.render());
+            }
+
+            render() {
+                const tabs = Array.from(this.querySelectorAll('custom-tab'));
+                const tabsHeader = this.tabsHeader;
+                const tabsContent = this.tabsContent;
+
+                tabsHeader.innerHTML = '';
+                tabsContent.innerHTML = '';
+
+                tabs.forEach((tab, index) => {
+                    const tabButton = document.createElement('div');
+                    tabButton.className = 'tab';
+                    tabButton.textContent = tab.getAttribute('title');
+
+                    const content = document.createElement('div');
+                    content.className = 'tab-content';
+                    content.innerHTML = tab.innerHTML;
+
+                    if (index === 0) {
+                        tabButton.classList.add('active');
+                        content.classList.add('active');
+                    }
+
+                    tabButton.addEventListener('click', () => {
+                        tabsHeader.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        tabsContent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                        tabButton.classList.add('active');
+                        content.classList.add('active');
+                    });
+
+                    tabsHeader.appendChild(tabButton);
+                    tabsContent.appendChild(content);
+                });
+
+                if (!tabs.length) {
+                    const placeholder = document.createElement('div');
+                    placeholder.textContent = 'No tabs available';
+                    placeholder.style.textAlign = 'center';
+                    placeholder.style.padding = '20px';
+                    tabsContent.appendChild(placeholder);
+                }
+            }
+        }
+
+        class CustomTab extends HTMLElement {
+            constructor() {
+                super();
+            }
+        }
+
+        customElements.define('dynamic-tabs', DynamicTabs);
+        customElements.define('custom-tab', CustomTab);
+    </script>
+</head>
+<body>
+    <dynamic-tabs>
+        <custom-tab title="Tab 1">This is the content of Tab 1.</custom-tab>
+        <custom-tab title="Tab 2">Here is the content for Tab 2.</custom-tab>
+        <custom-tab title="Tab 3">And this is Tab 3's content.</custom-tab>
+    </dynamic-tabs>
+</body>
+</html>
