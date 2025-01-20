@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melody Player</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Melody Player</h1>
+  <button id="playMelodyButton">Play Melody</button>
+
+  <script>
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Mapa częstotliwości nut
+    const notes = {
+      C4: 261.63,
+      D4: 293.66,
+      E4: 329.63,
+      F4: 349.23,
+      G4: 392.00,
+      A4: 440.00,
+      B4: 493.88,
+      C5: 523.25,
+    };
+
+    // Funkcja do grania pojedynczej nuty
+    function playNote(note, duration = 500) {
+      return new Promise((resolve) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.type = 'sine'; // Typ fali
+        oscillator.frequency.setValueAtTime(note, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start();
+        setTimeout(() => {
+          oscillator.stop();
+          resolve();
+        }, duration); // Czas trwania nuty
+      });
+    }
+
+    // Funkcja odtwarzająca melodyjkę
+    async function playMelody() {
+      const melody = [
+        { note: notes.C4, duration: 500 },
+        { note: notes.C4, duration: 500 },
+        { note: notes.G4, duration: 500 },
+        { note: notes.G4, duration: 500 },
+        { note: notes.A4, duration: 500 },
+        { note: notes.A4, duration: 500 },
+        { note: notes.G4, duration: 1000 },
+        { note: notes.F4, duration: 500 },
+        { note: notes.F4, duration: 500 },
+        { note: notes.E4, duration: 500 },
+        { note: notes.E4, duration: 500 },
+        { note: notes.D4, duration: 500 },
+        { note: notes.D4, duration: 500 },
+        { note: notes.C4, duration: 1000 },
+      ];
+
+      for (const { note, duration } of melody) {
+        await playNote(note, duration); // Graj każdą nutę po kolei
+      }
+    }
+
+    // Obsługa przycisku
+    const playMelodyButton = document.getElementById('playMelodyButton');
+    playMelodyButton.addEventListener('click', playMelody);
+  </script>
+</body>
+</html>
