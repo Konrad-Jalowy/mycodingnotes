@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Tooltip Example</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: #333;
+      color: white;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+      z-index: 1000;
+    }
+
+    .tooltip-visible {
+      opacity: 1;
+    }
+
+    .tooltip-top::after, .tooltip-right::after, 
+    .tooltip-bottom::after, .tooltip-left::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+
+    .tooltip-top::after {
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px 5px 0 5px;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    .tooltip-right::after {
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 5px 5px 5px 0;
+      border-color: transparent transparent transparent #333;
+    }
+
+    .tooltip-bottom::after {
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 5px 5px 5px;
+      border-color: transparent transparent #333 transparent;
+    }
+
+    .tooltip-left::after {
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 5px;
+      border-color: transparent #333 transparent transparent;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="buttons">
+    <button class="tooltip-target" data-tooltip="Tooltip on top" data-position="top">Hover me (top)</button>
+    <button class="tooltip-target" data-tooltip="Tooltip on right" data-position="right">Hover me (right)</button>
+    <button class="tooltip-target" data-tooltip="Tooltip on bottom" data-position="bottom">Hover me (bottom)</button>
+    <button class="tooltip-target" data-tooltip="Tooltip on left" data-position="left">Hover me (left)</button>
+  </div>
+
+  <script>
+    class AdvancedTooltip {
+      constructor(element, text, position = 'top') {
+        this.element = element;
+        this.text = text;
+        this.position = position;
+        this.tooltip = null;
+        this.init();
+      }
+
+      static init(selector) {
+        document.querySelectorAll(selector).forEach(element => {
+          const position = element.getAttribute('data-position') || 'top';
+          const tooltipText = element.getAttribute('data-tooltip');
+          new AdvancedTooltip(element, tooltipText, position);
+        });
+      }
+
+      init() {
+        this.element.addEventListener('mouseenter', () => this.show());
+        this.element.addEventListener('mouseleave', () => this.hide());
+      }
+
+      show() {
+        this.tooltip = document.createElement('div');
+        this.tooltip.className = 'tooltip tooltip-' + this.position;
+        this.tooltip.innerText = this.text;
+        document.body.appendChild(this.tooltip);
+
+        const rect = this.element.getBoundingClientRect();
+        const tooltipRect = this.tooltip.getBoundingClientRect();
+
+        // Dynamic positioning
+        if (this.position === 'top') {
+          this.tooltip.style.top = `${rect.top - tooltipRect.height - 5 + window.scrollY}px`;
+          this.tooltip.style.left = `${rect.left + rect.width / 2 - tooltipRect.width / 2 + window.scrollX}px`;
+        } else if (this.position === 'right') {
+          this.tooltip.style.left = `${rect.right + 5 + window.scrollX}px`;
+          this.tooltip.style.top = `${rect.top + rect.height / 2 - tooltipRect.height / 2 + window.scrollY}px`;
+        } else if (this.position === 'bottom') {
+          this.tooltip.style.top = `${rect.bottom + 5 + window.scrollY}px`;
+          this.tooltip.style.left = `${rect.left + rect.width / 2 - tooltipRect.width / 2 + window.scrollX}px`;
+        } else if (this.position === 'left') {
+          this.tooltip.style.left = `${rect.left - tooltipRect.width - 5 + window.scrollX}px`;
+          this.tooltip.style.top = `${rect.top + rect.height / 2 - tooltipRect.height / 2 + window.scrollY}px`;
+        }
+
+        this.tooltip.classList.add('tooltip-visible');
+      }
+
+      hide() {
+        if (this.tooltip) {
+          this.tooltip.classList.remove('tooltip-visible');
+          setTimeout(() => {
+            if (this.tooltip) document.body.removeChild(this.tooltip);
+            this.tooltip = null;
+          }, 200);
+        }
+      }
+    }
+
+    // Initialize tooltips
+    AdvancedTooltip.init('.tooltip-target');
+  </script>
+</body>
+</html>
