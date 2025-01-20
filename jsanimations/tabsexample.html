@@ -1,0 +1,65 @@
+<div class="tabs">
+    <div class="tab-buttons">
+      <button class="tab-button">Tab 1</button>
+      <button class="tab-button">Tab 2</button>
+      <button class="tab-button">Tab 3</button>
+    </div>
+    <div class="tab-contents">
+      <div class="tab-content">Content 1</div>
+      <div class="tab-content">Content 2</div>
+      <div class="tab-content">Content 3</div>
+    </div>
+  </div>
+  
+  <style>
+  .tab-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  .tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  .tab-button.active {
+    background: #333;
+    color: white;
+  }
+  .tab-content {
+    display: none;
+  }
+  </style>
+<script>
+    class Tabs {
+        constructor(container) {
+          this.container = container;
+          this.tabButtons = container.querySelectorAll('.tab-button');
+          this.tabContents = container.querySelectorAll('.tab-content');
+      
+          if (!this.tabButtons.length || !this.tabContents.length) {
+            throw new Error('Tabs must have buttons and content');
+          }
+      
+          this.init();
+        }
+      
+        init() {
+          this.tabButtons.forEach((button, index) => {
+            button.addEventListener('click', () => this.showTab(index));
+          });
+      
+          this.showTab(0); // Pokaż pierwszą zakładkę domyślnie
+        }
+      
+        showTab(index) {
+          this.tabButtons.forEach((button, i) => {
+            button.classList.toggle('active', i === index);
+          });
+          this.tabContents.forEach((content, i) => {
+            content.style.display = i === index ? 'block' : 'none';
+          });
+        }
+      }
+      
+      // Użycie:
+      new Tabs(document.querySelector('.tabs'));
+</script>  
