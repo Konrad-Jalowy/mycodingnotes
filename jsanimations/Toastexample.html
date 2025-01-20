@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toast Notifications</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      animation: fade-in 0.5s ease;
+      position: relative;
+    }
+
+    .toast.toast-success {
+      background-color: #28a745;
+    }
+
+    .toast.toast-error {
+      background-color: #dc3545;
+    }
+
+    .toast.toast-info {
+      background-color: #007bff;
+    }
+
+    .toast.toast-warning {
+      background-color: #ffc107;
+      color: #000;
+    }
+
+    .toast-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button onclick="showToast('success', 'Operation successful!')">Show Success</button>
+  <button onclick="showToast('error', 'Something went wrong!')">Show Error</button>
+  <button onclick="showToast('info', 'This is an information message.')">Show Info</button>
+  <button onclick="showToast('warning', 'Warning! Check your input.')">Show Warning</button>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    class Toast {
+      constructor(container) {
+        this.container = container;
+      }
+
+      show(type, message, duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `
+          ${message}
+          <button class="toast-close">&times;</button>
+        `;
+
+        // Add event listener to close button
+        const closeButton = toast.querySelector('.toast-close');
+        closeButton.addEventListener('click', () => this.removeToast(toast));
+
+        // Append to container
+        this.container.appendChild(toast);
+
+        // Auto-remove after the specified duration
+        setTimeout(() => this.removeToast(toast), duration);
+      }
+
+      removeToast(toast) {
+        toast.style.animation = 'fade-out 0.5s ease';
+        toast.addEventListener('animationend', () => {
+          toast.remove();
+        });
+      }
+    }
+
+    // Initialize the Toast system
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = new Toast(toastContainer);
+
+    // Helper function to show a toast
+    function showToast(type, message) {
+      toast.show(type, message);
+    }
+  </script>
+</body>
+</html>
