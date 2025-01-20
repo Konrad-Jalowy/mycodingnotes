@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel Example</title>
+  <style>
+    .carousel {
+      position: relative;
+      width: 300px;
+      margin: 50px auto;
+    }
+    .carousel-slide {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #ddd;
+      border: 1px solid #ccc;
+    }
+    .carousel-slide:first-child {
+      display: block;
+    }
+    button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+    .carousel-prev {
+      left: 0;
+    }
+    .carousel-next {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <button class="carousel-prev">« Prev</button>
+    <div class="carousel-slide">Slide 1</div>
+    <div class="carousel-slide">Slide 2</div>
+    <div class="carousel-slide">Slide 3</div>
+    <button class="carousel-next">Next »</button>
+  </div>
+
+  <script>
+    class AdvancedCarousel {
+      constructor(container, options = {}) {
+        this.container = container;
+        this.slides = container.querySelectorAll('.carousel-slide');
+        this.prevButton = container.querySelector('.carousel-prev');
+        this.nextButton = container.querySelector('.carousel-next');
+        this.currentIndex = 0;
+        this.autoplay = options.autoplay || false;
+        this.interval = options.interval || 3000;
+
+        this.init();
+      }
+
+      init() {
+        this.updateVisibility();
+        this.prevButton.addEventListener('click', () => this.prev());
+        this.nextButton.addEventListener('click', () => this.next());
+
+        if (this.autoplay) {
+          this.startAutoplay();
+          this.container.addEventListener('mouseenter', () => this.stopAutoplay());
+          this.container.addEventListener('mouseleave', () => this.startAutoplay());
+        }
+      }
+
+      updateVisibility() {
+        this.slides.forEach((slide, index) => {
+          slide.style.display = index === this.currentIndex ? 'block' : 'none';
+        });
+      }
+
+      prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+        this.updateVisibility();
+      }
+
+      next() {
+        this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+        this.updateVisibility();
+      }
+
+      startAutoplay() {
+        this.autoplayTimer = setInterval(() => this.next(), this.interval);
+      }
+
+      stopAutoplay() {
+        clearInterval(this.autoplayTimer);
+      }
+    }
+
+    new AdvancedCarousel(document.querySelector('.carousel'), { autoplay: true, interval: 5000 });
+  </script>
+</body>
+</html>
