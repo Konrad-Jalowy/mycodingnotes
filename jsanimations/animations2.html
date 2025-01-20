@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typewriter, Counter, Progress Bar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .container {
+      text-align: center;
+      margin: 10px;
+    }
+
+    .typewriter {
+      font-size: 1.2rem;
+      color: darkblue;
+      height: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .counter {
+      font-size: 2rem;
+      color: darkgreen;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background-color: #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      background-color: dodgerblue;
+      width: 0;
+      transition: width 0.2s ease;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>JavaScript Animations</h1>
+
+  <!-- Typewriter Section -->
+  <div class="container">
+    <div class="typewriter"></div>
+    <button onclick="startTypewriter()">Start Typewriter</button>
+  </div>
+
+  <!-- Counter Section -->
+  <div class="container">
+    <div class="counter">0</div>
+    <button onclick="startCounter()">Start Counter</button>
+  </div>
+
+  <!-- Progress Bar Section -->
+  <div class="container">
+    <div class="progress-bar">
+      <div class="progress-bar-inner"></div>
+    </div>
+    <button onclick="startProgressBar()">Start Progress Bar</button>
+  </div>
+
+  <script>
+    // Typewriter Animation
+    class Typewriter {
+      constructor(node, text, speed = 100) {
+        this.node = node;
+        this.text = text;
+        this.speed = speed;
+        this.currentIndex = 0;
+      }
+
+      start() {
+        this.node.textContent = ""; // Clear existing text
+        this.type();
+      }
+
+      type() {
+        if (this.currentIndex < this.text.length) {
+          this.node.textContent += this.text[this.currentIndex];
+          this.currentIndex++;
+          setTimeout(() => this.type(), this.speed);
+        }
+      }
+    }
+
+    // Counter Animation
+    class Counter {
+      constructor(node, startValue, endValue, duration) {
+        this.node = node;
+        this.startValue = startValue;
+        this.endValue = endValue;
+        this.duration = duration;
+      }
+
+      start() {
+        this.startTime = performance.now();
+        this.update();
+      }
+
+      update() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        const currentValue = Math.floor(
+          this.startValue + progress * (this.endValue - this.startValue)
+        );
+
+        this.node.textContent = currentValue;
+
+        if (progress < 1) {
+          requestAnimationFrame(() => this.update());
+        }
+      }
+    }
+
+    // Progress Bar Animation
+    class ProgressBar {
+      constructor(node) {
+        this.node = node;
+      }
+
+      start(duration) {
+        this.duration = duration;
+        this.node.style.width = "0%";
+        this.startTime = performance.now();
+        this.update();
+      }
+
+      update() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        this.node.style.width = `${progress * 100}%`;
+
+        if (progress < 1) {
+          requestAnimationFrame(() => this.update());
+        }
+      }
+    }
+
+    // Triggers for animations
+    function startTypewriter() {
+      const typewriter = new Typewriter(
+        document.querySelector(".typewriter"),
+        "Hello, welcome to JavaScript animations!",
+        100
+      );
+      typewriter.start();
+    }
+
+    function startCounter() {
+      const counter = new Counter(document.querySelector(".counter"), 0, 100, 2000);
+      counter.start();
+    }
+
+    function startProgressBar() {
+      const progressBar = new ProgressBar(document.querySelector(".progress-bar-inner"));
+      progressBar.start(2000);
+    }
+  </script>
+</body>
+</html>
