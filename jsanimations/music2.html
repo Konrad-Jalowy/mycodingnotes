@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melody Composer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .keyboard {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 20px 0;
+    }
+
+    .key {
+      width: 60px;
+      height: 120px;
+      background: #eee;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+      line-height: 120px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .key:active {
+      background: #ddd;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Melody Composer</h1>
+  <div class="keyboard">
+    <div class="key" data-note="C4">C</div>
+    <div class="key" data-note="D4">D</div>
+    <div class="key" data-note="E4">E</div>
+    <div class="key" data-note="F4">F</div>
+    <div class="key" data-note="G4">G</div>
+    <div class="key" data-note="A4">A</div>
+    <div class="key" data-note="B4">B</div>
+    <div class="key" data-note="C5">C5</div>
+  </div>
+  <div class="controls">
+    <button id="playMelodyButton" disabled>Play Melody</button>
+    <button id="clearMelodyButton">Clear Melody</button>
+  </div>
+  <p><strong>Current Melody:</strong> <span id="melodyDisplay">None</span></p>
+
+  <script>
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    const notes = {
+      C4: 261.63,
+      D4: 293.66,
+      E4: 329.63,
+      F4: 349.23,
+      G4: 392.00,
+      A4: 440.00,
+      B4: 493.88,
+      C5: 523.25,
+    };
+
+    const melody = []; // Tablica przechowująca melodię
+
+    const melodyDisplay = document.getElementById("melodyDisplay");
+    const playMelodyButton = document.getElementById("playMelodyButton");
+    const clearMelodyButton = document.getElementById("clearMelodyButton");
+
+    // Funkcja do odtwarzania pojedynczej nuty
+    function playNote(note, duration = 500) {
+      return new Promise((resolve) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(note, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start();
+        setTimeout(() => {
+          oscillator.stop();
+          resolve();
+        }, duration);
+      });
+    }
+
+    // Funkcja do odtwarzania całej melodii
+    async function playMelody() {
+      for (const { note, duration } of melody) {
+        await playNote(note, duration);
+      }
+    }
+
+    // Aktualizacja wyświetlacza melodii
+    function updateMelodyDisplay() {
+      if (melody.length === 0) {
+        melodyDisplay.textContent = "None";
+        playMelodyButton.disabled = true;
+      } else {
+        melodyDisplay.textContent = melody
+          .map((entry) => entry.name)
+          .join(" - ");
+        playMelodyButton.disabled = false;
+      }
+    }
+
+    // Obsługa kliknięć na klawisze
+    document.querySelectorAll(".key").forEach((key) => {
+      key.addEventListener("click", () => {
+        const noteName = key.dataset.note;
+        const frequency = notes[noteName];
+
+        // Dodaj nutę do melodii
+        melody.push({ name: noteName, note: frequency, duration: 500 });
+        updateMelodyDisplay();
+
+        // Zagraj nutę natychmiast
+        playNote(frequency, 500);
+      });
+    });
+
+    // Obsługa przycisku "Play Melody"
+    playMelodyButton.addEventListener("click", playMelody);
+
+    // Obsługa przycisku "Clear Melody"
+    clearMelodyButton.addEventListener("click", () => {
+      melody.length = 0; // Wyczyść melodię
+      updateMelodyDisplay();
+    });
+
+    // Zainicjalizuj wyświetlacz melodii
+    updateMelodyDisplay();
+  </script>
+</body>
+</html>
