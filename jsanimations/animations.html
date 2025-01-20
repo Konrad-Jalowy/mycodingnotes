@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Animations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      background-color: lightblue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>JavaScript Animations</h1>
+
+  <div class="container">
+    <div id="fadeBox" class="box">Fade</div>
+    <button onclick="fadeInAnimation()">Start Fade In</button>
+  </div>
+
+  <div class="container">
+    <div id="slideBox" class="box">Slide</div>
+    <button onclick="slideInAnimation()">Start Slide In</button>
+  </div>
+
+  <div class="container">
+    <div id="rotateBox" class="box">Rotate</div>
+    <button onclick="rotateAnimation()">Start Rotate</button>
+  </div>
+
+  <div class="container">
+    <div id="scaleBox" class="box">Scale</div>
+    <button onclick="scaleAnimation()">Start Scale</button>
+  </div>
+
+  <div class="container">
+    <div id="bounceBox" class="box">Bounce</div>
+    <button onclick="bounceAnimation()">Start Bounce</button>
+  </div>
+
+  <script>
+    // Fade In Animation
+    class FadeInAnimation {
+      constructor(node) {
+        this.node = node;
+      }
+      start(duration) {
+        this.duration = duration;
+        this.startTime = performance.now();
+        this.frameId = requestAnimationFrame(() => this.onFrame());
+      }
+      onFrame() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        this.node.style.opacity = progress;
+        if (progress < 1) {
+          this.frameId = requestAnimationFrame(() => this.onFrame());
+        }
+      }
+    }
+
+    // Slide In Animation
+    class SlideInAnimation {
+      constructor(node) {
+        this.node = node;
+      }
+      start(duration) {
+        this.duration = duration;
+        this.startTime = performance.now();
+        this.frameId = requestAnimationFrame(() => this.onFrame());
+      }
+      onFrame() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        const distance = 100 - progress * 100; // From 100px to 0px
+        this.node.style.transform = `translateX(${distance}px)`;
+        this.node.style.opacity = progress;
+        if (progress < 1) {
+          this.frameId = requestAnimationFrame(() => this.onFrame());
+        }
+      }
+    }
+
+    // Rotate Animation
+    class RotateAnimation {
+      constructor(node) {
+        this.node = node;
+      }
+      start(duration, degrees) {
+        this.duration = duration;
+        this.degrees = degrees;
+        this.startTime = performance.now();
+        this.frameId = requestAnimationFrame(() => this.onFrame());
+      }
+      onFrame() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        this.node.style.transform = `rotate(${progress * this.degrees}deg)`;
+        if (progress < 1) {
+          this.frameId = requestAnimationFrame(() => this.onFrame());
+        }
+      }
+    }
+
+    // Scale Animation
+    class ScaleAnimation {
+      constructor(node) {
+        this.node = node;
+      }
+      start(duration, startScale, endScale) {
+        this.duration = duration;
+        this.startScale = startScale;
+        this.endScale = endScale;
+        this.startTime = performance.now();
+        this.frameId = requestAnimationFrame(() => this.onFrame());
+      }
+      onFrame() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        const scale = this.startScale + progress * (this.endScale - this.startScale);
+        this.node.style.transform = `scale(${scale})`;
+        if (progress < 1) {
+          this.frameId = requestAnimationFrame(() => this.onFrame());
+        }
+      }
+    }
+
+    // Bounce Animation
+    class BounceAnimation {
+      constructor(node) {
+        this.node = node;
+      }
+      start(duration) {
+        this.duration = duration;
+        this.startTime = performance.now();
+        this.frameId = requestAnimationFrame(() => this.onFrame());
+      }
+      onFrame() {
+        const timePassed = performance.now() - this.startTime;
+        const progress = Math.min(timePassed / this.duration, 1);
+        const bounce = Math.sin(progress * Math.PI * 2) * (1 - progress); // Bouncing effect
+        this.node.style.transform = `translateY(${bounce * 50}px)`;
+        if (progress < 1) {
+          this.frameId = requestAnimationFrame(() => this.onFrame());
+        }
+      }
+    }
+
+    // Animation Triggers
+    function fadeInAnimation() {
+      const fadeBox = document.getElementById("fadeBox");
+      new FadeInAnimation(fadeBox).start(2000);
+    }
+
+    function slideInAnimation() {
+      const slideBox = document.getElementById("slideBox");
+      new SlideInAnimation(slideBox).start(2000);
+    }
+
+    function rotateAnimation() {
+      const rotateBox = document.getElementById("rotateBox");
+      new RotateAnimation(rotateBox).start(2000, 360);
+    }
+
+    function scaleAnimation() {
+      const scaleBox = document.getElementById("scaleBox");
+      new ScaleAnimation(scaleBox).start(2000, 0.5, 1.5);
+    }
+
+    function bounceAnimation() {
+      const bounceBox = document.getElementById("bounceBox");
+      new BounceAnimation(bounceBox).start(2000);
+    }
+  </script>
+</body>
+</html>
