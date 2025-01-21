@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Piano with Timbre</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .keyboard {
+      display: flex;
+      position: relative;
+      justify-content: center;
+      margin: 20px 0;
+      width: fit-content;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .key {
+      display: inline-block;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .key.white {
+      width: 60px;
+      height: 200px;
+      background: white;
+      border: 1px solid #ccc;
+      position: relative;
+      z-index: 1;
+      margin: 0 -2px;
+    }
+
+    .key.black {
+      width: 40px;
+      height: 120px;
+      background: black;
+      border-radius: 5px;
+      position: absolute;
+      top: 0;
+      margin-left: -20px;
+      z-index: 2;
+    }
+
+    .key:active {
+      background: #ddd;
+    }
+
+    .key.black:active {
+      background: #555;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Virtual Piano with Timbre</h1>
+  <div class="keyboard" id="keyboard"></div>
+  <div class="controls">
+    <label for="waveform">Select Timbre:</label>
+    <select id="waveform">
+      <option value="sine">Sine (Pure Tone)</option>
+      <option value="square">Square (Organ-like)</option>
+      <option value="triangle">Triangle (Soft)</option>
+      <option value="sawtooth">Sawtooth (Rich)</option>
+    </select>
+    <button id="playMelodyButton" disabled>Play Melody</button>
+    <button id="clearMelodyButton">Clear Melody</button>
+  </div>
+  <p><strong>Current Melody:</strong> <span id="melodyDisplay">None</span></p>
+
+  <script>
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Mapa częstotliwości nut
+    const notes = {
+      C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
+      C5: 523.25, D5: 587.33, E5: 659.26, F5: 698.46, G5: 783.99, A5: 880.00, B5: 987.77,
+    };
+
+    const melody = []; // Tablica przechowująca melodię
+
+    const melodyDisplay = document.getElementById("melodyDisplay");
+    const playMelodyButton = document.getElementById("playMelodyButton");
+    const clearMelodyButton = document.getElementById("clearMelodyButton");
+    const keyboardContainer = document.getElementById("keyboard");
+    const waveformSelector = document.getElementById("waveform");
+
+    // Funkcja do generowania klawiatury
+    function generateKeyboard() {
+      const keys = [
+        { note: "C4", type: "white" },
+        { note: "D4", type: "white" },
+        { note: "E4", type: "white" },
+        { note: "F4", type: "white" },
+        { note: "G4", type: "white" },
+        { note: "A4", type: "white" },
+        { note: "B4", type: "white" },
+        { note: "C5", type: "white" },
+        { note: "D5", type: "white" },
+        { note: "E5", type: "white" },
+        { note: "F5", type: "white" },
+        { note: "G5", type: "white" },
+        { note: "A5", type: "white" },
+        { note: "B5", type: "white" },
+      ];
+
+      keys.forEach(({ note, type }) => {
+        const key = document.createElement("div");
+        key.className = `key ${type}`;
+        key.dataset.note = note;
+
+        if (type === "white") key.textContent = note;
+        key.addEventListener("click", () => playKey(note));
+        keyboardContainer.appendChild(key);
+      });
+    }
+
+    // Funkcja do odtwarzania jednej nuty z wybranym typem fali
+    function playNoteWithWaveform(note, duration, waveform = "sine") {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.type = waveform; // Ustawienie wybranego typu fali
+      oscillator.frequency.value = note;
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Ustawienie głośności
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration / 1000); // Obwiednia
+
+      oscillator.start();
+      setTimeout(() => oscillator.stop(), duration);
+    }
+
+    // Funkcja do odtwarzania całej melodii
+    async function playMelody() {
+      const waveform = waveformSelector.value;
+      for (const { note, duration } of melody) {
+        await new Promise((resolve) => {
+          playNoteWithWaveform(notes[note], duration, waveform);
+          setTimeout(resolve, duration);
+        });
+      }
+    }
+
+    // Obsługa kliknięcia na klawisz
+    function playKey(noteName) {
+      const waveform = waveformSelector.value;
+      melody.push({ note: noteName, duration: 500 });
+      updateMelodyDisplay();
+      playNoteWithWaveform(notes[noteName], 500, waveform);
+    }
+
+    // Aktualizacja wyświetlacza melodii
+    function updateMelodyDisplay() {
+      if (melody.length === 0) {
+        melodyDisplay.textContent = "None";
+        playMelodyButton.disabled = true;
+      } else {
+        melodyDisplay.textContent = melody.map((entry) => entry.note).join(" - ");
+        playMelodyButton.disabled = false;
+      }
+    }
+
+    // Obsługa przycisków
+    playMelodyButton.addEventListener("click", playMelody);
+    clearMelodyButton.addEventListener("click", () => {
+      melody.length = 0;
+      updateMelodyDisplay();
+    });
+
+    // Generowanie klawiatury
+    generateKeyboard();
+  </script>
+</body>
+</html>
