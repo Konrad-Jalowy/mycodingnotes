@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miganie koloru</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+    }
+    .box {
+      width: 100px;
+      height: 100px;
+      background: #0000ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+    const box = document.querySelector('.box');
+    const duration = 3000; // Czas pełnego przejścia koloru (3 sekundy)
+
+    function animate() {
+      const time = performance.now();
+      const progress = (time % duration) / duration; // Cykl powtarzający się od 0 do 1
+
+      const r = Math.round(255 * Math.abs(Math.sin(progress * Math.PI * 2))); // Czerwony
+      const g = Math.round(255 * Math.abs(Math.sin((progress * Math.PI * 2) + Math.PI / 2))); // Zielony
+      const b = Math.round(255 * Math.abs(Math.sin((progress * Math.PI * 2) + Math.PI))); // Niebieski
+
+      box.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+      requestAnimationFrame(animate); // Kontynuacja animacji
+    }
+
+    animate();
+  </script>
+</body>
+</html>
