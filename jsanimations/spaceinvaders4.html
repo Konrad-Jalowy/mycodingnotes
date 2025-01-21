@@ -103,7 +103,7 @@
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
         oscillator.start();
-        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
         oscillator.stop(audioCtx.currentTime + duration);
     }
 
@@ -134,7 +134,8 @@
             melodyIndex = 0; // Loop the melody
         }
         const note = melody[melodyIndex];
-        playSound(note.freq, 'sine', note.duration / 1000);
+        // Use sawtooth for more musical sound
+        playSound(note.freq, 'sawtooth', note.duration / 1000);
         melodyIndex++;
         setTimeout(playMelody, note.duration);
     }
@@ -172,7 +173,7 @@
     let invaderDirection = 1; // 1: right, -1: left
     let invaderSpeed = 1;
     let invaderBullets = [];
-    let invaderShootInterval = 6000; // Initial firing interval in ms (reduced to 1/3)
+    let invaderShootInterval = 12000; // Initial firing interval in ms
 
     let score = 0;
     let lives = 3;
@@ -279,9 +280,10 @@
             });
         }
 
-        // Enemy Shooting
+        // Enemy Shooting with limited bullets
+        let activeInvaderBullets = invaderBullets.length;
         invaders.forEach(invader => {
-            if (invader.alive) {
+            if (invader.alive && activeInvaderBullets < 3) { // Limit to 3 bullets
                 invader.bulletCooldown -= deltaTime;
                 if (invader.bulletCooldown <= 0) {
                     // Shoot
@@ -295,6 +297,7 @@
                     });
                     playSound(200, 'sine', 0.1); // Wybuch dźwięk
                     invader.bulletCooldown = Math.random() * invaderShootInterval;
+                    activeInvaderBullets++;
                 }
             }
         });
@@ -328,7 +331,7 @@
                             levelElement.textContent = `Poziom: ${level}`;
                             // Increase difficulty based on selected level
                             invaderSpeed += 0.5;
-                            invaderShootInterval = Math.max(2000, invaderShootInterval - 1000); // Min 2000ms
+                            invaderShootInterval = Math.max(4000, invaderShootInterval - 1000); // Min 4000ms
                             initInvaders();
                             // Chance to drop extra life
                             if (Math.random() < 0.3) { // 30% chance
@@ -478,22 +481,22 @@
         switch (difficulty) {
             case 'easy':
                 invaderSpeed = 1;
-                invaderShootInterval = 12000;
+                invaderShootInterval = 12000; // 12 seconds
                 player.speed = 7;
                 break;
             case 'medium':
                 invaderSpeed = 1.5;
-                invaderShootInterval = 9000;
+                invaderShootInterval = 9000; // 9 seconds
                 player.speed = 5;
                 break;
             case 'hard':
                 invaderSpeed = 2;
-                invaderShootInterval = 7000;
+                invaderShootInterval = 7000; // 7 seconds
                 player.speed = 4;
                 break;
             default:
                 invaderSpeed = 1.5;
-                invaderShootInterval = 4000;
+                invaderShootInterval = 9000;
                 player.speed = 5;
         }
     }
