@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odbijanie góra-dół</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+    }
+    .box {
+      width: 50px;
+      height: 50px;
+      background: green;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+    const box = document.querySelector('.box');
+    const duration = 2000; // Czas trwania jednego odbicia (2 sekundy)
+
+    function animate() {
+      const time = performance.now();
+      const progress = (time % duration) / duration; // Cykl od 0 do 1
+      const bounce = Math.abs(Math.sin(progress * Math.PI * 2)); // Odbicie (0 -> 1 -> 0)
+
+      box.style.transform = `translateY(${bounce * 100}px)`; // Ruch w osi Y
+
+      requestAnimationFrame(animate); // Kontynuacja animacji
+    }
+
+    animate();
+  </script>
+</body>
+</html>
