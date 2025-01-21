@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liniowe przesunięcie</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+    }
+    .box {
+      width: 50px;
+      height: 50px;
+      background: blue;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+    const box = document.querySelector('.box');
+    const duration = 2000; // Animacja trwa 2 sekundy
+    const startTime = performance.now();
+
+    function animate() {
+      const timePassed = performance.now() - startTime;
+      const progress = Math.min(timePassed / duration, 1); // Progres od 0 do 1
+      const maxDistance = 500; // Maksymalne przesunięcie
+
+      box.style.transform = `translateX(${progress * maxDistance}px)`; // Ruch w prawo
+
+      if (progress < 1) {
+        requestAnimationFrame(animate); // Kontynuacja animacji
+      }
+    }
+
+    animate();
+  </script>
+</body>
+</html>
