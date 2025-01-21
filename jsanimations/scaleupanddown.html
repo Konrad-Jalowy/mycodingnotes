@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulsowanie rozmiaru</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+    }
+    .box {
+      width: 50px;
+      height: 50px;
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+    const box = document.querySelector('.box');
+    const duration = 2000; // Czas trwania jednego cyklu pulsowania
+
+    function animate() {
+      const time = performance.now();
+      const progress = (time % duration) / duration; // Cykl powtarzający się od 0 do 1
+      const scale = 1 + Math.sin(progress * Math.PI * 2) * 0.5; // Skala od 0.5 do 1.5
+
+      box.style.transform = `scale(${scale})`;
+
+      requestAnimationFrame(animate); // Kontynuacja animacji
+    }
+
+    animate();
+  </script>
+</body>
+</html>
