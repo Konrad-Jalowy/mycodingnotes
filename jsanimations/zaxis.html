@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obracanie</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+    }
+    .box {
+      width: 50px;
+      height: 50px;
+      background: purple;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+    const box = document.querySelector('.box');
+    const duration = 3000; // Czas pełnego obrotu (3 sekundy)
+
+    function animate() {
+      const time = performance.now();
+      const progress = (time % duration) / duration; // Cykl od 0 do 1
+      const rotation = progress * 360; // Kąt obrotu (0 -> 360)
+
+      box.style.transform = `rotate(${rotation}deg)`; // Obrót wokół osi Z
+
+      requestAnimationFrame(animate); // Kontynuacja animacji
+    }
+
+    animate();
+  </script>
+</body>
+</html>
