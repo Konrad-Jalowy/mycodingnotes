@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Wirtualne Pianino</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            user-select: none;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #piano {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin: 20px auto;
+            user-select: none;
+        }
+
+        .octave {
+            position: relative;
+            display: inline-block;
+        }
+
+        .white-key, .black-key {
+            border: 1px solid #000;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .white-key {
+            width: 40px;
+            height: 200px;
+            background: white;
+            z-index: 1;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .black-key {
+            width: 30px;
+            height: 120px;
+            background: black;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* Pozycjonowanie czarnych klawiszy */
+        .black-key.Cs, .black-key.Ds, .black-key.Fs, .black-key.Gs, .black-key.As {
+            /* Dostosowane położenie czarnych klawiszy w każdej oktawie */
+        }
+
+        /* Przesunięcia dla czarnych klawiszy w każdej oktawie */
+        .octave:nth-child(1) .black-key.Cs { left: 25px; }
+        .octave:nth-child(1) .black-key.Ds { left: 65px; }
+        .octave:nth-child(1) .black-key.Fs { left: 145px; }
+        .octave:nth-child(1) .black-key.Gs { left: 185px; }
+        .octave:nth-child(1) .black-key.As { left: 225px; }
+
+        .octave:nth-child(2) .black-key.Cs { left: 25px; }
+        .octave:nth-child(2) .black-key.Ds { left: 65px; }
+        .octave:nth-child(2) .black-key.Fs { left: 145px; }
+        .octave:nth-child(2) .black-key.Gs { left: 185px; }
+        .octave:nth-child(2) .black-key.As { left: 225px; }
+
+        .octave:nth-child(3) .black-key.Cs { left: 25px; }
+        .octave:nth-child(3) .black-key.Ds { left: 65px; }
+        .octave:nth-child(3) .black-key.Fs { left: 145px; }
+        .octave:nth-child(3) .black-key.Gs { left: 185px; }
+        .octave:nth-child(3) .black-key.As { left: 225px; }
+
+        .key-active {
+            background: #ccc !important;
+        }
+
+        .black-key-active {
+            background: #555 !important;
+        }
+
+        #controls {
+            margin-top: 20px;
+        }
+
+        #controls > * {
+            margin: 5px;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #record-status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1000px) {
+            .white-key {
+                width: 30px;
+                height: 150px;
+            }
+
+            .black-key {
+                width: 20px;
+                height: 90px;
+            }
+
+            .octave:nth-child(1) .black-key.Cs { left: 20px; }
+            .octave:nth-child(1) .black-key.Ds { left: 50px; }
+            .octave:nth-child(1) .black-key.Fs { left: 115px; }
+            .octave:nth-child(1) .black-key.Gs { left: 145px; }
+            .octave:nth-child(1) .black-key.As { left: 175px; }
+
+            .octave:nth-child(2) .black-key.Cs { left: 20px; }
+            .octave:nth-child(2) .black-key.Ds { left: 50px; }
+            .octave:nth-child(2) .black-key.Fs { left: 115px; }
+            .octave:nth-child(2) .black-key.Gs { left: 145px; }
+            .octave:nth-child(2) .black-key.As { left: 175px; }
+
+            .octave:nth-child(3) .black-key.Cs { left: 20px; }
+            .octave:nth-child(3) .black-key.Ds { left: 50px; }
+            .octave:nth-child(3) .black-key.Fs { left: 115px; }
+            .octave:nth-child(3) .black-key.Gs { left: 145px; }
+            .octave:nth-child(3) .black-key.As { left: 175px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Wirtualne Pianino</h1>
+
+    <div id="piano">
+        <!-- Oktawa 3 -->
+        <div class="octave">
+            <div class="white-key" data-note="C3"></div>
+            <div class="white-key" data-note="D3"></div>
+            <div class="white-key" data-note="E3"></div>
+            <div class="white-key" data-note="F3"></div>
+            <div class="white-key" data-note="G3"></div>
+            <div class="white-key" data-note="A3"></div>
+            <div class="white-key" data-note="B3"></div>
+            <div class="white-key" data-note="C4"></div>
+
+            <!-- Czarne klawisze oktawy 3 -->
+            <div class="black-key Cs" data-note="C#3"></div>
+            <div class="black-key Ds" data-note="D#3"></div>
+            <div class="black-key Fs" data-note="F#3"></div>
+            <div class="black-key Gs" data-note="G#3"></div>
+            <div class="black-key As" data-note="A#3"></div>
+        </div>
+
+        <!-- Oktawa 4 -->
+        <div class="octave">
+            <div class="white-key" data-note="C4"></div>
+            <div class="white-key" data-note="D4"></div>
+            <div class="white-key" data-note="E4"></div>
+            <div class="white-key" data-note="F4"></div>
+            <div class="white-key" data-note="G4"></div>
+            <div class="white-key" data-note="A4"></div>
+            <div class="white-key" data-note="B4"></div>
+            <div class="white-key" data-note="C5"></div>
+
+            <!-- Czarne klawisze oktawy 4 -->
+            <div class="black-key Cs" data-note="C#4"></div>
+            <div class="black-key Ds" data-note="D#4"></div>
+            <div class="black-key Fs" data-note="F#4"></div>
+            <div class="black-key Gs" data-note="G#4"></div>
+            <div class="black-key As" data-note="A#4"></div>
+        </div>
+
+        <!-- Oktawa 5 -->
+        <div class="octave">
+            <div class="white-key" data-note="C5"></div>
+            <div class="white-key" data-note="D5"></div>
+            <div class="white-key" data-note="E5"></div>
+            <div class="white-key" data-note="F5"></div>
+            <div class="white-key" data-note="G5"></div>
+            <div class="white-key" data-note="A5"></div>
+            <div class="white-key" data-note="B5"></div>
+            <div class="white-key" data-note="C6"></div>
+
+            <!-- Czarne klawisze oktawy 5 -->
+            <div class="black-key Cs" data-note="C#5"></div>
+            <div class="black-key Ds" data-note="D#5"></div>
+            <div class="black-key Fs" data-note="F#5"></div>
+            <div class="black-key Gs" data-note="G#5"></div>
+            <div class="black-key As" data-note="A#5"></div>
+        </div>
+    </div>
+
+    <div id="controls">
+        <label for="waveform">Wybierz brzmienie:</label>
+        <select id="waveform">
+            <option value="sine">Sine</option>
+            <option value="square">Square</option>
+            <option value="triangle">Triangle</option>
+            <option value="sawtooth">Sawtooth</option>
+        </select>
+
+        <button id="record-btn">Rozpocznij Nagrywanie</button>
+        <button id="play-btn" disabled>Odtwórz Melodię</button>
+        <button id="clear-btn" disabled>Wyczyść Melodię</button>
+        <button id="rest-btn">Rest</button>
+    </div>
+
+    <div id="record-status"></div>
+
+    <script>
+        // Definicja częstotliwości dla poszczególnych nut
+        const NOTES = {
+            "C3": 130.81,
+            "C#3": 138.59,
+            "D3": 146.83,
+            "D#3": 155.56,
+            "E3": 164.81,
+            "F3": 174.61,
+            "F#3": 185.00,
+            "G3": 196.00,
+            "G#3": 207.65,
+            "A3": 220.00,
+            "A#3": 233.08,
+            "B3": 246.94,
+            "C4": 261.63,
+            "C#4": 277.18,
+            "D4": 293.66,
+            "D#4": 311.13,
+            "E4": 329.63,
+            "F4": 349.23,
+            "F#4": 369.99,
+            "G4": 392.00,
+            "G#4": 415.30,
+            "A4": 440.00,
+            "A#4": 466.16,
+            "B4": 493.88,
+            "C5": 523.25,
+            "C#5": 554.37,
+            "D5": 587.33,
+            "D#5": 622.25,
+            "E5": 659.25,
+            "F5": 698.46,
+            "F#5": 739.99,
+            "G5": 783.99,
+            "G#5": 830.61,
+            "A5": 880.00,
+            "A#5": 932.33,
+            "B5": 987.77,
+            "C6": 1046.50
+        };
+
+        const piano = document.getElementById('piano');
+        const waveformSelect = document.getElementById('waveform');
+        const recordBtn = document.getElementById('record-btn');
+        const playBtn = document.getElementById('play-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const restBtn = document.getElementById('rest-btn');
+        const recordStatus = document.getElementById('record-status');
+
+        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let currentWaveform = waveformSelect.value;
+
+        let recording = false;
+        let recordStartTime = 0;
+        let recordedNotes = [];
+
+        // Obsługa zmiany brzmienia
+        waveformSelect.addEventListener('change', (e) => {
+            currentWaveform = e.target.value;
+        });
+
+        // Funkcja do odtwarzania nut
+        function playNote(note) {
+            if (note === 'REST') return; // Obsługa przerwy
+
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            osc.type = currentWaveform;
+            osc.frequency.value = NOTES[note];
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            osc.start();
+
+            gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
+
+            osc.stop(audioCtx.currentTime + 1);
+        }
+
+        // Funkcja do obsługi kliknięć klawiszy
+        function keyPressed(note, keyElement) {
+            playNote(note);
+            activateKey(keyElement);
+
+            if (recording) {
+                const time = Date.now() - recordStartTime;
+                recordedNotes.push({ note: note, time: time });
+            }
+        }
+
+        // Funkcja do wizualnego aktywowania klawisza
+        function activateKey(keyElement) {
+            if (keyElement.classList.contains('black-key')) {
+                keyElement.classList.add('black-key-active');
+                setTimeout(() => {
+                    keyElement.classList.remove('black-key-active');
+                }, 200);
+            } else {
+                keyElement.classList.add('key-active');
+                setTimeout(() => {
+                    keyElement.classList.remove('key-active');
+                }, 200);
+            }
+        }
+
+        // Obsługa kliknięć na klawiszach
+        piano.addEventListener('click', (e) => {
+            if (e.target.classList.contains('white-key') || e.target.classList.contains('black-key')) {
+                const note = e.target.getAttribute('data-note');
+                keyPressed(note, e.target);
+            }
+        });
+
+        // Obsługa klawiatury komputera
+        const keyboardMap = {
+            // Oktawa 3
+            'a': 'C3',
+            'w': 'C#3',
+            's': 'D3',
+            'e': 'D#3',
+            'd': 'E3',
+            'f': 'F3',
+            't': 'F#3',
+            'g': 'G3',
+            'y': 'G#3',
+            'h': 'A3',
+            'u': 'A#3',
+            'j': 'B3',
+            'k': 'C4',
+
+            // Oktawa 4
+            'o': 'C#4',
+            'l': 'D4',
+            'p': 'D#4',
+            ';': 'E4',
+            '\'': 'F4',
+            ']': 'F#4',
+            '\\': 'G4',
+
+            // Oktawa 5
+            'z': 'C5',
+            'x': 'C#5',
+            'c': 'D5',
+            'v': 'D#5',
+            'b': 'E5',
+            'n': 'F5',
+            'm': 'F#5',
+            ',': 'G5',
+            '.': 'G#5',
+            '/': 'A5',
+            'q': 'A#5',
+            '1': 'B5',
+            '2': 'C6'
+        };
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            if (keyboardMap[key]) {
+                const note = keyboardMap[key];
+                const keyElements = document.querySelectorAll(`[data-note="${note}"]`);
+                keyElements.forEach(el => keyPressed(note, el));
+            }
+        });
+
+        // Nagrywanie
+        recordBtn.addEventListener('click', () => {
+            if (!recording) {
+                // Rozpoczęcie nagrywania
+                recordedNotes = [];
+                recording = true;
+                recordStartTime = Date.now();
+                recordBtn.textContent = 'Zakończ Nagrywanie';
+                recordStatus.textContent = 'Nagrywanie...';
+                playBtn.disabled = true;
+                clearBtn.disabled = true;
+            } else {
+                // Zakończenie nagrywania
+                recording = false;
+                recordBtn.textContent = 'Rozpocznij Nagrywanie';
+                recordStatus.textContent = 'Nagranie zakończone.';
+                if (recordedNotes.length > 0) {
+                    playBtn.disabled = false;
+                    clearBtn.disabled = false;
+                }
+            }
+        });
+
+        // Odtwarzanie
+        playBtn.addEventListener('click', () => {
+            if (recordedNotes.length === 0) return;
+            playBtn.disabled = true;
+            recordBtn.disabled = true;
+            clearBtn.disabled = true;
+            restBtn.disabled = true;
+            recordStatus.textContent = 'Odtwarzanie...';
+
+            recordedNotes.forEach(noteEvent => {
+                setTimeout(() => {
+                    if (noteEvent.note !== 'REST') {
+                        const keyElements = document.querySelectorAll(`[data-note="${noteEvent.note}"]`);
+                        keyElements.forEach(el => keyPressed(noteEvent.note, el));
+                    }
+                }, noteEvent.time);
+            });
+
+            // Obliczenie czasu trwania odtwarzania
+            const duration = recordedNotes[recordedNotes.length - 1].time;
+            setTimeout(() => {
+                playBtn.disabled = false;
+                recordBtn.disabled = false;
+                clearBtn.disabled = false;
+                restBtn.disabled = false;
+                recordStatus.textContent = 'Odtwarzanie zakończone.';
+            }, duration + 1000);
+        });
+
+        // Czyszczenie nagrania
+        clearBtn.addEventListener('click', () => {
+            recordedNotes = [];
+            playBtn.disabled = true;
+            clearBtn.disabled = true;
+            recordStatus.textContent = 'Nagranie wyczyszczone.';
+        });
+
+        // Klawisz Rest
+        restBtn.addEventListener('click', () => {
+            if (recording) {
+                const time = Date.now() - recordStartTime;
+                recordedNotes.push({ note: 'REST', time: time });
+            }
+            // Opcjonalnie: wizualny efekt restu
+            recordStatus.textContent = 'Rest...';
+            setTimeout(() => {
+                recordStatus.textContent = '';
+            }, 500);
+        });
+
+        // Przykładowa melodia do testów
+        // "C4 C4 G4 G4 A4 A4 G4 REST F4 F4 E4 E4 D4 D4 C4"
+        // Możesz nagrać tę melodię korzystając z funkcji nagrywania.
+
+        // Aby dodać przykładową melodię automatycznie, możesz odkomentować poniższy kod:
+
+        /*
+        window.onload = () => {
+            const melody = ["C4", "C4", "G4", "G4", "A4", "A4", "G4", "REST", "F4", "F4", "E4", "E4", "D4", "D4", "C4"];
+            let currentNote = 0;
+            recordStartTime = Date.now();
+            recording = true;
+            recordBtn.textContent = 'Zakończ Nagrywanie';
+            recordStatus.textContent = 'Nagrywanie...';
+
+            const interval = setInterval(() => {
+                if (currentNote < melody.length) {
+                    const note = melody[currentNote];
+                    if (note !== 'REST') {
+                        const keyElements = document.querySelectorAll(`[data-note="${note}"]`);
+                        keyElements.forEach(el => keyPressed(note, el));
+                    } else {
+                        if (recording) {
+                            const time = Date.now() - recordStartTime;
+                            recordedNotes.push({ note: 'REST', time: time });
+                        }
+                    }
+                    currentNote++;
+                } else {
+                    clearInterval(interval);
+                    recording = false;
+                    recordBtn.textContent = 'Rozpocznij Nagrywanie';
+                    recordStatus.textContent = 'Nagranie zakończone.';
+                    if (recordedNotes.length > 0) {
+                        playBtn.disabled = false;
+                        clearBtn.disabled = false;
+                    }
+                }
+            }, 500); // Tempo: co 500ms zmienia się nuta
+        };
+        */
+    </script>
+
+</body>
+</html>
