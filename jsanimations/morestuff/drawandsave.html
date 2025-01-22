@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zapisz obraz z Canvas</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="400"></canvas>
+  <button id="saveImage">Zapisz jako obraz</button>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let isMouseDown = false;
+    let lastX, lastY;
+
+    // Rysowanie na Canvas
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      isMouseDown = true;
+      lastX = e.offsetX;
+      lastY = e.offsetY;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+
+      const currentX = e.offsetX;
+      const currentY = e.offsetY;
+
+      ctx.lineTo(currentX, currentY);
+      ctx.strokeStyle = 'blue';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      lastX = currentX;
+      lastY = currentY;
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      isMouseDown = false;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      drawing = false;
+    });
+
+    canvas.addEventListener('mouseenter', (e) => {
+      if (isMouseDown) {
+        drawing = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+      }
+    });
+
+    // Zapisz obraz
+    document.getElementById('saveImage').addEventListener('click', () => {
+      // Pobierz dane obrazu w formacie PNG
+      const imageData = canvas.toDataURL('image/png');
+
+      // Utwórz element <a> do pobrania obrazu
+      const link = document.createElement('a');
+      link.href = imageData; // Ustaw dane obrazu jako href
+      link.download = 'canvas-image.png'; // Nazwa pliku
+      link.click(); // Symuluj kliknięcie
+    });
+  </script>
+</body>
+</html>
