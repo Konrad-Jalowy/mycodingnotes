@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prosty Ruch Obiektu</title>
+  <style>
+    canvas {
+      display: block;
+      margin: 50px auto;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <script>
+    // Inicjalizacja Canvas
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Właściwości obiektu
+    const rect = {
+      x: 50, // Pozycja X
+      y: 100, // Pozycja Y
+      width: 50, // Szerokość
+      height: 50, // Wysokość
+      color: 'blue', // Kolor
+      speed: 2 // Prędkość (piksele na klatkę)
+    };
+
+    // Funkcja rysująca obiekt
+    function drawRect() {
+      ctx.fillStyle = rect.color;
+      ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+    }
+
+    // Funkcja aktualizująca pozycję
+    function updatePosition() {
+      rect.x += rect.speed; // Przesuwamy prostokąt w prawo
+      if (rect.x > canvas.width) { // Jeśli obiekt wyjdzie poza ekran
+        rect.x = -rect.width; // Wróć na początek
+      }
+    }
+
+    // Główna funkcja animacji
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Czyść Canvas
+      updatePosition(); // Aktualizuj pozycję
+      drawRect(); // Rysuj obiekt
+      requestAnimationFrame(gameLoop); // Kontynuuj animację
+    }
+
+    // Start animacji
+    gameLoop();
+  </script>
+</body>
+</html>
