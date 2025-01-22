@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sterowanie Prędkością</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 1px solid black;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sterowanie Prędkością Prostokąta</h1>
+  <div class="info">
+    <p id="speedInfo">Prędkość: 2</p>
+    <p id="statusInfo">Status: Ruch</p>
+  </div>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <script>
+    // Inicjalizacja Canvas
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Elementy do wyświetlania informacji
+    const speedInfo = document.getElementById('speedInfo');
+    const statusInfo = document.getElementById('statusInfo');
+
+    // Właściwości prostokąta
+    const rect = {
+      x: 50, // Pozycja X
+      y: 100, // Pozycja Y
+      width: 50, // Szerokość
+      height: 50, // Wysokość
+      color: 'blue', // Kolor
+      speed: 2, // Prędkość początkowa
+      isMoving: true // Flaga kontrolująca ruch
+    };
+
+    // Funkcja rysująca prostokąt
+    function drawRect() {
+      ctx.fillStyle = rect.color;
+      ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+    }
+
+    // Funkcja aktualizująca pozycję
+    function updatePosition() {
+      if (rect.isMoving) {
+        rect.x += rect.speed;
+        if (rect.x > canvas.width) {
+          rect.x = -rect.width; // Powrót na początek
+        }
+      }
+    }
+
+    // Funkcja aktualizująca informacje
+    function updateInfo() {
+      speedInfo.textContent = `Prędkość: ${rect.speed}`;
+      statusInfo.textContent = `Status: ${rect.isMoving ? 'Ruch' : 'Pauza'}`;
+    }
+
+    // Obsługa klawiszy
+    document.addEventListener('keydown', event => {
+      if (event.code === 'ArrowUp') {
+        rect.speed += 1; // Zwiększenie prędkości
+      } else if (event.code === 'ArrowDown') {
+        rect.speed = Math.max(0, rect.speed - 1); // Zmniejszenie prędkości (nie może być ujemna)
+      } else if (event.code === 'Space') {
+        rect.isMoving = !rect.isMoving; // Zatrzymanie/wznowienie ruchu
+      }
+      updateInfo(); // Aktualizacja informacji po naciśnięciu klawisza
+    });
+
+    // Główna funkcja animacji
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Czyść Canvas
+      updatePosition(); // Aktualizacja pozycji
+      drawRect(); // Rysowanie prostokąta
+      requestAnimationFrame(gameLoop); // Kontynuacja animacji
+    }
+
+    // Początkowa aktualizacja informacji i start animacji
+    updateInfo();
+    gameLoop();
+  </script>
+</body>
+</html>
