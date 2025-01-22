@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draw Polygons</title>
+</head>
+<body>
+  <canvas id="polygonCanvas" width="600" height="600" style="border:1px solid #000;"></canvas>
+
+  <script>
+    // Funkcja rysująca wielokąt
+    function drawPolygon(ctx, centerX, centerY, sides, radius, startAngle = 0, color = 'black') {
+      if (sides < 3) return; // Wielokąt musi mieć przynajmniej 3 boki
+      const angleStep = (Math.PI * 2) / sides;
+
+      ctx.beginPath();
+      for (let i = 0; i < sides; i++) {
+        const x = centerX + radius * Math.cos(startAngle + i * angleStep);
+        const y = centerY + radius * Math.sin(startAngle + i * angleStep);
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.closePath();
+
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+    }
+
+    // Inicjalizacja canvas
+    const canvas = document.getElementById('polygonCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Rysowanie trójkąta
+    drawPolygon(ctx, 100, 100, 3, 50, Math.PI / 6, 'red');
+
+    // Rysowanie pięciokąta
+    drawPolygon(ctx, 300, 150, 5, 70, Math.PI / 5, 'blue');
+
+    // Rysowanie sześciokąta
+    drawPolygon(ctx, 200, 300, 6, 60, Math.PI / 3, 'green');
+
+    // Rysowanie dziesięciokąta
+    drawPolygon(ctx, 400, 400, 10, 80, Math.PI / 10, 'purple');
+  </script>
+</body>
+</html>
