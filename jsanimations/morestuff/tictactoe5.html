@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kółko i Krzyżyk</title>
+    <style>
+        /* Resetowanie domyślnych stylów */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 3em;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #scoreboard {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 20px;
+        }
+
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .player .name {
+            font-size: 1.5em;
+            color: #555;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+            position: relative;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .player .name:hover {
+            background: linear-gradient(135deg, #e0e0e0, #fff);
+        }
+
+        /* Tooltip */
+        .player .name::after {
+            content: "Kliknij, aby edytować nazwę";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .player .name:hover::after {
+            opacity: 1;
+        }
+
+        .player .score {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        #additionalInfo {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
+            width: 600px;
+            justify-content: space-between;
+        }
+
+        #currentPlayer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #currentPlayer .indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff4757; /* Domyślnie Gracz 1 (X) */
+            transition: background-color 0.3s;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #confettiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(200, 200, 200, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        #overlayMessage {
+            background: #fff;
+            padding: 30px 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #333;
+            min-height: 24px;
+            text-align: center;
+        }
+
+        #restartBtn {
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        #restartBtn:hover {
+            background: linear-gradient(135deg, #feb47b, #ff7e5f);
+            transform: translateY(-2px);
+        }
+
+        /* Stylizacja pola edycji nazwy */
+        .edit-input {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            padding: 5px 10px;
+            border: 2px solid #555;
+            border-radius: 5px;
+            outline: none;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        /* Stylizacja licznika czasu */
+        #timers {
+            display: flex;
+            gap: 50px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .timer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer .label {
+            font-size: 0.8em;
+            color: #555;
+        }
+
+        .timer .time {
+            font-size: 1.5em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kółko i Krzyżyk</h1>
+    <div id="scoreboard">
+        <div id="player1" class="player">
+            <div class="name" title="Kliknij, aby edytować nazwę">Gracz 1</div>
+            <div class="score">0</div>
+        </div>
+        <div id="player2" class="player">
+            <div class="name" title="Kliknij, aby edytować nazwę">Gracz 2</div>
+            <div class="score">0</div>
+        </div>
+    </div>
+    <div id="additionalInfo">
+        <div id="currentPlayer">
+            <div class="indicator"></div>
+            <div>Ruch: <span id="currentPlayerName">Gracz 1</span> (X)</div>
+        </div>
+        <div id="timers">
+            <div class="timer">
+                <div class="label">Całkowity Czas Gry</div>
+                <div class="time" id="totalTime">00:00</div>
+            </div>
+            <div class="timer">
+                <div class="label">Czas Bieżącej Rundy</div>
+                <div class="time" id="currentRoundTime">00:00</div>
+            </div>
+        </div>
+    </div>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+        <canvas id="confettiCanvas" width="600" height="600"></canvas>
+        <div id="overlay">
+            <div id="overlayMessage"></div>
+        </div>
+    </div>
+    <div id="message"></div>
+    <button id="restartBtn">Restartuj grę</button>
+
+    <script>
+        // Inicjalizacja elementów
+        const gameCanvas = document.getElementById('gameCanvas');
+        const ctx = gameCanvas.getContext('2d');
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        const scoreboard = document.getElementById('scoreboard');
+        const players = {
+            1: {
+                element: document.getElementById('player1'),
+                name: 'Gracz 1',
+                score: 0
+            },
+            2: {
+                element: document.getElementById('player2'),
+                name: 'Gracz 2',
+                score: 0
+            }
+        };
+        const messageDiv = document.getElementById('message');
+        const restartBtn = document.getElementById('restartBtn');
+        const overlay = document.getElementById('overlay');
+        const overlayMessage = document.getElementById('overlayMessage');
+        const currentPlayerNameSpan = document.getElementById('currentPlayerName');
+        const currentPlayerIndicator = document.querySelector('#currentPlayer .indicator');
+        const totalTimeSpan = document.getElementById('totalTime');
+        const currentRoundTimeSpan = document.getElementById('currentRoundTime');
+
+        // Ustawienia gry
+        const size = 3;
+        const cellSize = gameCanvas.width / size;
+        let board = Array(size).fill(null).map(() => Array(size).fill(''));
+        let currentPlayer = 1; // 1 lub 2
+        let gameOver = false;
+
+        // Dla przechowywania zwycięskiej kombinacji
+        let winningCombination = [];
+
+        // Liczniki czasu
+        let totalTime = 0; // w sekundach
+        let currentRoundTime = 0; // w sekundach
+        let totalTimeInterval;
+        let currentRoundTimeInterval;
+
+        // Rysowanie planszy
+        function drawBoard() {
+            // Czyszczenie planszy
+            ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+            // Rysowanie siatki
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 4;
+            for(let i = 1; i < size; i++) {
+                // Linie pionowe
+                ctx.beginPath();
+                ctx.moveTo(i * cellSize, 0);
+                ctx.lineTo(i * cellSize, gameCanvas.height);
+                ctx.stroke();
+
+                // Linie poziome
+                ctx.beginPath();
+                ctx.moveTo(0, i * cellSize);
+                ctx.lineTo(gameCanvas.width, i * cellSize);
+                ctx.stroke();
+            }
+
+            // Rysowanie znaków
+            for(let row = 0; row < size; row++) {
+                for(let col = 0; col < size; col++) {
+                    const mark = board[row][col];
+                    if(mark !== '') {
+                        drawMark(mark, row, col);
+                    }
+                }
+            }
+
+            // Aktualizacja wskaźnika ruchu
+            updateCurrentPlayerIndicator();
+        }
+
+        // Rysowanie X lub O
+        function drawMark(mark, row, col) {
+            const padding = cellSize * 0.2;
+            const x = col * cellSize + cellSize / 2;
+            const y = row * cellSize + cellSize / 2;
+            const radius = cellSize / 2 - padding;
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = mark === 'X' ? '#ff4757' : '#1e90ff';
+
+            if(mark === 'X') {
+                // Rysowanie X
+                ctx.beginPath();
+                ctx.moveTo(x - radius, y - radius);
+                ctx.lineTo(x + radius, y + radius);
+                ctx.moveTo(x + radius, y - radius);
+                ctx.lineTo(x - radius, y + radius);
+                ctx.stroke();
+            } else {
+                // Rysowanie O
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+        }
+
+        // Aktualizacja wskaźnika ruchu
+        function updateCurrentPlayerIndicator() {
+            if (currentPlayer === 1) {
+                currentPlayerIndicator.style.backgroundColor = '#ff4757'; // Kolor Gracza 1 (X)
+                currentPlayerNameSpan.textContent = players[1].name;
+            } else {
+                currentPlayerIndicator.style.backgroundColor = '#1e90ff'; // Kolor Gracza 2 (O)
+                currentPlayerNameSpan.textContent = players[2].name;
+            }
+        }
+
+        // Obsługa kliknięć na planszy
+        gameCanvas.addEventListener('click', handleClick);
+
+        function handleClick(event) {
+            if (gameOver) return;
+
+            const rect = gameCanvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const col = Math.floor(x / cellSize);
+            const row = Math.floor(y / cellSize);
+
+            if (board[row][col] === '') {
+                board[row][col] = currentPlayer === 1 ? 'X' : 'O';
+                drawBoard();
+
+                if (checkWin()) {
+                    gameOver = true;
+                    const winnerName = players[currentPlayer].name;
+                    updateScore(currentPlayer);
+                    showEndRoundPrompt(`${winnerName} wygrał! Naciśnij <strong>Enter</strong>, aby kontynuować.`);
+                    highlightWinningLine();
+                    startConfetti();
+                } else if (checkDraw()) {
+                    gameOver = true;
+                    showEndRoundPrompt(`Remis! Naciśnij <strong>Enter</strong>, aby kontynuować.`);
+                } else {
+                    currentPlayer = currentPlayer === 1 ? 2 : 1;
+                }
+            }
+        }
+
+        // Sprawdzanie wygranej
+        function checkWin() {
+            // Sprawdzanie wierszy, kolumn i przekątnych
+            for(let i = 0; i < size; i++) {
+                // Wiersze
+                if(board[i][0] !== '' && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
+                    winningCombination = [[i,0], [i,1], [i,2]];
+                    return true;
+                }
+                // Kolumny
+                if(board[0][i] !== '' && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+                    winningCombination = [[0,i], [1,i], [2,i]];
+                    return true;
+                }
+            }
+            // Przekątne
+            if(board[0][0] !== '' && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+                winningCombination = [[0,0], [1,1], [2,2]];
+                return true;
+            }
+            if(board[0][2] !== '' && board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+                winningCombination = [[0,2], [1,1], [2,0]];
+                return true;
+            }
+            return false;
+        }
+
+        // Sprawdzanie remisu
+        function checkDraw() {
+            for(let row of board) {
+                for(let cell of row) {
+                    if(cell === '') return false;
+                }
+            }
+            return true;
+        }
+
+        // Rysowanie zwycięskiej linii
+        function highlightWinningLine() {
+            if(winningCombination.length === 0) return;
+            ctx.strokeStyle = '#2ed573';
+            ctx.lineWidth = 8;
+            const [start, , end] = winningCombination;
+            const startX = start[1] * cellSize + cellSize / 2;
+            const startY = start[0] * cellSize + cellSize / 2;
+            const endX = end[1] * cellSize + cellSize / 2;
+            const endY = end[0] * cellSize + cellSize / 2;
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+        }
+
+        // Aktualizacja wyniku gracza
+        function updateScore(player) {
+            players[player].score += 1;
+            players[player].element.querySelector('.score').textContent = players[player].score;
+        }
+
+        // Restartowanie rundy
+        function restartRound() {
+            board = Array(size).fill(null).map(() => Array(size).fill(''));
+            currentPlayer = 1;
+            gameOver = false;
+            messageDiv.textContent = '';
+            overlay.style.display = 'none';
+            winningCombination = [];
+            drawBoard();
+            clearConfetti();
+            currentRoundTime = 0;
+            currentRoundTimeSpan.textContent = formatTime(currentRoundTime);
+        }
+
+        // Restartowanie całej gry (reset punktów i czasu)
+        function restartGameFull() {
+            players[1].score = 0;
+            players[2].score = 0;
+            players[1].element.querySelector('.score').textContent = '0';
+            players[2].element.querySelector('.score').textContent = '0';
+            board = Array(size).fill(null).map(() => Array(size).fill(''));
+            currentPlayer = 1;
+            gameOver = false;
+            messageDiv.textContent = '';
+            overlay.style.display = 'none';
+            winningCombination = [];
+            drawBoard();
+            clearConfetti();
+            totalTime = 0;
+            currentRoundTime = 0;
+            totalTimeSpan.textContent = formatTime(totalTime);
+            currentRoundTimeSpan.textContent = formatTime(currentRoundTime);
+            clearInterval(totalTimeInterval);
+            clearInterval(currentRoundTimeInterval);
+            startTimers();
+        }
+
+        // Przycisk restartu działa tylko podczas gry
+        restartBtn.addEventListener('click', () => {
+            if (!gameOver) {
+                showRestartConfirmation();
+            }
+        });
+
+        // Potwierdzenie restartu rundy
+        function showRestartConfirmation() {
+            overlay.style.display = 'flex';
+            overlayMessage.innerHTML = `Czy chcesz zrestartować rundę?<br>Naciśnij <strong>Enter</strong>, aby potwierdzić lub <strong>Esc</strong>, aby anulować.`;
+            gameOver = true; // Zapobiega dalszym ruchom
+        }
+
+        // Potwierdzenie zakończenia rundy (wygrana/remis)
+        function showEndRoundPrompt(text) {
+            overlay.style.display = 'flex';
+            overlayMessage.innerHTML = `${text}<br>Naciśnij <strong>Enter</strong>, aby kontynuować.`;
+        }
+
+        // Obsługa klawiszy
+        document.addEventListener('keydown', (event) => {
+            if (overlay.style.display === 'flex') {
+                if (event.key === 'Enter') {
+                    if (overlayMessage.innerHTML.includes('Czy chcesz zrestartować rundę?')) {
+                        // Restart rundy po potwierdzeniu
+                        restartRound();
+                    } else {
+                        // Kontynuacja gry po zakończeniu rundy
+                        restartRound();
+                    }
+                } else if (event.key === 'Escape') {
+                    if (overlayMessage.innerHTML.includes('Czy chcesz zrestartować rundę?')) {
+                        // Anulowanie restartu rundy
+                        overlay.style.display = 'none';
+                        gameOver = false;
+                    }
+                }
+            } else if (gameOver) {
+                if (event.key === 'Enter') {
+                    restartRound();
+                }
+            }
+        });
+
+        // Edycja nazw graczy
+        for(let p = 1; p <= 2; p++) {
+            players[p].element.querySelector('.name').addEventListener('click', () => {
+                editPlayerName(p);
+            });
+        }
+
+        function editPlayerName(player) {
+            const nameDiv = players[player].element.querySelector('.name');
+            const currentName = players[player].name;
+            nameDiv.innerHTML = `<input type="text" class="edit-input" value="${currentName}" />`;
+            const input = nameDiv.querySelector('.edit-input');
+            input.focus();
+            input.select(); // Zaznaczenie całego tekstu
+
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    const newName = input.value.trim() || `Gracz ${player}`;
+                    players[player].name = newName;
+                    nameDiv.textContent = newName;
+                    updateCurrentPlayerIndicator();
+                } else if (event.key === 'Escape') {
+                    nameDiv.textContent = currentName;
+                }
+            });
+
+            // Kliknięcie poza input przywraca nazwę
+            input.addEventListener('blur', () => {
+                nameDiv.textContent = players[player].name;
+            });
+        }
+
+        // Efekt Confetti
+        let confettiParticles = [];
+
+        function startConfetti() {
+            for(let i = 0; i < 150; i++) {
+                confettiParticles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * confettiCanvas.width,
+                    color: getRandomColor(),
+                    tilt: Math.random() * 10 - 10,
+                    tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+                    tiltAngle: 0
+                });
+            }
+            requestAnimationFrame(updateConfetti);
+        }
+
+        function updateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiParticles.forEach((particle, index) => {
+                confettiCtx.beginPath();
+                confettiCtx.lineWidth = particle.r;
+                confettiCtx.strokeStyle = particle.color;
+                confettiCtx.moveTo(particle.x + particle.tilt + particle.r, particle.y);
+                confettiCtx.lineTo(particle.x + particle.tilt, particle.y + particle.tilt + particle.r);
+                confettiCtx.stroke();
+                particle.tiltAngle += particle.tiltAngleIncremental;
+                particle.y += (Math.cos(particle.d) + 3 + particle.r / 2) / 2;
+                particle.x += Math.sin(particle.d);
+                particle.tilt = Math.sin(particle.tiltAngle) * 15;
+
+                if(particle.y > confettiCanvas.height) {
+                    confettiParticles.splice(index, 1);
+                }
+            });
+            if(confettiParticles.length > 0) {
+                requestAnimationFrame(updateConfetti);
+            }
+        }
+
+        function clearConfetti() {
+            confettiParticles = [];
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+
+        function getRandomColor() {
+            const colors = ['#f94144','#f3722c','#f9c74f','#90be6d','#43aa8b','#577590','#f8961e','#277da1'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Wyświetlanie promptu po zakończeniu rundy
+        function showEndRoundPrompt(text) {
+            overlay.style.display = 'flex';
+            overlayMessage.innerHTML = `${text}<br>Naciśnij <strong>Enter</strong>, aby kontynuować.`;
+        }
+
+        // Inicjalizacja timerów
+        function startTimers() {
+            // Całkowity czas gry
+            totalTimeInterval = setInterval(() => {
+                totalTime++;
+                totalTimeSpan.textContent = formatTime(totalTime);
+            }, 1000);
+
+            // Czas bieżącej rundy
+            currentRoundTimeInterval = setInterval(() => {
+                currentRoundTime++;
+                currentRoundTimeSpan.textContent = formatTime(currentRoundTime);
+            }, 1000);
+        }
+
+        // Formatowanie czasu w mm:ss
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+
+        // Rozpoczęcie timerów po załadowaniu gry
+        window.onload = () => {
+            startTimers();
+            drawBoard();
+        };
+    </script>
+</body>
+</html>
