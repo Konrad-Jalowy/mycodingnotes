@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Text Example</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="600" height="400" style="border: 1px solid black;"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 1. Rysowanie zwykłego tekstu
+        ctx.font = "30px Arial"; // Rozmiar i czcionka
+        ctx.fillStyle = "blue"; // Kolor wypełnienia tekstu
+        ctx.fillText("Hello Canvas!", 50, 50); // Tekst, x, y
+
+        // 2. Rysowanie konturu tekstu
+        ctx.strokeStyle = "red"; // Kolor konturu
+        ctx.lineWidth = 2; // Grubość linii
+        ctx.strokeText("Outlined Text", 50, 100); // Tekst, x, y
+
+        // 3. Wyśrodkowany tekst
+        ctx.textAlign = "center"; // Wyrównanie tekstu
+        ctx.textBaseline = "middle"; // Wyrównanie względem osi y
+        ctx.fillStyle = "green";
+        ctx.font = "40px Verdana";
+        ctx.fillText("Centered Text", canvas.width / 2, canvas.height / 2);
+
+        // 4. Obracanie tekstu
+        ctx.save(); // Zapisujemy bieżący stan
+        ctx.translate(300, 300); // Przenosimy układ współrzędnych
+        ctx.rotate(-Math.PI / 4); // Obrót w lewo (45 stopni)
+        ctx.font = "20px Georgia";
+        ctx.fillStyle = "purple";
+        ctx.fillText("Rotated Text", 0, 0); // Rysowanie tekstu
+        ctx.restore(); // Przywracamy poprzedni stan
+
+        // 5. Długie teksty z zawijaniem
+        const longText = "This is an example of a long text that can be wrapped to fit within a specific area.";
+        const maxWidth = 200;
+        const x = 50;
+        const y = 300;
+        const lineHeight = 25;
+
+        // Funkcja do rysowania zawijanego tekstu
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                const metrics = context.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && i > 0) {
+                    context.fillText(line, x, y);
+                    line = words[i] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line, x, y);
+        }
+
+        wrapText(ctx, longText, x, y, maxWidth, lineHeight);
+    </script>
+</body>
+</html>
