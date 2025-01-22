@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pocisk i Cel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto;
+      border: 1px solid black;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pocisk i Cel</h1>
+  <p class="info" id="status">Status: Brak trafienia</p>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <script>
+    // Inicjalizacja Canvas
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Definicja celu
+    const target = {
+      x: 600, // Pozycja X
+      y: 150, // Pozycja Y
+      width: 100, // Szerokość
+      height: 100, // Wysokość
+      color: 'green' // Kolor
+    };
+
+    // Definicja pocisku
+    const bullet = {
+      x: 50, // Pozycja początkowa X
+      y: 190, // Pozycja początkowa Y
+      width: 20, // Szerokość pocisku
+      height: 20, // Wysokość pocisku
+      speed: 5, // Prędkość poruszania
+      color: 'red' // Kolor pocisku
+    };
+
+    // Status trafienia
+    const statusText = document.getElementById('status');
+
+    // Funkcja rysująca prostokąt
+    function drawRect(obj) {
+      ctx.fillStyle = obj.color;
+      ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    }
+
+    // Funkcja sprawdzająca kolizję prostokąta z prostokątem
+    function areRectanglesColliding(rect1, rect2) {
+      return (
+        rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.y + rect1.height > rect2.y
+      );
+    }
+
+    // Funkcja aktualizująca pozycję pocisku
+    function updateBullet() {
+      bullet.x += bullet.speed; // Przesuń pocisk w prawo
+      if (areRectanglesColliding(bullet, target)) {
+        statusText.textContent = 'Status: Trafienie!';
+        target.color = 'red'; // Zmiana koloru celu
+        bullet.speed = 0; // Zatrzymanie pocisku
+      } else if (bullet.x > canvas.width) {
+        statusText.textContent = 'Status: Pocisk wyszedł poza ekran';
+        bullet.speed = 0; // Zatrzymanie pocisku
+      }
+    }
+
+    // Główna pętla animacji
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Czyść Canvas
+      drawRect(target); // Rysuj cel
+      drawRect(bullet); // Rysuj pocisk
+      updateBullet(); // Aktualizuj pocisk
+      requestAnimationFrame(gameLoop); // Kontynuuj animację
+    }
+
+    // Start animacji
+    gameLoop();
+  </script>
+</body>
+</html>
