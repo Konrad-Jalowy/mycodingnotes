@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Płynny Licznik Odwiedzin</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #b12a2a;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            background-color: #111;
+            color: #fff;
+            font-size: 6rem;
+        }
+
+        .counter-box {
+            display: flex;
+            margin: 6em 0;
+        }
+
+        .counter-item {
+            margin: 1em;
+            width: 200px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .counter {
+            margin: 0.3em 0;
+            font-size: 4rem;
+        }
+
+        .ti {
+            font-size: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Płynny Licznik Odwiedzin</h1>
+    <div class="counter-box">
+        <div class="counter-item">
+            <i class="ti ti-3d-cube-sphere"></i>
+            <p class="counter" data-number='8976'>0</p>
+            <p>Stat #1</p>
+        </div>
+        <div class="counter-item">
+            <i class="ti ti-heart"></i>
+            <p class="counter" data-number='3451'>0</p>
+            <p>Stat #2</p>
+        </div>
+        <div class="counter-item">
+            <i class="ti ti-star"></i>
+            <p class="counter" data-number='18796'>0</p>
+            <p>Stat #3</p>
+        </div>
+    </div>
+
+    <script>
+        const counterItems = document.querySelectorAll('.counter');
+        const counterBox = document.querySelector('.counter-box');
+
+        const options = {
+            rootMargin: '-250px'
+        };
+
+        const startCounter = entry => {
+            if (entry[0].isIntersecting) {
+                counterItems.forEach(counter => {
+
+                    const updateCounter = () => {
+                        const finalNumber = counter.getAttribute('data-number');
+                        const value = parseInt(counter.textContent);
+                        const speed = finalNumber / 300;
+
+                        if (value < finalNumber) {
+                            counter.textContent = `${Math.floor(value + speed)}`;
+                            setTimeout(updateCounter, 1);
+                        } else {
+                            counter.textContent = finalNumber;
+                        }
+                    };
+
+                    updateCounter();
+
+                });
+            }
+        };
+
+        const observer = new IntersectionObserver(startCounter, options);
+        observer.observe(counterBox);
+    </script>
+</body>
+</html>
