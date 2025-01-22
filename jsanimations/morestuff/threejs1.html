@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obracający się sześcian</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script>
+    // Inicjalizacja sceny, kamery i renderera
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Tworzenie sześcianu
+    const geometry = new THREE.BoxGeometry(); // Kształt
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Materiał (zielony)
+    const cube = new THREE.Mesh(geometry, material); // Siatka: geometria + materiał
+    scene.add(cube);
+
+    // Ustawienie kamery
+    camera.position.z = 5;
+
+    // Funkcja animacji
+    function animate() {
+      requestAnimationFrame(animate); // Wywołanie w każdej klatce
+
+      // Obrót sześcianu
+      cube.rotation.x += 0.01; // Obrót wokół osi X
+      cube.rotation.y += 0.01; // Obrót wokół osi Y
+
+      // Renderowanie sceny
+      renderer.render(scene, camera);
+    }
+
+    // Uruchomienie animacji
+    animate();
+  </script>
+</body>
+</html>
