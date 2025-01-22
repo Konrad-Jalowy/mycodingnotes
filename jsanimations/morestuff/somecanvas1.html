@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kształty na Canvas</title>
+  <style>
+    canvas {
+      display: block;
+      margin: 50px auto;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="800" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Prostokąt
+    ctx.fillStyle = "blue";
+    ctx.fillRect(50, 50, 100, 100);
+
+    // Okrąg
+    ctx.beginPath();
+    ctx.arc(200, 100, 50, 0, Math.PI * 2); // Środek: (200, 100), Promień: 50
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.closePath();
+
+    // Linia
+    ctx.beginPath();
+    ctx.moveTo(300, 50); // Punkt początkowy
+    ctx.lineTo(400, 150); // Punkt końcowy
+    ctx.strokeStyle = "green";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.closePath();
+
+    // Trójkąt
+    ctx.beginPath();
+    ctx.moveTo(500, 50);
+    ctx.lineTo(550, 150);
+    ctx.lineTo(450, 150);
+    ctx.closePath();
+    ctx.fillStyle = "orange";
+    ctx.fill();
+  </script>
+</body>
+</html>
