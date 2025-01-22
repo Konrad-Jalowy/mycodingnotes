@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Płynny Licznik Odwiedzin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .counter {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 20px;
+      color: #007BFF;
+    }
+    label, input {
+      font-size: 18px;
+      margin: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Płynny Licznik Odwiedzin</h1>
+  <div>
+    <label for="target-number">Docelowa liczba odwiedzin:</label>
+    <input type="number" id="target-number" placeholder="np. 500" />
+  </div>
+  <div>
+    <label for="duration">Czas trwania animacji (ms):</label>
+    <input type="number" id="duration" placeholder="np. 3000" />
+  </div>
+  <button id="start-counter">Rozpocznij licznik</button>
+
+  <div class="counter" id="counter">0</div>
+
+  <script>
+    class Counter {
+      constructor(counterElement) {
+        this.counterElement = counterElement;
+      }
+
+      start(target, duration) {
+        const steps = 30; // Liczba aktualizacji licznika (np. 30 kroków)
+        const interval = duration / steps; // Czas między kolejnymi krokami
+        const increment = target / steps; // Wartość dodawana na każdym kroku
+
+        let currentValue = 0; // Obecna wartość licznika
+        let step = 0; // Liczba wykonanych kroków
+
+        const timer = setInterval(() => {
+          step++;
+          currentValue += increment;
+          this.counterElement.textContent = Math.floor(currentValue);
+
+          if (step >= steps) {
+            clearInterval(timer); // Zatrzymujemy licznik
+            this.counterElement.textContent = target; // Ustawiamy dokładną wartość końcową
+          }
+        }, interval);
+      }
+    }
+
+    document.getElementById('start-counter').addEventListener('click', () => {
+      const targetNumber = parseInt(document.getElementById('target-number').value, 10);
+      const duration = parseInt(document.getElementById('duration').value, 10);
+
+      if (isNaN(targetNumber) || isNaN(duration) || targetNumber <= 0 || duration <= 0) {
+        alert('Wprowadź poprawne wartości liczby docelowej i czasu!');
+        return;
+      }
+
+      const counterElement = document.getElementById('counter');
+      const counter = new Counter(counterElement);
+      counter.start(targetNumber, duration);
+    });
+  </script>
+</body>
+</html>
