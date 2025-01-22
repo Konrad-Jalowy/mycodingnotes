@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikacja do Rysowania</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #d9d9d9);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            align-items: center;
+        }
+        .toolbar > * {
+            margin: 5px;
+        }
+        .toolbar label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        .toolbar input[type="color"],
+        .toolbar input[type="number"],
+        .toolbar select,
+        .toolbar button {
+            margin-left: 5px;
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+        }
+        .toolbar button {
+            background: #555;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toolbar button:hover {
+            background: #777;
+        }
+        #canvasContainer {
+            flex: 1;
+            position: relative;
+        }
+        canvas {
+            border: 2px solid #555;
+            background-color: #ffffff;
+            display: block;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        /* Modal for background color */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px; 
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <label>
+            Narzędzie:
+            <select id="tool">
+                <option value="brush">Pędzel</option>
+                <option value="rectangle">Prostokąt</option>
+                <option value="circle">Koło</option>
+                <option value="line">Linia</option>
+                <option value="eraser">Gumka</option>
+            </select>
+        </label>
+        <label>
+            Grubość:
+            <input type="number" id="lineWidth" value="5" min="1" max="100">
+        </label>
+        <label>
+            Kolor linii:
+            <input type="color" id="strokeColor" value="#000000">
+        </label>
+        <label>
+            Kolor wypełnienia:
+            <input type="color" id="fillColor" value="#000000">
+        </label>
+        <button id="toggleFill">Włącz/Wyłącz Wypełnienie</button>
+        <label>
+            Tło:
+            <input type="color" id="backgroundColor" value="#ffffff">
+        </label>
+        <button id="transparentBg">Transparentne Tło</button>
+        <button id="clearCanvas">Wyczyść</button>
+        <button id="save">Zapisz PNG</button>
+    </div>
+    <div id="canvasContainer">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+
+    <!-- Modal for background color -->
+    <div id="bgModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <label>
+                Wybierz kolor tła:
+                <input type="color" id="modalBackgroundColor" value="#ffffff">
+            </label>
+            <button id="applyBg">Zastosuj</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let startX, startY;
+        let fill = false;
+
+        const tool = document.getElementById('tool');
+        const lineWidth = document.getElementById('lineWidth');
+        const strokeColor = document.getElementById('strokeColor');
+        const fillColor = document.getElementById('fillColor');
+        const toggleFill = document.getElementById('toggleFill');
+        const backgroundColor = document.getElementById('backgroundColor');
+        const transparentBg = document.getElementById('transparentBg');
+        const clearCanvas = document.getElementById('clearCanvas');
+        const saveBtn = document.getElementById('save');
+
+        const bgModal = document.getElementById('bgModal');
+        const closeModal = document.querySelector('.close');
+        const applyBg = document.getElementById('applyBg');
+        const modalBackgroundColor = document.getElementById('modalBackgroundColor');
+
+        toggleFill.addEventListener('click', () => {
+            fill = !fill;
+            toggleFill.textContent = fill ? 'Wyłącz Wypełnienie' : 'Włącz/Wyłącz Wypełnienie';
+        });
+
+        transparentBg.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Save transparent background by resetting canvas
+            canvas.style.backgroundColor = 'transparent';
+        });
+
+        backgroundColor.addEventListener('click', () => {
+            bgModal.style.display = 'block';
+        });
+
+        closeModal.onclick = function() {
+            bgModal.style.display = 'none';
+        }
+
+        applyBg.onclick = function() {
+            canvas.style.backgroundColor = modalBackgroundColor.value;
+            bgModal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == bgModal) {
+                bgModal.style.display = 'none';
+            }
+        }
+
+        clearCanvas.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.backgroundColor = '#ffffff';
+        });
+
+        saveBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'rysunek.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            startX = e.offsetX;
+            startY = e.offsetY;
+            if (tool.value === 'brush' || tool.value === 'eraser') {
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!drawing) return;
+            const currentX = e.offsetX;
+            const currentY = e.offsetY;
+
+            if (tool.value === 'brush') {
+                ctx.lineTo(currentX, currentY);
+                ctx.strokeStyle = strokeColor.value;
+                ctx.lineWidth = lineWidth.value;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            } else if (tool.value === 'eraser') {
+                ctx.clearRect(currentX - lineWidth.value / 2, currentY - lineWidth.value / 2, lineWidth.value, lineWidth.value);
+            } else {
+                // For shapes, redraw the canvas and show the shape being drawn
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Optionally, you can save and restore the canvas state for more complex drawings
+                // Here we assume a simple approach where background color is managed
+                if (canvas.style.backgroundColor !== 'transparent' && canvas.style.backgroundColor !== '') {
+                    ctx.fillStyle = canvas.style.backgroundColor;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+                const shape = tool.value;
+                ctx.lineWidth = lineWidth.value;
+                ctx.strokeStyle = strokeColor.value;
+                ctx.fillStyle = fillColor.value;
+                if (shape === 'rectangle') {
+                    const width = currentX - startX;
+                    const height = currentY - startY;
+                    ctx.beginPath();
+                    ctx.rect(startX, startY, width, height);
+                } else if (shape === 'circle') {
+                    const radius = Math.sqrt(Math.pow(currentX - startX, 2) + Math.pow(currentY - startY, 2));
+                    ctx.beginPath();
+                    ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+                } else if (shape === 'line') {
+                    ctx.beginPath();
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(currentX, currentY);
+                }
+                if (fill && (shape === 'rectangle' || shape === 'circle')) {
+                    ctx.fill();
+                }
+                ctx.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            drawing = false;
+        });
+    </script>
+</body>
+</html>
