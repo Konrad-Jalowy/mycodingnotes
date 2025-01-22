@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naprawione Rysowanie Linii</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false; // Flaga lokalna rysowania
+    let isMouseDown = false; // Flaga globalna, czy mysz jest wciśnięta
+    let lastX, lastY; // Ostatnia pozycja myszki
+
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      isMouseDown = true; // Flaga globalna włączona
+      lastX = e.offsetX;
+      lastY = e.offsetY;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+
+      const currentX = e.offsetX;
+      const currentY = e.offsetY;
+
+      ctx.lineTo(currentX, currentY);
+      ctx.strokeStyle = 'blue';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      lastX = currentX;
+      lastY = currentY;
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      isMouseDown = false; // Wyłącz globalną flagę
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      drawing = false; // Wyłącz rysowanie w Canvas
+    });
+
+    canvas.addEventListener('mouseenter', (e) => {
+      if (isMouseDown) {
+        drawing = true; // Wznów rysowanie
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+        ctx.beginPath(); // Rozpocznij nową ścieżkę
+        ctx.moveTo(lastX, lastY);
+      }
+    });
+  </script>
+</body>
+</html>
