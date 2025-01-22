@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Othello - Reversi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c3e50, #bdc3c7);
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            color: #ecf0f1;
+        }
+        #gameContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #statusBar {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 20px;
+            font-size: 18px;
+        }
+        .player {
+            position: relative;
+            cursor: pointer;
+        }
+        .player input {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            width: 100px;
+            padding: 2px;
+            font-size: 16px;
+        }
+        #message {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #e74c3c;
+        }
+        #restartButton {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #27ae60;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #restartButton:hover {
+            background: #2ecc71;
+        }
+        canvas {
+            background: #1abc9c;
+            border: 5px solid #16a085;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="statusBar">
+            <div class="player" id="player1">
+                <span id="player1Name">Gracz 1</span> (<span id="player1Score">2</span>)
+            </div>
+            <div class="player" id="player2">
+                <span id="player2Name">Gracz 2</span> (<span id="player2Score">2</span>)
+            </div>
+            <div id="currentTurn">Tura: <span id="turnIndicator">Gracz 1</span></div>
+        </div>
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+        <div id="message"></div>
+        <button id="restartButton" style="display: none;">Zagraj ponownie</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const size = 8;
+        const cellSize = canvas.width / size;
+        let board = [];
+        let currentPlayer = 1;
+        let player1Name = 'Gracz 1';
+        let player2Name = 'Gracz 2';
+        let gameOver = false;
+        const playerElements = {
+            1: document.getElementById('player1Name'),
+            2: document.getElementById('player2Name')
+        };
+        const scoreElements = {
+            1: document.getElementById('player1Score'),
+            2: document.getElementById('player2Score')
+        };
+        const turnIndicator = document.getElementById('turnIndicator');
+        const messageDiv = document.getElementById('message');
+        const restartButton = document.getElementById('restartButton');
+
+        // Initialize board
+        function initBoard() {
+            board = Array(size).fill(null).map(() => Array(size).fill(0));
+            board[3][3] = board[4][4] = 1;
+            board[3][4] = board[4][3] = 2;
+        }
+
+        // Draw board
+        function drawBoard() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw grid
+            for(let i=0; i<=size; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * cellSize, 0);
+                ctx.lineTo(i * cellSize, canvas.height);
+                ctx.strokeStyle = '#34495e';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, i * cellSize);
+                ctx.lineTo(canvas.width, i * cellSize);
+                ctx.stroke();
+            }
+            // Draw discs
+            for(let y=0; y<size; y++) {
+                for(let x=0; x<size; x++) {
+                    if(board[y][x] !== 0) {
+                        drawDisc(x, y, board[y][x]);
+                    }
+                }
+            }
+        }
+
+        // Draw a disc with gradient
+        function drawDisc(x, y, player) {
+            const gradient = ctx.createRadialGradient(
+                x * cellSize + cellSize / 2 - 10,
+                y * cellSize + cellSize / 2 - 10,
+                10,
+                x * cellSize + cellSize / 2,
+                y * cellSize + cellSize / 2,
+                cellSize / 2
+            );
+            if(player === 1) {
+                gradient.addColorStop(0, '#ecf0f1');
+                gradient.addColorStop(1, '#bdc3c7');
+            } else {
+                gradient.addColorStop(0, '#2c3e50');
+                gradient.addColorStop(1, '#34495e');
+            }
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2, cellSize / 2 - 10, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        // Get valid moves for a player
+        function getValidMoves(player) {
+            let validMoves = [];
+            for(let y=0; y<size; y++) {
+                for(let x=0; x<size; x++) {
+                    if(board[y][x] === 0 && canFlip(x, y, player).length > 0) {
+                        validMoves.push({x, y});
+                    }
+                }
+            }
+            return validMoves;
+        }
+
+        // Check if placing at (x,y) can flip any discs
+        function canFlip(x, y, player) {
+            const directions = [
+                {dx: -1, dy: -1}, {dx: 0, dy: -1}, {dx: 1, dy: -1},
+                {dx: -1, dy: 0},                 {dx: 1, dy: 0},
+                {dx: -1, dy: 1},  {dx: 0, dy: 1},  {dx: 1, dy: 1}
+            ];
+            let flips = [];
+            directions.forEach(dir => {
+                let nx = x + dir.dx;
+                let ny = y + dir.dy;
+                let tempFlips = [];
+                while(nx >=0 && nx < size && ny >=0 && ny < size) {
+                    if(board[ny][nx] === 0) break;
+                    if(board[ny][nx] === player) {
+                        flips = flips.concat(tempFlips);
+                        break;
+                    } else {
+                        tempFlips.push({x: nx, y: ny});
+                    }
+                    nx += dir.dx;
+                    ny += dir.dy;
+                }
+            });
+            return flips;
+        }
+
+        // Place a disc
+        function placeDisc(x, y, player) {
+            const flips = canFlip(x, y, player);
+            if(flips.length === 0) return false;
+            board[y][x] = player;
+            flips.forEach(pos => {
+                board[pos.y][pos.x] = player;
+            });
+            return true;
+        }
+
+        // Update scores
+        function updateScores() {
+            let score1 = 0, score2 = 0;
+            for(let row of board) {
+                for(let cell of row) {
+                    if(cell === 1) score1++;
+                    if(cell === 2) score2++;
+                }
+            }
+            scoreElements[1].textContent = score1;
+            scoreElements[2].textContent = score2;
+        }
+
+        // Check game over
+        function checkGameOver() {
+            const moves1 = getValidMoves(1);
+            const moves2 = getValidMoves(2);
+            if(moves1.length === 0 && moves2.length === 0) {
+                gameOver = true;
+                let score1 = parseInt(scoreElements[1].textContent);
+                let score2 = parseInt(scoreElements[2].textContent);
+                if(score1 > score2) {
+                    messageDiv.textContent = `${player1Name} wygrał!`;
+                } else if(score2 > score1) {
+                    messageDiv.textContent = `${player2Name} wygrał!`;
+                } else {
+                    messageDiv.textContent = `Remis!`;
+                }
+                restartButton.style.display = 'block';
+            }
+        }
+
+        // Switch player
+        function switchPlayer() {
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            turnIndicator.textContent = currentPlayer === 1 ? player1Name : player2Name;
+            const validMoves = getValidMoves(currentPlayer);
+            if(validMoves.length === 0) {
+                messageDiv.textContent = `${turnIndicator.textContent} nie ma możliwych ruchów.`;
+                currentPlayer = currentPlayer === 1 ? 2 : 1;
+                turnIndicator.textContent = currentPlayer === 1 ? player1Name : player2Name;
+                checkGameOver();
+            } else {
+                messageDiv.textContent = '';
+                checkGameOver();
+            }
+        }
+
+        // Handle canvas click
+        canvas.addEventListener('click', function(event) {
+            if(gameOver) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((event.clientX - rect.left) / cellSize);
+            const y = Math.floor((event.clientY - rect.top) / cellSize);
+            const validMoves = getValidMoves(currentPlayer);
+            const move = validMoves.find(m => m.x === x && m.y === y);
+            if(move) {
+                placeDisc(x, y, currentPlayer);
+                drawBoard();
+                updateScores();
+                switchPlayer();
+            } else {
+                messageDiv.textContent = `Nie możesz wykonać tego ruchu.`;
+            }
+        });
+
+        // Handle player name editing
+        function makeEditable(player) {
+            const playerDiv = document.getElementById(`player${player}`);
+            const nameSpan = document.getElementById(`player${player}Name`);
+            playerDiv.addEventListener('mouseenter', function() {
+                playerDiv.title = 'Kliknij, aby zmienić nazwę';
+            });
+            playerDiv.addEventListener('click', function() {
+                const currentName = nameSpan.textContent;
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = currentName;
+                nameSpan.replaceWith(input);
+                input.focus();
+                input.select();
+
+                input.addEventListener('blur', function() {
+                    saveName();
+                });
+                input.addEventListener('keydown', function(e) {
+                    if(e.key === 'Enter') {
+                        saveName();
+                    }
+                });
+
+                function saveName() {
+                    const newName = input.value.trim() || `Gracz ${player}`;
+                    nameSpan.textContent = newName;
+                    playerElements[player] = nameSpan;
+                    input.replaceWith(nameSpan);
+                    if(currentPlayer === player) {
+                        turnIndicator.textContent = newName;
+                    }
+                }
+            });
+        }
+
+        makeEditable(1);
+        makeEditable(2);
+
+        // Handle restart
+        restartButton.addEventListener('click', function() {
+            initBoard();
+            drawBoard();
+            updateScores();
+            currentPlayer = 1;
+            turnIndicator.textContent = player1Name;
+            messageDiv.textContent = '';
+            restartButton.style.display = 'none';
+            gameOver = false;
+        });
+
+        // Initialize game
+        initBoard();
+        drawBoard();
+        updateScores();
+        turnIndicator.textContent = player1Name;
+    </script>
+</body>
+</html>
