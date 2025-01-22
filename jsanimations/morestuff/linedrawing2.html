@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rysowanie linią myszką</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false; // Flaga rysowania
+    let lastX, lastY; // Ostatnia pozycja myszki
+
+    // Funkcja rozpoczynająca rysowanie
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true; // Aktywuj rysowanie
+      lastX = e.offsetX; // Zapisz bieżącą pozycję X
+      lastY = e.offsetY; // Zapisz bieżącą pozycję Y
+      ctx.beginPath(); // Rozpocznij nową ścieżkę
+      ctx.moveTo(lastX, lastY); // Ustaw punkt początkowy
+    });
+
+    // Funkcja rysująca
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return; // Jeśli nie rysujemy, pomijamy zdarzenie
+
+      const currentX = e.offsetX; // Aktualna pozycja X myszki
+      const currentY = e.offsetY; // Aktualna pozycja Y myszki
+
+      ctx.lineTo(currentX, currentY); // Dodaj linię do aktualnej pozycji myszki
+      ctx.strokeStyle = 'blue'; // Ustaw kolor linii
+      ctx.lineWidth = 2; // Ustaw grubość linii
+      ctx.stroke(); // Narysuj linię
+
+      lastX = currentX; // Zaktualizuj ostatnią pozycję X
+      lastY = currentY; // Zaktualizuj ostatnią pozycję Y
+    });
+
+    // Funkcja kończąca rysowanie
+    canvas.addEventListener('mouseup', () => {
+      drawing = false; // Wyłącz rysowanie
+    });
+
+    // Funkcja kończąca rysowanie, jeśli myszka opuści Canvas
+    canvas.addEventListener('mouseleave', () => {
+      drawing = false; // Wyłącz rysowanie
+    });
+  </script>
+</body>
+</html>
