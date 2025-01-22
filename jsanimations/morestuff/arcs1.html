@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Okręgi i fragmenty w Canvas</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Funkcja do rysowania łuku
+    function drawArc(x, y, radius, startAngle, endAngle, color) {
+      ctx.beginPath();
+      ctx.arc(x, y, radius, startAngle, endAngle);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    // Pełne koło (0 do 2 * Math.PI)
+    drawArc(150, 100, 50, 0, 2 * Math.PI, 'blue'); // Pełny okrąg
+
+    // Półkole (0 do Math.PI)
+    drawArc(150, 250, 50, 0, Math.PI, 'red'); // Półokrąg
+
+    // Fragment (0 do Math.PI / 2)
+    drawArc(150, 400, 50, 0, Math.PI / 2, 'green'); // Ćwiartka koła
+
+    // Fragment od Math.PI / 2 do Math.PI
+    drawArc(350, 100, 50, Math.PI / 2, Math.PI, 'orange'); // Inny fragment
+
+    // Fragment od 0 do 2 radianów (mniej niż półkole)
+    drawArc(350, 250, 50, 0, 2, 'purple'); // Fragment koła 2 radiany
+
+    // Fragment od Math.PI do 3 * Math.PI / 2
+    drawArc(350, 400, 50, Math.PI, (3 * Math.PI) / 2, 'cyan'); // Fragment od połowy do dolnej części
+  </script>
+</body>
+</html>
