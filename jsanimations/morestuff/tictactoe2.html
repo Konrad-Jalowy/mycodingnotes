@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kółko i Krzyżyk</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        #scoreboard {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+            margin: 10px 0;
+        }
+        .score {
+            font-size: 24px;
+            position: relative;
+            width: 140px;
+            height: 40px;
+            text-align: center;
+        }
+        .score::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #000;
+            box-sizing: border-box;
+        }
+        .tally {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .tally div {
+            width: 10px;
+            height: 30px;
+            border-left: 2px solid #000;
+            margin: 2px;
+            position: relative;
+        }
+        .tally div.five::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 2px;
+            background: #000;
+            transform: rotate(45deg);
+        }
+        #gameContainer {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+        #gameCanvas {
+            background-color: #ffffff;
+            border: 2px solid #000000;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+        #confettiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
+            background-color: transparent;
+        }
+        #message {
+            margin: 10px;
+            font-size: 20px;
+            color: green;
+        }
+        #restartBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Confetti styles */
+        .confetti {
+            /* Additional confetti styles can go here if needed */
+        }
+    </style>
+</head>
+<body>
+    <h1>Kółko i Krzyżyk</h1>
+    <div id="scoreboard">
+        <div id="player1" class="score">
+            Gracz 1
+            <div class="tally" id="player1Tally"></div>
+        </div>
+        <div id="player2" class="score">
+            Gracz 2
+            <div class="tally" id="player2Tally"></div>
+        </div>
+    </div>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="300" height="300"></canvas>
+        <canvas id="confettiCanvas" width="300" height="300"></canvas>
+    </div>
+    <div id="message"></div>
+    <button id="restartBtn">Restartuj grę</button>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const confettiCanvas = document.getElementById('confettiCanvas');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        const message = document.getElementById('message');
+        const restartBtn = document.getElementById('restartBtn');
+        const player1Tally = document.getElementById('player1Tally');
+        const player2Tally = document.getElementById('player2Tally');
+
+        const size = 3;
+        let board = Array(size).fill(null).map(() => Array(size).fill(''));
+        let currentPlayer = 'X';
+        let gameOver = false;
+        let player1Score = 0;
+        let player2Score = 0;
+
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+
+            // Rysowanie siatki
+            for(let i = 1; i < size; i++) {
+                // Linie pionowe
+                ctx.beginPath();
+                ctx.moveTo(i * 100, 0);
+                ctx.lineTo(i * 100, 300);
+                ctx.stroke();
+
+                // Linie poziome
+                ctx.beginPath();
+                ctx.moveTo(0, i * 100);
+                ctx.lineTo(300, i * 100);
+                ctx.stroke();
+            }
+
+            // Rysowanie znaków
+            for(let i = 0; i < size; i++) {
+                for(let j = 0; j < size; j++) {
+                    const mark = board[i][j];
+                    if(mark !== '') {
+                        ctx.font = '48px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = mark === 'X' ? 'blue' : 'red';
+                        ctx.fillText(mark, j * 100 + 50, i * 100 + 50);
+                    }
+                }
+            }
+        }
+
+        function handleClick(event) {
+            if (gameOver) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const row = Math.floor(y / 100);
+            const col = Math.floor(x / 100);
+            if (board[row][col] === '') {
+                board[row][col] = currentPlayer;
+                drawBoard();
+                if (checkWin()) {
+                    gameOver = true;
+                    message.textContent = `Gracz ${currentPlayer === 'X' ? '1' : '2'} wygrał!`;
+                    drawWinningLine();
+                    if(currentPlayer === 'X') player1Score++;
+                    else player2Score++;
+                    updateScores();
+                    startConfetti();
+                } else if (checkDraw()) {
+                    gameOver = true;
+                    message.textContent = 'Remis!';
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            }
+        }
+
+        function checkWin() {
+            // Sprawdzanie wierszy, kolumn i przekątnych
+            for(let i = 0; i < size; i++) {
+                if(board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer) {
+                    winningCombination = [[i,0], [i,1], [i,2]];
+                    return true;
+                }
+                if(board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer) {
+                    winningCombination = [[0,i], [1,i], [2,i]];
+                    return true;
+                }
+            }
+            if(board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer) {
+                winningCombination = [[0,0], [1,1], [2,2]];
+                return true;
+            }
+            if(board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer) {
+                winningCombination = [[0,2], [1,1], [2,0]];
+                return true;
+            }
+            return false;
+        }
+
+        let winningCombination = [];
+
+        function drawWinningLine() {
+            if(winningCombination.length === 0) return;
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            const start = winningCombination[0];
+            const end = winningCombination[2];
+            ctx.moveTo(start[1] * 100 + 50, start[0] * 100 + 50);
+            ctx.lineTo(end[1] * 100 + 50, end[0] * 100 + 50);
+            ctx.stroke();
+        }
+
+        function checkDraw() {
+            for(let row of board) {
+                for(let cell of row) {
+                    if(cell === '') return false;
+                }
+            }
+            return true;
+        }
+
+        function restartGame() {
+            board = Array(size).fill(null).map(() => Array(size).fill(''));
+            currentPlayer = 'X';
+            gameOver = false;
+            message.textContent = '';
+            drawBoard();
+            clearConfetti();
+        }
+
+        restartBtn.addEventListener('click', restartGame);
+        canvas.addEventListener('click', handleClick);
+
+        function updateScores() {
+            player1Tally.innerHTML = getTally(player1Score);
+            player2Tally.innerHTML = getTally(player2Score);
+        }
+
+        function getTally(score) {
+            let tallyHTML = '';
+            let fullGroups = Math.floor(score / 5);
+            let remainder = score % 5;
+
+            for(let i = 0; i < fullGroups; i++) {
+                tallyHTML += '<div class="five"></div>';
+            }
+            for(let i = 0; i < remainder; i++) {
+                tallyHTML += '<div></div>';
+            }
+            return tallyHTML;
+        }
+
+        // Confetti
+        let confettiParticles = [];
+        function startConfetti() {
+            for(let i = 0; i < 100; i++) {
+                confettiParticles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * confettiCanvas.width,
+                    color: getRandomColor(),
+                    tilt: Math.random() * 10 - 10,
+                    tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+                    tiltAngle: 0
+                });
+            }
+            requestAnimationFrame(updateConfetti);
+        }
+
+        function updateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiCtx.fillStyle = "rgba(0,0,0,0)";
+            confettiCtx.fillRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiParticles.forEach((particle, index) => {
+                confettiCtx.beginPath();
+                confettiCtx.lineWidth = particle.r;
+                confettiCtx.strokeStyle = particle.color;
+                confettiCtx.moveTo(particle.x + particle.tilt + particle.r, particle.y);
+                confettiCtx.lineTo(particle.x + particle.tilt, particle.y + particle.tilt + particle.r);
+                confettiCtx.stroke();
+                particle.tiltAngle += particle.tiltAngleIncremental;
+                particle.y += (Math.cos(particle.d) + 3 + particle.r / 2) / 2;
+                particle.x += Math.sin(particle.d);
+                particle.tilt = Math.sin(particle.tiltAngle) * 15;
+
+                if(particle.y > confettiCanvas.height) {
+                    confettiParticles.splice(index, 1);
+                }
+            });
+            if(confettiParticles.length > 0) {
+                requestAnimationFrame(updateConfetti);
+            }
+        }
+
+        function clearConfetti() {
+            confettiParticles = [];
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+
+        function getRandomColor() {
+            const colors = ['#f94144','#f3722c','#f9c74f','#90be6d','#43aa8b','#577590'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Inicjalne ustawienia
+        drawBoard();
+        updateScores();
+    </script>
+</body>
+</html>
