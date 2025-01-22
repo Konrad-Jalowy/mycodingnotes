@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linie w Canvas</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Rysowanie linii
+    ctx.beginPath(); // Rozpocznij ścieżkę
+    ctx.moveTo(50, 50); // Punkt początkowy (x, y)
+    ctx.lineTo(200, 200); // Punkt końcowy (x, y)
+    ctx.strokeStyle = 'blue'; // Kolor linii
+    ctx.lineWidth = 5; // Grubość linii
+    ctx.stroke(); // Narysuj ścieżkę
+  </script>
+</body>
+</html>
