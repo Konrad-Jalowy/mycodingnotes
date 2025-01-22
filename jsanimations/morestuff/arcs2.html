@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ćwiartka Koła - Canvas</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Ćwiartka koła, zaczyna się na godzinie 12
+    ctx.beginPath();
+    ctx.arc(200, 200, 100, 0, Math.PI, false); // Start: godzina 3, kierunek: przeciwny do zegara
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(400, 400, 100, Math.PI / 2,  (3 * Math.PI)/2, false); // Start: godzina 12, kierunek: przeciwny do zegara
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    
+  </script>
+</body>
+</html>
