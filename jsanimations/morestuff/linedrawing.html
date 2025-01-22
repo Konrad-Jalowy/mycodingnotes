@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rysowanie linią myszką</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    // Funkcja rozpoczynająca rysowanie
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY); // Ustawienie punktu początkowego
+    });
+
+    // Funkcja rysująca
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY); // Dodanie linii
+      ctx.strokeStyle = 'blue'; // Kolor
+      ctx.lineWidth = 2; // Grubość linii
+      ctx.stroke(); // Narysowanie linii
+    });
+
+    // Funkcja kończąca rysowanie
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+    });
+
+    // Funkcja resetująca rysowanie, jeśli myszka opuści obszar canvas
+    canvas.addEventListener('mouseleave', () => {
+      drawing = false;
+    });
+  </script>
+</body>
+</html>
