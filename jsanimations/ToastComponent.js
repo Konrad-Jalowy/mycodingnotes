@@ -1,0 +1,131 @@
+class ToastComponent extends HTMLElement {
+    constructor() {
+      super();
+      // Tworzymy cień (Shadow DOM)
+      const shadow = this.attachShadow({ mode: 'open' });
+
+      // Dodanie stylu
+      const style = document.createElement('style');
+      style.textContent = `
+        /* Styl dla kontenera toasta */
+        .toast-container {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          z-index: 1000;
+        }
+
+        /* Styl dla pojedynczego toasta */
+        .toast {
+          padding: 10px 20px;
+          border-radius: 5px;
+          color: white;
+          font-family: Arial, sans-serif;
+          position: relative;
+          animation: fade-in 0.5s ease forwards;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .toast-success {
+          background-color: green;
+        }
+
+        .toast-error {
+          background-color: red;
+        }
+
+        .toast-info {
+          background-color: blue;
+        }
+
+        .toast-warning {
+          background-color: orange;
+        }
+
+        /* Styl przycisku zamknięcia */
+        .toast-close {
+          background: none;
+          border: none;
+          font-size: 16px;
+          color: white;
+          cursor: pointer;
+          margin-left: 10px;
+        }
+
+        /* Animacja wchodzenia */
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* Animacja wychodzenia */
+        @keyframes fade-out {
+          from {
+            opacity: 1;
+          }
+          to {
+            opacity: 0;
+          }
+        }
+      `;
+
+      // Kontener na toasty
+      const container = document.createElement('div');
+      container.className = 'toast-container';
+
+      // Dodajemy styl i kontener do Shadow DOM
+      shadow.appendChild(style);
+      shadow.appendChild(container);
+
+      // Przechowujemy kontener dla przyszłych operacji
+      this.container = container;
+    }
+
+    showToast(type, message, duration = 3000) {
+      // Tworzymy element toast
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <span>${message}</span>
+        <button class="toast-close">&times;</button>
+      `;
+
+      // Obsługa zamykania toasta
+      const closeButton = toast.querySelector('.toast-close');
+      closeButton.addEventListener('click', () => this.removeToast(toast));
+
+      // Dodajemy toast do kontenera
+      this.container.appendChild(toast);
+
+      // Automatyczne usunięcie po czasie
+      setTimeout(() => this.removeToast(toast), duration);
+    }
+
+    removeToast(toast) {
+      // Dodajemy animację wychodzenia
+      toast.style.animation = 'fade-out 0.5s ease';
+      toast.addEventListener('animationend', () => {
+        toast.remove();
+      });
+    }
+  }
+
+  // Rejestracja komponentu
+  customElements.define('toast-component', ToastComponent);
+
+  // Funkcja pomocnicza do wywoływania toastów
+  function showToast(type, message) {
+    const toastComponent = document.querySelector('toast-component');
+    toastComponent.showToast(type, message);
+  }
