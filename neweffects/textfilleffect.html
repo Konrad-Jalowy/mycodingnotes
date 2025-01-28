@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efekt Wypełniania Tekstu</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .text {
+            font-size: 3rem;
+            font-weight: bold;
+            color: black;
+            position: relative;
+            z-index: 1;
+        }
+
+        .text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            color: crimson;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: width 0.5s ease;
+            z-index: 2;
+        }
+
+        .container:hover .text::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text" data-text="Wypełnij Mnie">Wypełnij Mnie</div>
+    </div>
+</body>
+</html>
