@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Gradient Button</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(90deg, #ff7eb3, #ff758c, #ffa3a3);
+            background-size: 300% 300%;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-position 0.3s ease, transform 0.2s;
+            outline: none;
+        }
+
+        .button:hover {
+            background-position: 100% 50%;
+            transform: scale(1.1);
+        }
+
+        .button:active {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <button class="button">Hover Me!</button>
+</body>
+</html>
