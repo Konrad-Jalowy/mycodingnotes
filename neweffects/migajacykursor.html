@@ -1,0 +1,40 @@
+<!-- Migający kursor -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migający Kursor</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f8f9fa;
+            margin: 0;
+            font-family: monospace;
+        }
+        .typing {
+            font-size: 2rem;
+            color: #212529;
+            position: relative;
+        }
+        .typing::after {
+            content: "|";
+            display: inline-block;
+            width: 1ch;
+            background-color: #212529;
+            margin-left: 3px;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="typing">Pisanie tekstu</div>
+</body>
+</html>
