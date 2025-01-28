@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efekt Wypełniania Tekstu za Pomocą Clip-Path</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .text-back {
+            font-size: 3rem;
+            font-weight: bold;
+            color: crimson;
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path 0.5s ease;
+            user-select: none; /* Zablokowanie zaznaczania */
+        }
+
+        .text-front {
+            font-size: 3rem;
+            font-weight: bold;
+            color: black;
+            position: relative;
+            user-select: none; /* Opcjonalnie, jeśli nie chcesz zaznaczać frontu */
+        }
+
+        .container:hover .text-back {
+            clip-path: inset(0 0 0 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-front">Wypełnij Mnie</div>
+        <div class="text-back">Wypełnij Mnie</div>
+    </div>
+</body>
+</html>
