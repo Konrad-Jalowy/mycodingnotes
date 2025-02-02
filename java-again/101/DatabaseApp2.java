@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class DatabaseApp2 {
     private static final String URL = "jdbc:sqlite:database.db";
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseApp.class); // Logowanie
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseApp2.class); // Logowanie
 
     public static void main(String[] args) {
         logger.info("Uruchomienie aplikacji.");
