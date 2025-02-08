@@ -6,3 +6,5 @@ function myExceptionHandler(Throwable $e) {
 set_exception_handler('myExceptionHandler');
 
 throw new Exception("To jest testowy wyjątek!");
+
+//restore - restore_exception_handler();
