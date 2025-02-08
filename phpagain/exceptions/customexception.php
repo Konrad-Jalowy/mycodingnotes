@@ -11,3 +11,10 @@ class ValidationException extends Exception {
         return $this->errors;
     }
 }
+
+try {
+    throw new ValidationException("Dane są niepoprawne", ["email" => "Nieprawidłowy format"]);
+} catch (ValidationException $e) {
+    echo "Błąd walidacji: " . $e->getMessage() . "\n";
+    print_r($e->getErrors());
+}
