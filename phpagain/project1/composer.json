@@ -1,0 +1,12 @@
+{
+    "name": "sites/phptesting2",
+    "type": "project",
+    "license": "mit",
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
